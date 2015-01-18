@@ -1,5 +1,5 @@
 all:
-	latexmk template-en.tex
+	latexmk template-fi.tex
 
 clean:
-	latexmk -C template-en.tex
+	latexmk -C template-fi.tex
