@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{Hud89}
   \providebibliographyfont{name}{}%
   \providebibliographyfont{lastname}{}%
   \providebibliographyfont{title}{\emph}%
@@ -13,10 +13,27 @@
   \expandafter\btxselectlanguage\expandafter {\btxfallbacklanguage}
 
 \expandafter\btxselectlanguage\expandafter {\btxfallbacklanguage}
-\bibitem {esimerkki}
-\btxnamefont {\btxlastnamefont {Diestel}, Reinhard}\btxauthorcolon\
-  \btxtitlefont {Graph Theory}.
-\newblock \btxpublisherfont {Springer}, Berliini, \btxeditionnumlong {3.}{},
-  2005.
+\bibitem [{Hud89}]{Hudak89}
+\btxnamefont {\btxlastnamefont {Hudak}, Paul}\btxauthorcolon\ \btxjtitlefont
+  {\btxifchangecase {Conception, evolution, and application of functional
+  programming languages}{Conception, evolution, and application of functional
+  programming languages}}.
+\newblock \btxjournalfont {ACM Computer Surveys}, 1989.
+
+\bibitem [{Jon87}]{PJ1987}
+\btxnamefont {\btxlastnamefont {Jones}, Peyton}\btxauthorcolon\ \btxtitlefont
+  {The Implementation of Functional Programming Languages}.
+\newblock \btxpublisherfont {Prentice Hall International (UK) Ltd},
+  \btxeditionnumlong {1.}{}, 1987.
+
+\bibitem [{Jon00}]{PJ2000}
+\btxnamefont {\btxlastnamefont {Jones}, Peyton}\btxauthorcolon\ \btxtitlefont
+  {\btxifchangecase {Tackling the awkward squad: Monadic input/output,
+  concurrency, exceptions, and foreign-language calls in haskell}{Tackling the
+  Awkward Squad: Monadic Input/Output, Concurrency, Exceptions, and
+  Foreign-Language Calls in Haskell}}.
+\newblock \Btxinlong {}\ \btxtitlefont {Engineering theories of software
+  construction, Marktoberdorf Summer School 2000}, \btxpageslong {}\ 47--96.
+  \btxpublisherfont {IOS Press}, 2000.
 
 \end{thebibliography}

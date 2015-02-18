@@ -1,0 +1,68 @@
+Imperatiivisissa ohjelmoinnissa ohjelma esitetään sarjana komentoja, jotka manipuloivat ohjelman tilaa. Imperatiivinen ohjelmointiparadigman teoreettisena perustana on laskennan malli, joka tunnetaan Turingin koneena. Turingin kone koostuu nauhasta ja lukupäästä, jotka ovat analogisia imperatiivisen ohjelmointikielen tilan kanssa, sekä siirtymäfunktiosta, joka on analoginen imperatiivisella kiellä kirjoitetun ohjelmakoodin kanssa. Turingin kone esittää laskennan sarjana nauhan ja lukupään tilanmuutoksia, jotka siirtymäfunktio määrittelee. 
+\par
+Deklaratiivisessa ohjelmoinnissa ohjelman esitys on lauseke sekä mahdollisia sivulausekkeita ja näiden lausekkeiden välisiä yhtälöitä. Ohjelman suorittaminen merkitsee lausekkeen arvon laskemista. Huomattavin ero deklaratiivisen ja imperatiivisen paradigman välillä onkin se, että deklaratiiviset ohjelmat ovat tilattomia. Tilattomuuden eräs huomattava etu on viittauksellinen läpinäkyvyys, mikä tarkoittaa sitä, että lausekkeen mikä tahansa alilauseke voidaan aina korvata toisella lausekkeella, jonka arvo on sama kuin alilausekkeen arvo. Ohjelman osien väliset riippuvuudet ovat tällöin helpommin pääteltävissä kuin tilaa sisältävissä ohjelmissa, joissa kaksi identtistä alilauseketta eivät välttämättä ole arvoiltaan yhtäsuuret. Riippuvuuksien explisiittysyydestä on hyötyä niin ohjelmoijalle kuin kääntäjällekin, joiden molempien täytyy ymmärtää täsmällisesti ohjelman osien väliset riippuvuussuhteet. 
+\par
+Funktionaalinen ohjelmointiparadigma on osa deklaratiivista ohjelmointiparadigmaa. Funktionaalisessa ohjelmoinnissa evaluoitavat lausekkeet ovat funktioita. Imperatiivisessa ohjelmoinnissa funktiolla tarkoitetaan usein mitä tahansa aliohjelmaa, joka ottaa syötteenään argumentteja ja palauttaa arvon. Näin lavea määritelmä ei ole yhteensopiva matemaattisen funktion määritelmän kanssa, sillä matemaattisella funktiolla ei ole sivuvaikutuksia ja sen arvo riippuu yksikäsitteisesti funktion argumenteista. Funktionaalisen ohjelmoinnin viitekehyksessä tällaisista matemaattisiin funktiohin rinnastettavista funktioista käytetään termiä puhdas funktio erotuksena sivuvaikutuksia sisältäville tai paluuarvoiltaan monikäsitteisille funktioille, joista vastaavasti käytetään termiä ei-puhdas funktio.  
+\par
+Koska puhtaat funktiot eivät voi aiheuttaa sivuvaikutuksia, on erityisesti I/O-operaatioiden toteuttaminen funktionaalisten kielten suunnittelun kannalta aina kompromissi. Kielissä kuten Scheme ja ML sivuvaikutuksia sisältävää koodia on mahdollista kirjoittaa, joskin sivuvaikutusten tarpeettoman runsasta käyttöä pidetään huonona ohjelmointityylinä. Kielet kuten Haskell ja Miranda sen sijaan sisältävät tyyppijärjestelmiensä tasolla tuen monadiselle ohjelmoinnille, jossa sivuvaikutuksia tuottavat funktiot voidaan eristää puhtaista funktiosta kielen modulaarisuudesta tinkimättä.       
+\par
+Funktionaalisen ohjelmoinin teoreettisena perustana on Alonzo Churchin 1930-luvulla kehittämä lambdakalkyyli. Lambdakalkyyli on matemaattinen laskennan malli, jossa laskennalla tarkoitetaan annetun lambdalausekkeen arvon laskemista lamdalausekkeille määriteltyjä reduktiosääntöjä käyttäen. Lambdalausekkeet muodostuvat muuttujasymboleista, lambda-abstraktioksi ja lambdalausekkeen aplikaatiosta toiselle lambdalausekkeelle. Lambda-abstraktiot ovat anonyymejä yhden muuttujan funktiota, joiden määrittelyjoukkona ja maalijoukkona lambdalausekkeiden joukko. Formaalisti tämä määritelmä voidaan muotoilla seuraavasti:
+
+\begin{maar}[Lambdalausekkeet]
+Määritellään lambdalausekkeiden joukko $E$ rekursiivisesti: 
+\[ Id \subset E \]
+\[ \text{Jos } e_{1} \in E \text{ ja } e_{2} \in E, \text{ niin }  (e_{1} \; e_{2}) \in E \]
+\[ \text{Jos } x \in Id \text{ ja } e \in E, \text{ niin } \lambda x.e \in E \]
+
+missä $Id$ on numeroituvasti ääretön joukko muuttujia. Lauseketta joka on muotoa $\lambda x.e$ kutsutaan lambda-abstraktioksi tai lyhyesti abstraktioksi. Lauseketta, joka on muotoa $(e_{1} \; e_{2})$ kutsutaan lausekkeen $e_{2}$ aplikaatioksi lauseekkeeseen $e_{1}$ tai lyhyesti aplikaatioksi.
+\end{maar}
+\par
+Lambdalausekkeita reduktiosääntöjen kannalta tärkeitä käsitteitä ovat lambdalausekkeiden vapaat ja sidotut muuttujat sekä substituutiosäännöt.
+
+\begin{maar}[Vapaat ja sidutut muuttujat]
+Lambdalausekkeen vapaat muuttujat $fv(e)$ määritellään seuraavasti: 
+\[fv(x) = x\ \text{ jos } x \text{ on muuttuja} \]
+\[fv((e_{1} \; e_{2})) = fv(e_{1}) \cup fv(e_{2}) \]
+\[ fv(\lambda x.e) = fv(e) - \{x\} \]
+Muuttuja $x$ on vapaa lambdalausekkeessa $e$ jos $x \in fv(e)$, muuten $x$ on sidottu lambdalausekkeessa $e$.
+\end{maar} 
+Tämä määritelmä siis sanoo, että lambdalausekkeen sidottuja muuttujia ovat lambda-abstraktion muuttuja-osan ilmentymät lambda-abstraktion argumentin sisällä.   
+\par
+Seuraavat substituutiosäännöt kertovat, miten reduktiosäännöissä esiintyvät muuttujien substituutiot toimivat:
+
+\begin{maar}[Substituutiosäännöt]
+Olkoon $e$ lambdalauseke ja $x$ muuttuja. Muuttujan $x$ substituutiota lambdalausekkeella $e$ lambdalausekkeessa $e_{1}$ merkitään $[e/x] e_{1}$ ja se määritellään rekursiivisesti:  
+\[[e/x]x_{1} = 
+	\begin{cases}
+		e & \text{jos } x = x_{1} \\
+		x_{1} & \text{muulloin}
+	\end{cases}
+\]
+\[ [e/x](e_{1} \; e_{2}) = ([e/x]e_{1} \; [e/x]e_{2}) \]
+\[[e/x](\lambda x_{1}.e_{1}) = 
+	\begin{cases}
+		\lambda x_{1}.e_{1} & \text{jos } x = x_{1} \\
+		\lambda x_{1}.[e/x]e_{1} & \text{ jos } x \neq x_{1} \text{ ja } x_{1} \notin fv(e) \\
+		\lambda x_{i}.[e/x]([x_{i}/x_{1}]e_{1}) & \text{muulloin, missä } x_{i} \neq x \text { ja } x_{i} \neq x_{i} \text{ ja } x_{i} \notin fv(e) \cup fv(e_{1})
+	\end{cases}
+\]
+\end{maar} 
+
+Substituutiosääntöjä käyttäen voidaan antaa määritelmä lambdalausekkeiden reduktiosäännöille.
+
+\begin{maar}[Muunnos- ja reduktiosäännöt]
+Seuraavat kolme relaatiota karakterisoivat lambdalausekkeiden yhtäsuuruutta.
+
+\begin{enumerate}
+	\item $\alpha$-muunnos: $\; \lambda x.e \Leftrightarrow \lambda x_{i}.[x/x_{i}]e$, missä $x_{i} \notin fv(e)$
+	\item $\beta$-muunnos: $\; (\lambda x.e \; e_{1}) \Leftrightarrow [e_{1} / x]e$
+	\item $\eta$-muunnos: $\; \lambda x.(e \; x) \Leftrightarrow e \text{ jos } x \notin fv(e)$
+\end{enumerate}
+$\beta$-muunnosta sovellettuna vasemmalta oikealle kutsutaan $\beta$-reduktioksi ja vastaavasti $\eta$-muunnosta sovellettuna vasemmalta oikealla kutsutaan $\eta$-reduktioksi.
+\end{maar}
+\par
+Lambdalausekkeen sanotaan olevan normaalimuodossa, jos siihen ei voida soveltaa $\eta$- tai $\beta$-reduktioita. Voidaan osoittaa, että kaikille lambdalausekkeille, jotka voidaan redusoida normaalimuotoon, pätee, että normaalimuoto saavutetaan valitsemalla aina lausekkeen vasemmanpuolisin alilauseke, jota voidaan vielä redusoida ja soveltamalla siihen $\eta$- tai $\beta$-reduktiota ja toistamalla tätä menettylyä kunnes lauseke on normaalimuodossa. Lisäksi voidaan osoittaa että jos lauseke voidaan redusoida normaalimuotoon, niin lausekkeen normaalimuoto on yksikäsitteinen. Näinollen lambdalausekkeen arvon laskemisella tarkoitetaan lausekkeen redusoimista normaalimuotoon.
+\par
+Kaikille lambdalausekkeille ei ole olemassa normaalimuotoa. Alan Turing todisti vuonna 1937, että Turingin kone on laskennan mallina ekvivalentti lambdakalkyylin kanssa. Tämä tulos ei voisi pitää paikkaansa, jos jokaiselle lambdalausekkeelle olisi löydettävissä normaalimuoto. Muuten ratkeamattomaksi tunnettu pysähtymisongelma voitaisiin ratkaista simuloimalla Turingin koneita lambdalausekkeilla.
+\par 
+Vaikka lambdalausekkeet ovat rakenteeltaan melko yksinkertaisia, voidaan niiden avulla ymmärtää ja mallintaa monia funktionaalisen ohjelmoinnin kannalta tärkeitä käsitteitä. Koska lambda-abstraktiot voivat ottaa parametrinaan ja antaa paluuarvonaan lambdafunktion, ovat esimerkiksi korkeamman asteen funktiot varsin luonnollinen osa lambdakalkyylia. 

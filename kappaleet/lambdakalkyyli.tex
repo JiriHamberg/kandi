@@ -1,0 +1,23 @@
+Funktionaalisen ohjelmoinin teoreettisena perustana on Alonzo Churchin kehittämä lambdakalkyyli. Lambdakalkyyli on matemaattinen laskennan malli, joka kuvaa laskennan joukkona sievennyssääntöjä, jotka operoivat lambdalausekkeilla. Lambdalausekkeet voidaan määritellä esimerkiksi seuraavasti:
+
+
+\begin{maar}[Lambdalausekkeet]
+Määritellään lambdalausekkeiden joukko $E$ rekursiivisesti: 
+\[ Id \subset E \]
+\[ \text{Jos } e_{1} \in E \text{ ja } e_{2} \in E, \text{ niin }  (e_{1} \; e_{2}) \in E \]
+\[ \text{Jos } x \in Id \text{ ja } e \in E, \text{ niin } \lambda x.e \in E \]
+
+missä $Id$ on numeroituvasti ääretön joukko muuttujia. Lauseketta joka on muotoa $\lambda x.e$ kutsutaan lambda-abstraktioksi tai lyhyesti abstraktioksi. Lauseketta, joka on muotoa $(e_{1} \; e_{2})$ kutsutaan lausekkeen $e_{2}$ aplikaatioksi lauseekkeeseen $e_{1}$ tai lyhyesti aplikaatioksi. Käytämme aplikaatiolle vasemmalle assosioivaa notaatiota, esimerkiksi: 
+$(e_{1} \; e_{2} \; e_{3}) = ((e_{1} \; e_{2}) \; e_{3})$. Abstraktiolle käytetään seuraavaa lyhennysmerkintää: 
+$(\lambda x_{1} . ( \lambda x_{2} . ( \: ... \: ( \lambda x_{n} . e ))) \: ... \: ) = \lambda x_{1}x_{2}...x_{n}.e$
+\end{maar}
+
+\begin{esim}
+Esimerkiksi seuraavat lausekkeet ovat lambdalausekkeita
+
+\[ z \]
+\[ \lambda xy . ( y \; x \; z ) \]
+\[ \lambda x . ( x \; \lambda y . z ) \]
+ 
+\end{esim}
+
