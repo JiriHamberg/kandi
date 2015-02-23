@@ -1,0 +1,214 @@
+\section{Lambdalausekkeet, vapaat muuttujat ja reduktiosäännöt}
+
+Lambdalausekkeet muodostuvat muuttujasymboleista, lambda-abstraktioksi ja lambdalausekkeen soveltamisesta lambdalausekkeelle. Formaalisti tämä määritelmä voidaan muotoilla seuraavasti:
+
+\begin{maar}[lambdalausekkeet]
+Lambdalausekkeiden joukko $E$ määritellään rekursiivisesti: 
+\[ V \subset E \]
+\[ \text{Jos } e_{1} \in E \text{ ja } e_{2} \in E, \text{ niin }  (e_{1} \; e_{2}) \in E \]
+\[ \text{Jos } x \in V \text{ ja } e \in E, \text{ niin } \lambda x.e \in E \]
+
+missä $V$ on ääretön joukko muuttujia. Muuttujia on tapana merkitä symboleilla $x, y,z...$ tai vaihtoehtoisesti $x_{1}, x_{2}, x_{3}...$ ja mielivaltaisia lambdalausekkeita puolestaan symboleilla $L, N, M ...$ tai vaihtoehtoisesti $e_{1}, e_{2}, e_{3}...$.  Lauseketta joka on muotoa $\lambda x.e$ kutsutaan lambda-abstraktioksi tai lyhyesti abstraktioksi. Lauseketta, joka on muotoa $(e_{1} \; e_{2})$ kutsutaan lausekkeen $e_{2}$ sovellukseksi $e_{1}$:lle tai lyhyesti sovellukseksi.
+\end{maar}
+
+Sovelluksille on tapana käyttää vasemmalle assosioivaa lyhennysmerkintää: 
+\[e_{1} e_{2} e_{3} \equiv ((e_{1} \; e_{2}) \; e_{3})\]
+Abstraktioille puolestaan käytetään seuraavaa oikealle assosiovaa lyhennysmerkintää: 
+\[ \lambda x_{1}x_{2}...x_{n}.e \equiv (\lambda x_{1} . ( \lambda x_{2} . ( \: ... \: ( \lambda x_{n} . e ))) \: ... \: ) \]
+
+\par
+Esimerkiksi seuraavat ovat lambdalausekkeita:
+
+\[ x \]
+\[ xyz \]
+\[ \lambda x . xyz \]
+\[ (\lambda xy . xyx) z \]
+
+%Lambdalausekkeita reduktiosääntöjen kannalta tärkeitä käsitteitä ovat lambdalausekkeiden vapaat ja sidotut muuttujat sekä %substituutiosäännöt. Lambdalausekkeiden vapaat muuttujat ovat intuitiivisesti hyvin samanlaisia kuin ohjelmointikielissä yleensäkin: %muuttujien sidonnat vaikuttavat lausekehierarkiassa ylhäältä alaspäin ja hierarkiassa alempana sijaitsevat sidonnat sitovat vahvemmin kuin %hierarkiassa ylempänä sijaitsevat sidonnat.   
+
+Lambdalausekkeen vapailla muuttujilla tarkoitetaan sellaisia lausekkeessa esiintyviä muuttujia, jotka eivät esiinny lausekkeessa lambda-abstraktion muuttujaosana. Formaalisti: 
+
+\begin{maar}[Vapaat ja sidutut muuttujat]
+Lambdalausekkeen $e$ vapaat muuttujat, joita merkitään $fv(e)$, määritellään seuraavasti: 
+\[fv(x) = \{x\}\ \text{ jos } x \text{ on muuttuja} \]
+\[fv(e_{1}e_{2}) = fv(e_{1}) \cup fv(e_{2}) \]
+\[ fv(\lambda x.e) = fv(e) - \{x\} \]\begin{maar}[lambdalausekkeet]
+
+Siis muuttuja $x$ on vapaa lambdalausekkeessa $e$ jos $x \in fv(e)$, muuten $x$ on sidottu lambdalausekkeessa $e$.
+\end{maar} 
+
+<ESIMERKKI?>
+
+
+\par
+%Seuraavat substituutiosäännöt kertovat, miten reduktiosäännöissä esiintyvät muuttujien substituutiot
+		e & \text{jos } x = x_{1} \\
+		x_{1} & \text{muulloin}
+	\end{cases} toimivat:
+Jotta lambdalausekkeiden reduktiosäännöt voidaan määritellä, tarvitaan avuksi vielä seuraavat substituutiosäännöt.
+
+\begin{maar}[substituutiosäännöt]
+Olkoon $e$ lambdalauseke ja $x$ muuttuja. Muuttujan $x$ substituutiota lambdalausekkeella $e$ lambdalausekkeessa $e_{1}$ merkitään $[e/x] e_{1}$ ja se määritellään rekursiivisesti:  
+\[[e/x]x_{1} = 
+	\begin{cases}
+\]
+\[ [e/x](e_{1} \; e_{2}) = ([e/x]e_{1} \; [e/x]e_{2}) \]
+\[[e/x](\lambda x_{1}.e_{1}) = 
+	\begin{cases}
+		\lambda x_{1}.e_{1} & \text{jos } x = x_{1} \\
+		\lambda x_{1}.[e/x]e_{1} & \text{ jos } x \neq x_{1} \text{ ja } x_{1} \notin fv(e) \\
+		\lambda x_{i}.[e/x]([x_{i}/x_{1}]e_{1}) & \text{muulloin, missä } x_{i} \neq x \text { ja } x_{i} \neq x_{i} \text{ ja } x_{i} \notin fv(e) \cup fv(e_{1})
+	\end{cases}
+\]
+\end{maar} 
+
+Määritelmän olennaisin sisältö on se, että lambda-abstraktion muuttuja tulee uudelleennimetä siinä tapauksessa että sijoitus ylikirjoittaisi muuttujan ilmentymiä abstraktiossa.    
+
+\par
+
+Määritellään lambdalausekkeiden reduktiosäännöt. Nämä säännöt kertovat mitä lambdalausekkeen sieventäminen tarkoittaa.   
+
+\begin{maar}[$beta$- ja $\eta$-reduktio]
+	\begin{enumerate}		
+		\item $\beta$-reduktio: $\; (\lambda x.e \; e_{1}) \rightarrow_{\beta} [e_{1} / x]e$
+		\item $\eta$-reduktios: $\; \lambda x.(e \; x) \rightarrow_{\eta} e \text{ jos } x \notin fv(e)$
+	\end{enumerate}
+	Jos $\beta$-reduktion toistuva soveltaminen jollekin lausekkeen $N$ alilausekkeista tuottaa lausekkeen $M$, niin sanotaan, että $M$ on lausekkeen $N$ beta-reduktio ja merkitään $N \twoheadedrightarrow_{\beta} M$. Vastaavasti eta-reduktiolle merkitään $N \twoheadedrightarrow_{\eta} M$, mikäli $M$ saadaan lausekkeesta $N$       
+\end{maar}
+
+
+
+Olkoon $e$ lambdalauseke ja $x$ muuttuja. Muuttujan $x$ substituutiota lambdalausekkeella $e$ lambdalausekkeessa $e_{1}$ merkitään $[e/x] e_{1}$ ja se määritellään rekursiivisesti:  
+\[[e/x]x_{1} = 
+	\begin{cases}
+\]
+\[ [e/x](e_{1} \; e_{2}) = ([e/x]e_{1} \; [e/x]e_{2}) \]
+\[[e/x](\lambda x_{1}.e_{1}) = 
+	\begin{cases}
+		\lambda x_{1}.e_{1} & \text{jos } x = x_{1} \\
+		\lambda x_{1}.[e/x]e_{1} & \text{ jos } x \neq x_{1} \text{ ja } x_{1} \notin fv(e) \\
+		\lambda x_{i}.[e/x]([x_{i}/x_{1}]e_{1}) & \text{muulloin, missä } x_{i} \neq x \text { ja } x_{i} \neq x_{i} \text{ ja } x_{i} \notin fv(e) \cup fv(e_{1})
+	\end{cases}
+\]
+\end{maar} 
+
+Olkoon $e$ lambdalauseke ja $x$ muuttuja. Muuttujan $x$ substituutiota lambdalausekkeella $e$ lambdalausekkeessa $e_{1}$ merkitään $[e/x] e_{1}$ ja se määritellMääritelmän olennaisin sisältö on se, että lambda-abstraktion muuttuja tulee uudelleennimetä siinä tapauksessa että sijoitus ylikirjoittaisi muuttujan ilmentymiä abstraktiossa.  ään rekursiivisesti:  
+\[[e/x]x_{1} = 
+	\begin{cases}
+\]
+\[ [e/x](e_{1} \; e_{2}) = ([e/x]e_{1} \; [e/x]e_{2}) \]
+\[[e/x](\lambda x_{1}.e_{1}) = 
+	\begin{cases}Määritelmän olennaisin sisältö on se, että lambdaMääritelmän olennaisin sisältö on se, että lambda-abstraktion muuttuja tulee uudelleennimetä siinä tapauksessa että sijoitus ylikirjoittaisi muuttujan ilmentymiä abstraktiossa.  -abstraktion muuttuja tulee uudelleennimetä siinä tapauksessa että sijoitus ylikirjoittaisi muuttujan ilmentymiä abstraktiossa.  
+		\lambda x_{1}.e_{1} & \text{jos } x = x_{1} \\
+		\lambda x_{1}.[e/x]e_{1} & \text{ jos } x \neq x_{1} \text{ ja } x_{1} \notin fv(e) \\
+		\lambda x_{i}.[e/x]([x_{i}/x_{1}]e_{1}) & \text{muulloin, missä } x_{i} \neq x \text { ja } x_{i} \neq x_{i} \text{ ja } x_{i} \notin fv(e) \cup fv(e_{1})
+	\end{cases}
+\]
+\end{maar} 
+
+Määritelmän olennaisin sisältö on se, että lambda-abstraktion muuttuja tulee uudelleennimetä siinä tapauksessa että sijoitus ylikirjoittaisi muuttujan ilmentymiä abstraktiossa.    
+
+\par
+
+Määritellään lambdalausekkeiden reduktiosäännöt. Nämä säännöt kertovat mitä lambdalausekkeen sieventäminen tarkoittaa.   
+
+\begin{maar}[$beta$- ja $\eta$-reduktio]
+	\begin{enumerate}		
+		\item $\beta$-reduktio: $\; (\lambda x.e \; e_{1}) \rightarrow_{\beta} [e_{1} / x]e$
+		\item $\eta$-reduktios: $\; \lambda x.(e \; x) \rightarrow_{\eta} e \text{ jos } x \notin fv(e)$
+	\end{enumerate}
+
+Olkoon $e$ lambdalauseke ja $x$ muuttuja. Muuttujan $x$ substituutiota lambdalausekkeella $e$ lambdalausekkeessa $e_{1}$ merkitään $[e/x] e_{1}$ ja se määritellään rekursiivisesti:  
+\[[e/x]x_{1} = 
+	\begin{cases}
+\]
+\[ [e/x](e_{1} \; e_{2}) = ([e/x]e_{1} \; [e/x]e_{2}) \]
+\[[e/x](\lambda x_{1}.e_{1}) = 
+	\begin{cases}
+		Määritelmän olennaisin sisältö on se, että lambda-abstraktion muuttuja tulee uudelleennimetä siinä tapauksessa että sijoitus ylikirjoittaisi muuttujan ilmentymiä abstraktiossa.  Määritelmän olennaisin sisältö on se, että lambda-abstraktion muuttuja tulee uudelleennimetä siinä tapauksessa että sijoitus ylikirjoittaisi muuttujan ilmentymiä abstraktiossa.  Määritelmän olennaisin sisältö on se, että lambda-abstraktion muuttuja tulee uudelleennimetä siinä tapauksessa että sijoitus ylikirjoittaisi muuttujan ilmentymiä abstraktiossa.  \lambda x_{1}.e_{1} & \text{jos } x = x_{1} \\
+		\lambda x_{1}.[e/x]e_{1} & \text{ jos } x \neq x_{1} \text{ ja } x_{1} \notin fv(e) \\
+		\lambda x_{i}.[e/x]([x_{i}/x_{1}]e_{1}) & \text{muulloin, missä } x_{i} \neq x \text { ja } x_{i} \neq x_{i} \text{ ja } x_{i} \notin fv(e) \cup fv(e_{1})
+	\end{cases}
+\]
+\end{maar} 
+
+Määritelmän olennaisin sisältö on se, että lambda-abstraktion muuttuja tulee uudelleennimetä siinä tapauksessa että sijoitus ylikirjoittaisi muuttujan ilmentymiä abstraktiossa.    
+
+\par
+
+Määritellään lambdalausekkeiden reduktiosäännöt. Nämä säännöt kertovat mitä lambdalausekkeen sieventäminen tarkoittaa.   
+
+\begin{maar}[$beta$- ja $\eta$-reduktio]
+	\begin{enumerate}		
+		\item $\beta$-reduktio: $\; (\lambda x.e \; e_{1}) \rightarrow_{\beta} [e_{1} / x]e$
+		\item $\eta$-reduktios: $\; \lambda x.(e \; x) \rightarrow_{\eta} e \text{ jos } x \notin fv(e)$
+	\end{enumerate}
+	Jos $\beta$-reduktion toistuva soveltaminen jollekin lausekkeen $N$ alilausekkeista tuottaa lausekkeen $M$, niin sanotaan, että $M$ on lausekkeen $N$ beta-reduktio ja merkitään $N \twoheadedrightarrow_{\beta} M$. Vastaavasti eta-reduktiolle merkitään $N \twoheadedrightarrow_{\eta} M$, mikäli $M$ saadaan lausekkeesta $N$ soveltamalla lausekkeen $N$ alilausekkeisiin toistuvasti eta-reduktiota.     
+\end{maar}	Jos $\beta$-reduktion toistuva soveltaminen jollekin lausekkeen $N$ alilausekkeista tuottaa lausekkeen $M$, niin sanotaan, että $M$ on lausekkeen $N$ beta-reduktio ja merkitään $N \twoheadedrightarrow_{\beta} M$. Vastaavasti eta-reduktiolle merkitään $N \twoheadedrightarrow_{\eta} M$, mikäli $M$ saadaan lausekkeesta      
+\end{maar}
+Olkoon $e$ lambdalauseke ja $x$ muuttuja. Muuttujan $x$ substituutiota lambdalausekkeella $e$ lambdalausekkeessa $e_{1}$ merkitään $[e/x] e_{1}$ ja se määritellään rekursiivisesti:  
+\[[e/x]x_{1} = 
+	\begin{cases}
+\]
+\[ [e/x](e_{1} \; e_{2}) = ([e/x]e_{1} \; [e/x]e_{2}) \]
+\[[e/x](\lambda x_{1}.e_{1}) = 
+	\begin{cases}
+		\lambda x_{1}.e_{1} & \text{jos } x = x_{1} \\
+		\lambda x_{1}.[e/x]e_{1} & \text{ jos } x \neq x_{1} \text{ ja } x_{1} \notin fv(e) \\
+		\lambda x_{i}.[e/x]([x_{i}/x_{1}]e_{1}) & \text{muulloin, missä } x_{i} \neq x \text { ja } x_{i} \neq x_{i} \text{ ja } x_{i} \notin fv(e) \cup fv(e_{1})
+	\end{cases}
+\]
+\end{maar} 
+
+Määritelmän olennaisin sisältö on se, että lambda-abstraktion muuttuja tulee uudelleennimetä siinä tapauksessa että sijoitus ylikirjoittaisi muuttujan ilmentymiä abstraktiossa.    
+
+\par
+
+Määritellään lambdalausekkeiden reduktiosäännöt. Nämä säännöt kertovat mitä lambdalausekkeen sieventäminen tarkoittaa.   
+
+\begin{maar}[$beta$- ja $\eta$-reduktio]
+	\begin{enumerate}		
+		\item $\beta$-reduktio: $\; (\lambda x.e \; e_{1}) \rightarrow_{\beta} [e_{1} / x]e$
+		\item $\eta$-reduktios: $\; \lambda x.(e \; x) \rightarrow_{\eta} e \text{ jos } x \notin fv(e)$
+	\end{enumerate}
+	Jos $\beta$-reduktion toistuva soveltaminen jollekin lausekkeen $N$ alilausekkeista tuottaa lausekkeen $M$, niin sanotaan, että $M$ on lausekkeen $N$ beta-reduktio ja merkitään $N \twoheadedrightarrow_{\beta} M$. Vastaavasti eta-reduktiolle merkitään $N \twoheadedrightarrow_{\eta} M$, mikäli $M$ saadaan lausekkeesta      
+\end{maar}
+Määritelmän olennaisin sisältö on se, että lambda-abstraktion muuttuja tulee uudelleennimetä siinä tapauksessa että sijoitus ylikirjoittaisi muuttujan ilmentymiä abstraktiossa.    
+
+\par
+
+Määritellään lambdalausekkeiden reduktiosäännöt. Nämä säännöt kertovat mitä lambdalausekkeen sieventäminen tarkoittaa.     
+
+\par
+
+\begin{esim}[$\beta$-reduktio]
+<ESIMERKKI>
+\end{esim}
+
+\par
+
+Seuraavat relaatiota karakterisoivat lambdalausekkeiden arvojen yhtäsuuruutta. Vaikka emme vielä olekaan määritelleet mitä lambdalausekkeen arvolla tarkoitetaan, on seuraavien muunnosten ideana muodostaa mahdollisimman yksinkertainen kokoelma sääntöjä, joiden soveltaminen pitää lambdalausekkeen arvon samana. Kaksi lambdalauseketta ovat alfa-ekvivalentit, mikäli ne ne eroavat toisistaan ainoastaan sidottujen muuttijiensa nimien suhteen. Beta-ekvivalenssi puolestaan ilmaisee miten lambda-abstraktiosta ja mielivaltaisesta lambdalausekkeesta koostuvaa sovellusta voidaan sieventää muuttamatta lausekkeen arvoa. 
+
+\begin{maar}[$\alpha$- ja $\beta$-muunnos]
+
+\begin{enumerate}
+	\item $\alpha$-ekvivalenssi: $\; \lambda x.e =_{\alpha} \lambda x_{i}.[x/x_{i}]e$, missä $x_{i} \notin fv(e)$
+	\item $\beta$-ekvivalenssi: $\; (\lambda x.e \; e_{1}) =_{\beta} [e_{1} / x]e$
+	\item $\eta$-muunnos: $\; \lambda x.(e \; x) =_{} e \text{ jos } x \notin fv(e)$
+	
+	Relaatiot $=_{\alpha}$ ja $=_{\beta}$ toteuttavat 
+		
+\end{enumerate}
+\end{maar}
+
+\par
+
+Soveltamalla toistuvasti $\beta$-ekvivalenssi  
+ 
+\par
+
+%Lambdalausekkeen sanotaan olevan normaalimuodossa, jos siihen ei voida soveltaa $\eta$- tai $\beta$-reduktioita. Voidaan osoittaa, että kaikille lambdalausekkeille, jotka voidaan redusoida normaalimuotoon, pätee, että normaalimuoto saavutetaan valitsemalla aina lausekkeen vasemmanpuolisin alilauseke, jota voidaan vielä redusoida ja soveltamalla siihen $\eta$- tai $\beta$-reduktiota ja toistamalla tätä menettylyä kunnes lauseke on normaalimuodossa. Lisäksi voidaan osoittaa että jos lauseke voidaan redusoida normaalimuotoon, niin lausekkeen normaalimuoto on yksikäsitteinen. Näinollen lambdalausekkeen arvon laskemisella tarkoitetaan lausekkeen redusoimista normaalimuotoon.
+%\par
+%Kaikille lambdalausekkeille ei ole olemassa normaalimuotoa. Alan Turing todisti vuonna 1937, että Turingin kone on laskennan mallina ekvivalentti lambdakalkyylin kanssa. Tämä tulos ei voisi pitää paikkaansa, jos jokaiselle lambdalausekkeelle olisi löydettävissä normaalimuoto. Muuten ratkeamattomaksi tunnettu pysähtymisongelma voitaisiin ratkaista simuloimalla Turingin koneita lambdalausekkeilla.
+%\par 
+%Vaikka lambdalausekkeet ovat rakenteeltaan melko yksinkertaisia, voidaan niiden avulla ymmärtää ja mallintaa monia funktionaalisen ohjelmoinnin kannalta tärkeitä käsitteitä. Koska lambda-abstraktiot voivat ottaa parametrinaan ja antaa paluuarvonaan lambdafunktion, ovat esimerkiksi korkeamman asteen funktiot varsin luonnollinen osa lambdakalkyylia.
