@@ -2,7 +2,7 @@
 % 
 % last updated 2013/02/15 for tkltiki2 v1.02
 
-\documentclass[finnish]{tktltiki2}
+\documentclass[finnish, grading]{tktltiki2}
 \documentclass[12pt]{article}
 
 % tktltiki2 automatically loads babel, so you can simply
@@ -25,13 +25,13 @@
 % rubber: module pdftex
 
 % --- General packages ---
-
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{microtype}
 \usepackage{amsfonts,amsmath,amssymb,amsthm,booktabs,color,enumitem,graphicx}
 \usepackage[pdftex,hidelinks]{hyperref}
+\usepackage{cancel}
 
 % Automatically set the PDF metadata fields
 \makeatletter
@@ -43,7 +43,8 @@
 % these should be modified according to your language
 
 % babelbib for non-english bibliography using bibtex
-\usepackage[fixlanguage]{babelbib}
+%\usepackage[fixlanguage]{babelbib}
+\usepackage[finnish]{babelbib}
 \selectbiblanguage{finnish}
 
 % add bibliography to the table of contents
@@ -99,14 +100,14 @@
 % your department, faculty and subject by hand:
 %
 % \faculty{Matemaattis-luonnontieteellinen}
-% \department{Tietojenkäsittelytieteen laitos}
+\department{Tietojenkäsittelytieteen laitos}
 % \subject{Tietojenkäsittelytiede}
 %
 % If you are not from the University of Helsinki, then you will most likely want to set these also:
 %
-% \university{Helsingin Yliopisto}
+\university{Helsingin Yliopisto}
 % \universitylong{HELSINGIN YLIOPISTO --- HELSINGFORS UNIVERSITET --- UNIVERSITY OF HELSINKI} % displayed on the top of the abstract page
-% \city{Helsinki}
+\city{Helsinki}
 %
 
 \renewcommand{\baselinestretch}{1.5}
@@ -119,7 +120,7 @@
 \frontmatter      % roman page numbering for front matter
 
 \maketitle        % title page
-%\makeabstract     % abstract page
+\makeabstract     % abstract page
 
 \tableofcontents  % table of contents
 
@@ -134,6 +135,8 @@
 %Esimerkkilause ja lähdeviite~\cite{esimerkki}.
 \include{kappaleet/aine_johdanto}
 \include{kappaleet/aine_lambda1}
+\include{kappaleet/aine_lambda2}
+\include{kappaleet/aine_yhteenveto}
 
 % --- References ---
 %
