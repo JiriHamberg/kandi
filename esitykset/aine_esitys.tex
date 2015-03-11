@@ -1,0 +1,107 @@
+\documentclass[12pt]{beamer}
+
+\usepackage[finnish]{babel}
+\usepackage[utf8]{inputenc}
+
+
+\begin{document}
+
+
+\title{Lambdakalkyyli}
+\author{Jiri Hamberg}
+\titlegraphic{\includegraphics[scale=0.4]{xkcd-functional.png}}
+\frame{\maketitle}
+
+\begin{frame}
+\frametitle{Historiaa}
+
+\begin{itemize}
+\item loogikko David Hilbert esitti vuonna 1928 nimellä Entscheidungsproblem tunnetun haasteen:
+	\begin{itemize}
+	\item anna algoritmi, joka ottaa syötteenään joukon aksioomia ja lauseen ja kertoo voidaanko lause päätellä annetuista aksioomista
+	\item \alert{ongelma: miten määritellä algoritmi ja laskettavuus?}
+\pause	
+	\end{itemize}
+\item vuonna 1936 Church ja Turing esittivät omat ratkaisuehdotuksensa Hilbertin haasteeseen
+	\begin{itemize}
+	\item Alonzo Church: lambdakalkyyli	
+	\item Alan Turing: Turingin kone
+	\end{itemize}
+\pause
+\item Turing myös todisti että lambdakalkyyli $\Leftrightarrow$ Turingin koneet  
+	\begin{itemize} \item \alert{Churchin-Turingin teesi} \end{itemize} 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Lambdalausekkeet}
+Tavoite:
+\[ 
+(\lambda x \;. \; 3x + 5) \; 6 \; \rightarrow \; 3 * 6 + 5 \; \rightarrow \; 18 + 5 \; \rightarrow \; 23 
+\]
+\pause
+\[ 
+(\lambda x \;. \; 2x) \; (\lambda x \;. \; x + 3) \; \rightarrow \; \lambda x \; . \; 2(x + 3) 
+\]
+\end{frame}
+
+\begin{frame}
+\frametitle{Lambdalausekkeet}
+Määritelmä: \\
+Lambdalausekkeiden joukko $E$:
+
+\[ V \subset E \textbf{  (muuttuja)}\]
+\[ \text{Jos } e_{1} \in E \text{ ja } e_{2} \in E, \text{ niin }  (e_{1}e_{2}) \in E \textbf{  (sovellus)} \]
+\[ \text{Jos } x \in V \text{ ja } e \in E, \text{ niin } \lambda x.e \in E \textbf{  (abstraktio)}\]
+
+missä $V$ on numeroituva symbolijoukko, esimerkiksi ASCII-merkkijonojen joukko.
+
+\pause
+\par
+Esimerkkejä:
+\[ ((xy)z)  \Leftrightarrow xyz \textbf{  (Notaatio)} \]
+\[ \lambda x . xyz \]
+\[ (\lambda x . (\lambda y . xyx)) z \Leftrightarrow \lambda xy . xyz \textbf{  (Notaatio, Curryn muunnon) } \]
+\par
+\pause
+\alert{Määritelmä $\rightarrow$ Tavoite ???}
+\end{frame}
+
+\begin{frame}
+\frametitle{Reduktiot ja $\alpha$-konversio}
+\begin{itemize}
+\item lambdalausekkeita voidaan "sieventää" käyttäen $\beta$- ja $\eta$-reduktiota sekä $\alpha$-konversiota
+\pause
+\item $\alpha$-konversio uudelleennimeää lausekkeen sidottuja muuttujia:
+\[ \lambda x . xyz  \rightarrow_{\alpha} \lambda w . wyz  \]
+\pause
+\item $\beta$-reduktio "sijoittaa" sovelletun lausekkeen lambda-abstraktion muuttujaan:
+\[ (\lambda xy . xyx) z  \rightarrow_{\beta} \lambda y . zyz \]
+\pause
+\item $\eta$-reduktio poistaa "turhan" lambda-abstraktion:
+\[ \lambda xy . (yzy) x \rightarrow_{\eta} \lambda y . yzy \]
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Semantiikkaa}
+\begin{itemize}
+\item edellisen perusteella tiedetään, \textbf{miten} lambdalausekkeilla lasketaan, mutta vielä ei ole käytössä mitään \textbf{millä} laskea
+\pause
+\item Churchin numeraalit on eräs tapa muodostaa luonnolliset luvut lambdalausekkeilla (vertaa Peanon lukuihin)	 
+\end{itemize}
+\pause
+
+\[ \textbf{0} \equiv \lambda fx . x \]
+\[ \textbf{1} \equiv \lambda fx . fx \]
+\[ \textbf{2} \equiv \lambda fx . f (fx) \] 
+\[ \textbf{3} \equiv \lambda fx . f(f(fx)) \]
+\[ \vdots \]
+\[ \textbf{N} \equiv \lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} x)) \ldots ) \] 
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+
+\end{document}

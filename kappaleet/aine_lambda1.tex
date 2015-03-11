@@ -1,6 +1,6 @@
 \section{Lambdalausekkeet, vapaat muuttujat ja reduktiosäännöt}
 
-Lambdalausekkeet muodostuvat muuttujasymboleista, lambda-abstraktioksi ja lambdalausekkeen soveltamisesta lambdalausekkeelle. Formaalisti tämä määritelmä voidaan muotoilla seuraavasti~\cite[s.~8]{Hudak89}:
+Lambdalausekkeita ovat muodollisesti muuttujasymbolit, lambda-abstraktiot ja lambdalausekkeen sovellus lambdalausekkeelle. Formaalisti tämä määritelmä voidaan muotoilla seuraavasti~\cite[s.~8]{Hudak89}:
 
 \begin{maar}[lambdalausekkeet]
 Lambdalausekkeiden joukko $E$ määritellään rekursiivisesti: 
@@ -18,7 +18,7 @@ Abstraktioille puolestaan käytetään seuraavaa oikealle assosiovaa lyhennysmer
 
 \par
 Esimerkiksi seuraavat ovat lambdalausekkeita:
-
+\pagebreak
 \[ x \]
 \[ xyz \]
 \[ \lambda x . xyz \]
@@ -36,9 +36,7 @@ Lambdalausekkeen $e$ vapaat muuttujat, joita merkitään $fv(e)$, määritellä�
 
 Siis muuttuja $x$ on vapaa lambdalausekkeessa $e$ jos $x \in fv(e)$, muuten $x$ on sidottu lambdalausekkeessa $e$.
 \end{maar} 
-
 \par
-
 Jotta lambdalausekkeiden reduktiosäännöt voidaan määritellä, tarvitaan avuksi vielä seuraavat substituutiosäännöt ~\cite[s.~8]{Hudak89}.
 
 \begin{maar}[substituutiosäännöt]
@@ -75,7 +73,7 @@ Määritellään lambdalausekkeiden reduktiosäännöt ~\cite[s.~9]{Hudak89}. N�
 
 \begin{maar}[reduktiosäännöt]	
 	%\begin{enumerate}		
-\[\beta \text{-reduktio: } \; (\lambda x.e \; e_{1}) \rightarrow_{\beta} [e_{1} / x]e \]
+\[\beta \text{-reduktio: } \; (\lambda x.e )\; e_{1} \rightarrow_{\beta} [e_{1} / x]e \]
 \[\eta \text{-reduktios: } \; \lambda x.(e \; x) \rightarrow_{\eta} e \text{ jos } x \notin fv(e) \]	
 	%\end{enumerate}
 Jos $\beta$-reduktion toistuva soveltaminen lausekkeen $N$ alilausekkeisiin tuottaa lausekkeen $M$, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{beta-reduktio} ja merkitään $N  \twoheadrightarrow_{\beta} M$. Vastaavasti Jos $\eta$-reduktion toistuva soveltaminen lausekkeen $N$ alilausekkeisiin tuottaa lausekkeen $M$, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{eta-reduktio} ja merkitään $N  \twoheadrightarrow_{\eta} M$. Lisäksi, jos lauseke $M$ saadaan lausekkeesta $N$ soveltamalla sen alilausekkeisiin toistuvasti eta- tai beta-reduktiota, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{reduktio} ja merkitään $N  \twoheadrightarrow M$        
@@ -83,13 +81,13 @@ Jos $\beta$-reduktion toistuva soveltaminen lausekkeen $N$ alilausekkeisiin tuot
 
 \par
 
-\begin{esim}[$\beta$-reduktio]
-<ESIMERKKI>
-\end{esim}
+%\begin{esim}[$\beta$-reduktio]
+%<ESIMERKKI>
+%\end{esim}
+%
+%\par
 
-\par
-
-Seuraavat relaatiot karakterisoivat lambdalausekkeiden arvojen yhtäsuuruuden ja niiden ideana on toimia yksinkertaisina sääntöinä, joiden avulla voidaan päätellä ovatko kaksi lambdalausekkeen arvoiltaan yhtäsuuret. Kaksi lambdalauseketta ovat alfa-ekvivalentit, mikäli ne ne eroavat toisistaan ainoastaan sidottujen muuttijiensa nimien suhteen. Kaksi lauseketta ovat beta- tai eta-ekvivalentit jos toinen niistä saadaan toisesta käyttämällä beta- tai eta-reduktiota. Lisäksi kaksi lauseketta on keskenään alfa-ekvivalentit, mikäli toinen saadaan toisesta vaihtamalla sidottujen muuttujien nimiä.
+Seuraavat relaatiot~\cite[s.~23--24]{HBEB2000} karakterisoivat lambdalausekkeiden arvojen yhtäsuuruuden ja niiden ideana on toimia yksinkertaisina sääntöinä, joiden avulla voidaan päätellä ovatko kaksi lambdalausekkeen arvoiltaan yhtäsuuret. Kaksi lambdalauseketta ovat alfa-ekvivalentit, mikäli ne ne eroavat toisistaan ainoastaan sidottujen muuttijiensa nimien suhteen. Kaksi lauseketta ovat beta- tai eta-ekvivalentit jos toinen niistä saadaan toisesta käyttämällä beta- tai eta-reduktiota. Lisäksi kaksi lauseketta on keskenään alfa-ekvivalentit, mikäli toinen saadaan toisesta vaihtamalla sidottujen muuttujien nimiä.
 
 \begin{maar}[lambdalausekkeiden arvojen yhtäsuuruus]
 	%\begin{enumerate}
@@ -115,9 +113,6 @@ Intuitiivisesti edellinen määritelmä tarkoittaa, että kaksi lambdalauseketta
 
  %Esimerkiksi seuraavat lambdalausekkeet ovat arvoiltaan yhtäsuuret:
  
- 
-
-
 %Lambdalausekkeen sanotaan olevan normaalimuodossa, jos siihen ei voida soveltaa $\eta$- tai $\beta$-reduktioita. Voidaan osoittaa, että kaikille lambdalausekkeille, jotka voidaan redusoida normaalimuotoon, pätee, että normaalimuoto saavutetaan valitsemalla aina lausekkeen vasemmanpuolisin alilauseke, jota voidaan vielä redusoida ja soveltamalla siihen $\eta$- tai $\beta$-reduktiota ja toistamalla tätä menettylyä kunnes lauseke on normaalimuodossa. Lisäksi voidaan osoittaa että jos lauseke voidaan redusoida normaalimuotoon, niin lausekkeen normaalimuoto on yksikäsitteinen. Näinollen lambdalausekkeen arvon laskemisella tarkoitetaan lausekkeen redusoimista normaalimuotoon.
 %\par
 %Kaikille lambdalausekkeille ei ole olemassa normaalimuotoa. Alan Turing todisti vuonna 1937, että Turingin kone on laskennan mallina ekvivalentti lambdakalkyylin kanssa. Tämä tulos ei voisi pitää paikkaansa, jos jokaiselle lambdalausekkeelle olisi löydettävissä normaalimuoto. Muuten ratkeamattomaksi tunnettu pysähtymisongelma voitaisiin ratkaista simuloimalla Turingin koneita lambdalausekkeilla.

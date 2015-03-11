@@ -10,7 +10,7 @@ mutta
 
 \[ 18 + 5 \; \cancel{\rightarrow} \; (\lambda x. 3 * x + 5) 6 \]
 
-toisinsanottuna laskennalla tulisi olla tietty suunta ja laskennalla tulisi olla yksikäsitteinen päätepiste aina kun laskenta päättyy. Lambdalausekkeeseen laskennan päätepistettä kutsutaan lausekkeen normaalimuodoksi ja se määritellään seuraavasti: 
+toisinsanottuna laskennalla tulisi olla tietty suunta ja laskennalla tulisi olla yksikäsitteinen päätepiste aina kun laskenta päättyy. Lambdalausekkeen laskennan päätepistettä kutsutaan lausekkeen normaalimuodoksi ja se määritellään seuraavasti~\cite[s.~9]{Hudak89}: 
 
 \begin{maar}[normaalimuoto]
 Lambdalauseke $L$ on normaalimuodossa, jos mihinkään sen alilausekkeista ei voida soveltaa $\beta$- tai $eta$-reduktiota ja jonka sidotuttujen muuttujien nimet ovat aakkosjärjestyksessä vasemmalta oikealle ja lausekkeen oikeanpuolisin sidottu muuttuja on aakkosjärjestyksessä pienin mahdollinen.  
@@ -20,50 +20,50 @@ Yleensä sidottujen muuttujien uudelleennimeämistä ei ole tapana kirjoittaa au
 
 \par
 
-Lambdalausekkeiden evaluointi on siis lausekkeen johtamista normaalimuotoon, käyttäen $\beta$- ja $\eta$-reduktioita ja $\alpha$-muunnosta (sidottujen muuttujien uudelleennimeäminen) sen alilausekkeisiin. Erilaisia tapoja tämän tekemiseksi kutsutaan evaluaatiostrategioiksi. Tyypillisiä evaluaatiostrategiota ovat sovellusjärjestysevaluaatio (\textit{applicative-order evaluation}) ja normaalijärjestysevaluaatio (\textit{normal-order evaluation)}.
+Lambdalausekkeiden evaluointi on siis lausekkeen johtamista normaalimuotoon, käyttäen $\beta$- ja $\eta$-reduktioita ja $\alpha$-muunnosta (sidottujen muuttujien uudelleennimeäminen) sen alilausekkeisiin. Erilaisia tapoja tämän tekemiseksi kutsutaan evaluontiostrategioiksi. Tyypillisiä evaluointiostrategiota ovat sovellusjärjestysevaluointi (\textit{applicative-order evaluation}) ja normaalijärjestysevaluointi (\textit{normal-order evaluation)}.
 
-\begin{alg}[sovellusjärjestysevaluaatio] 
-Lambdalausekkeen $L$ sovellusjärjestysevaluaatio on evaluaatiostrategia, jossa redusoidaan aina lausekkeen $L$ sisimmäista vasemmanpuolisinta alilauseketta, joka ei ole normaalimuodossa. (Sisimmäinen alilauseke on se alilauseke, jota ympäröi suurin määrä sulku-merkkejä.)
+\begin{alg}[sovellusjärjestysevaluointi] 
+Lambdalausekkeen $L$ sovellusjärjestysevaluointi on evaluointistrategia, jossa redusoidaan aina lausekkeen $L$ sisimmäista vasemmanpuolisinta alilauseketta, joka ei ole normaalimuodossa.
 \end{alg}
 
-\begin{alg}[normaalijärjestysevaluaatio]
-Lambdalausekkeen $L$ normaalijärjestysevaluaatio on evaluaatiostrategia, jossa redusoidaan aina lausekkeen $L$ vasemmanpuolisinta alilauseketta, joka ei ole normaalimuodossa.
+\begin{alg}[normaalijärjestysevaluointi]
+Lambdalausekkeen $L$ normaalijärjestysevaluointi on evaluointistrategia, jossa redusoidaan aina lausekkeen $L$ vasemmanpuolisinta alilauseketta, joka ei ole normaalimuodossa.
 \end{alg}
 
 \begin{esim}
-Tarkastellaan, mitä tapahtuu lausekkeelle $(\lambda x . y) ((\lambda x . xx) (\lambda x . xx))$, kun siihen sovellataan eri evaluaatiostrategioita. Huomataan aluksi, että  
+Tarkastellaan, mitä tapahtuu lausekkeelle $(\lambda x . y) ((\lambda x . xx) (\lambda x . xx))$, kun siihen sovellataan eri evaluointistrategioita. Huomataan aluksi, että  
 
 \[ (\lambda x . xx) (\lambda x . xx) \rightarrow_{\beta} (\lambda x . xx) (\lambda x . xx) \]
 
-siten normaalijärjestysevaluaatiolla:
+siten normaalijärjestysevaluoinilla:
 
 \[ (\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow y \]
 
-mutta sovellusjärjestysevaluaatiolla:
+mutta sovellusjärjestysevaluoinnilla:
 
 \[  (\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow
 	(\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow
 	(\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow \ldots \]
 	
-Sovellusjärjestysevaluaatio ei siis tässä tapauksessa koskaan löydä lausekkeen normaalimuotoa. Tämän esimerkin perusteella evaluaatiostrategian valinnalla on merkitystä sen kannalta päättyykö laskenta vai ei. 
+Sovellusjärjestysevaluointi ei siis tässä tapauksessa koskaan löydä lausekkeen normaalimuotoa. Tämän esimerkin perusteella evaluointistrategian valinnalla on merkitystä sen kannalta päättyykö laskenta vai ei. 
 \end{esim}
 
 
 \begin{lau}[Churchin-Rosserin teoreemat]
 \begin{enumerate} $ $\newline
 	\item Kullakin lambdalausekkeella on korkeintaan yksi normaalimuoto.
-	\item Jos lausekkeella on normaalimuoto, niin normaalijärjestysevaluaatio löytää sen. 
+	\item Jos lausekkeella on normaalimuoto, niin normaalijärjestysevaluointi löytää sen. 
 \end{enumerate}
 \end{lau}
 
-Churchin-Rossierin teoreema 1. takaa, että lambdalausekkeiden laskenta on ristiriidatonta: mikään laskenta ei voi johtaa kahteen eri lopputulokseen. Toisaalta teoreema 2. takaa, että mikä tahansa lauseke, joka on mahdollista evaluoida, voidaan evaluoida käyttämällä normaalijärjestysevaluaatiota.
+Churchin-Rossierin teoreemien todistukset, ks. ~\cite[s.~23--30]{HBEB2000}. Churchin-Rossierin teoreema 1. takaa, että lambdalausekkeiden laskenta on ristiriidatonta: mikään laskenta ei voi johtaa kahteen eri lopputulokseen. Toisaalta teoreema 2. takaa, että mikä tahansa lauseke, joka on mahdollista evaluoida, voidaan evaluoida käyttämällä normaalijärjestysevaluointia.
 
 \par
 
-Tähän mennessä olemme käsitelleet lambdalausekkeiden loogisia ja syntaktisia piirteitä liittämättä lausekkeisiin minkäänlaista semantiikkaa. Näytetään seuraavaksi miten lambdalausekkeilla voidaan määritellä kokonaisluvut ja hieman kokonaislujen aritmetiikkaa.
+Tähän mennessä olemme käsitelleet lambdalausekkeiden loogisia ja syntaktisia piirteitä liittämättä lausekkeisiin minkäänlaista semantiikkaa. Näytetään seuraavaksi miten lambdalausekkeilla voidaan määritellä kokonaisluvut ja hieman kokonaislukujen aritmetiikkaa.
    
 \begin{esim}[Churchin numeraalit ja aritmetiikka]
-Kokonaisluvut voidaan määritellä monin eri tavoin käyttäen lambdalausekkeita. Näistä tunnetuin lienee Churchin alkuperäinen muotoilu, jossa
+Kokonaisluvut voidaan määritellä monin eri tavoin käyttäen lambdalausekkeita. Näistä tunnetuin lienee Churchin alkuperäinen muotoilu~\cite[s.~20]{Sel2013}, jossa
 
 \[ \textbf{0} \equiv \lambda fx . x \]
 \[ \textbf{1} \equiv \lambda fx . fx \]
@@ -76,7 +76,7 @@ Kokonaisluku $N$ esitetään siis lausekkeena, jonka ensimmäistä parametria on
 
 \par
 
-Nyt yhteenlasku-funktio  \textbf{PLUS} voidaan määritellä seuraavasti:
+Nyt yhteenlasku-funktio  \textbf{ADD} voidaan määritellä seuraavasti~\cite[s.~20]{Sel2013}:
 
 \[ \textbf{ADD} \equiv \lambda nmfx . n f (m f x) \] 
 
@@ -99,7 +99,7 @@ sillä
 &\equiv \textbf{N + M}  
 \end{align*}
 
-Kertolasku-funktiolle \textbf{MUL} voidaan antaa seuraava määritelmä:
+Kertolasku-funktiolle \textbf{MUL} voidaan antaa seuraava määritelmä~\cite[s.~20]{Sel2013}:
 
 \[ \textbf{MUL} \equiv \lambda n m f . n (mf) \]
 
@@ -108,35 +108,22 @@ Identiteetti $\textbf{MUL N M } \equiv \textbf{N} * \textbf{M}$ voidaan johtaa s
 \par
 
 Näytetään vielä miten lauseke $2 * (1+1)$ voidaan esittää ja evaluida käyttäen Churchin numeraaleja. Ensinnäkin käyttäen Puolalaista notaatiota, lausekkeelle saadaan seuraava muotoilu
-
-\[* \; 3 \; (+ \; 1 \; 1) \], 
-
+\[* \; 3 \; (+ \; 1 \; 1) \] 
 joka voidaan suoraviivaisesti muuntaa lambdalausekkeeksi
-
 \[ \textbf{MUL 3 }(\textbf{ADD 1 1}) \]
-
-ja 
-
+ja siten
 \begin{align*}
 \textbf{MUL 3 }(\textbf{ADD 1 1}) &\equiv (\lambda n m f . n (mf))  \; (\lambda f x . f(f(fx))) \;(\textbf{ADD 1 1}) \\
 &\twoheadrightarrow_{\beta} (\lambda n m f . n (mf) ) \; (\lambda f x . f(f(fx))) \; \textbf{2} \\
 &\rightarrow_{\beta} (\lambda m f . (\lambda f x . f(f(fx))) \; (m f)) \textbf{2}    \\
-&\rightarrow_{\beta} \lambda f . (\lambda f x . f(f(fx))) (\textbf{2} \; f)) \\
-&\equiv \lambda f x . (\lambda f . f(f(fx))) ((\lambda f x . f (f x) \; f) \\
-&\rightarrow_{\beta} \lambda f . (\lambda f x .  f(f(fx)) (\lambda x . f (f x)) \\
+&\rightarrow_{\beta} \lambda f . (\lambda f x . f(f(fx))) (\textbf{2} \; f) \\
+&\equiv \lambda f x . (\lambda f . f(f(fx))) ((\lambda f x . f (f x)) \; f) \\
+&\rightarrow_{\beta} \lambda f . (\lambda f x .  f(f(fx))) (\lambda x . f (f x)) \\
 &\rightarrow_{\beta} \lambda f . (\lambda x .  (\lambda x . f (f x))((\lambda x . f (f x))((\lambda x . f (f x))x))\\
 &\rightarrow_{\beta} \lambda f . (\lambda x .  (\lambda x . f (f x))((f (f( f( f x))))  \\
 &\rightarrow_{\beta} \lambda f . (\lambda x . f( f (f (f( f( f x)))))) \\
 &\equiv \lambda f x. f( f (f (f( f( f x))))) \\
 &\equiv \textbf{6}
-\end{align*}
- 
-%&\rightarrow_{\beta} (\lambda m f x . (\lambda f x . f(fx)) (mfx) x) \; (\textbf{ADD 1 1}) \\
-%&\rightarrow_{\beta} (\lambda f x . (\lambda f x .f(fx)) (\textbf{ADD 1 1}fx)) x \\
-%&\rightarrow_{\beta}  \lambda f x . (\lambda x . (\textbf{ADD 1 1} \; f \; x)(\textbf{ADD 1 1} \; f \; %x)) x \\
-%&\rightarrow_{\beta}  \lambda f x . (\textbf{ADD 1 1} \; f \; x)(\textbf{ADD 1 1} \; f \; x) \\
-%&\twoheadrightarrow_{\beta} \lambda fx . 
- 
- 
+\end{align*} 
 \end{esim}   
    
