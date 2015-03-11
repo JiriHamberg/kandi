@@ -2,7 +2,7 @@
 
 \usepackage[finnish]{babel}
 \usepackage[utf8]{inputenc}
-
+\usepackage{amsfonts,amsmath,amssymb,amsthm,booktabs,color,enumitem,graphicx}
 
 \begin{document}
 
@@ -61,7 +61,7 @@ missä $V$ on numeroituva symbolijoukko, esimerkiksi ASCII-merkkijonojen joukko.
 Esimerkkejä:
 \[ ((xy)z)  \Leftrightarrow xyz \textbf{  (Notaatio)} \]
 \[ \lambda x . xyz \]
-\[ (\lambda x . (\lambda y . xyx)) z \Leftrightarrow \lambda xy . xyz \textbf{  (Notaatio, Curryn muunnon) } \]
+\[ (\lambda x . (\lambda y . xyx)) z \Leftrightarrow \lambda xy . xyx \textbf{  (Notaatio, Curryn muunnon) } \]
 \par
 \pause
 \alert{Määritelmä $\rightarrow$ Tavoite ???}
@@ -101,7 +101,45 @@ Esimerkkejä:
 \end{frame}
 
 \begin{frame}
+\frametitle{Aritmetiikkaa}
+\begin{itemize}
+\item Churchin numeraalit rakentuvat siten, että niillä voidaan (kohtalaisen) helposti määritellä esimerkiksi yhteen- ja kertolaskufunktiot \pause \alert{... tietenkin lambdalausekkeita käyttäen!}
+\end{itemize}
+\pause
+\[ \textbf{ADD} \equiv \lambda nmfx . n f (m f x) \] 
+\pause
+\[ \textbf{MUL} \equiv \lambda n m f . n (mf) \]
+\end{frame}
 
+\begin{frame}
+\frametitle{Esimerkki - yhteenlasku}
+\begin{align*}
+\textbf{ADD 2 2} \\
+\onslide<2->{ &\equiv (\lambda nmfx . n f (m f x)) \; (\lambda fx . f (fx))  \; (\lambda fx . f (fx)) \\}
+\onslide<3->{ &\rightarrow_{\beta} (\lambda mfx . (\lambda fx . f (fx)) \; f  \; (m f x)) \; (\lambda fx . f (fx)) \\}
+\onslide<4->{ &\rightarrow_{\beta} (\lambda fx . (\lambda fx . f (fx)) \; f  \; (\lambda fx . f (fx)) \; f \; x)) \\}
+\onslide<5->{ &\rightarrow_{\beta} (\lambda fx . (\lambda x . f (fx)) \; (\lambda fx . f (fx)) \; f \; x)) \\}
+\onslide<6->{ &\rightarrow_{\beta} (\lambda fx . f (f(\lambda fx . f (fx)) \; f \; x))) \\}
+\onslide<7->{ &\rightarrow_{\beta} (\lambda fx . f (f(\lambda x . f (fx)) \; x))) \\}
+\onslide<8->{ &\rightarrow_{\beta} (\lambda fx . \underbrace{f (f(f (f}_{4-kappaletta} x)))) \\}
+\onslide<9>{ &\equiv \textbf{4} }
+\end{align*}
+\end{frame}
+
+\begin{frame}
+\frametitle{Esimerkki - kertolasku}
+\begin{align*}
+\textbf{MUL 2 3} \\
+\onslide<2->{ &\equiv (\lambda n m f . n (mf)) \; (\lambda fx . f (fx))  \; (\lambda fx . f (f(f(x))) \\}
+\onslide<3->{ &\rightarrow_{\beta} (\lambda mf . (\lambda fx . f (fx)) \; (m f)) \; (\lambda fx . f (f(fx))) \\}
+\onslide<4->{ &\rightarrow_{\beta} (\lambda f . (\lambda fx . f (fx)) \; ((\lambda fx . f (f(fx))) f)) \\}
+\onslide<5->{ &\rightarrow_{\beta} (\lambda f . (\lambda x . ((\lambda fx . f (f(fx))) f)) (((\lambda fx . f (f(fx))) f))x)) \\}
+\onslide<6->{ &\rightarrow_{\beta} (\lambda f . (\lambda x . (\lambda x . f (f(fx)))) (((\lambda fx . f (f(fx))) f))x)) \\}
+\onslide<7->{ &\rightarrow_{\beta} (\lambda f . (\lambda x . f (f(f((\lambda fx . f (f(fx))) f))x)))) \\}
+\onslide<8->{ &\rightarrow_{\beta} (\lambda f . (\lambda x . f (f(f(\lambda x . f (f(fx))))x))))) \\}
+\onslide<8->{ &\rightarrow_{\beta} (\lambda f . (\lambda x . \underbrace{ f (f(f(f(f(f }_{6-kappaletta} x))))))) \\}
+\onslide<9>{ &\equiv \textbf{6} }
+\end{align*}
 \end{frame}
 
 \end{document}
