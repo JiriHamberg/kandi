@@ -84,7 +84,7 @@ Esimerkkejä:
 \end{frame}
 
 \begin{frame}
-\frametitle{Semantiikkaa}
+\frametitle{Churchin numeraalit}
 \begin{itemize}
 \item edellisen perusteella tiedetään, \textbf{miten} lambdalausekkeilla lasketaan, mutta vielä ei ole käytössä mitään \textbf{millä} laskea
 \pause
@@ -101,7 +101,7 @@ Esimerkkejä:
 \end{frame}
 
 \begin{frame}
-\frametitle{Aritmetiikkaa}
+\frametitle{Churchin numeraalit - Aritmetiikkaa}
 \begin{itemize}
 \item Churchin numeraalit rakentuvat siten, että niillä voidaan (kohtalaisen) helposti määritellä esimerkiksi yhteen- ja kertolaskufunktiot \pause \alert{... tietenkin lambdalausekkeita käyttäen!}
 \end{itemize}
@@ -112,7 +112,7 @@ Esimerkkejä:
 \end{frame}
 
 \begin{frame}
-\frametitle{Esimerkki - yhteenlasku}
+\frametitle{Churchin numeraalit - yhteenlasku}
 \begin{align*}
 \textbf{ADD 2 2} \\
 \onslide<2->{ &\equiv (\lambda nmfx . n f (m f x)) \; (\lambda fx . f (fx))  \; (\lambda fx . f (fx)) \\}
@@ -127,7 +127,7 @@ Esimerkkejä:
 \end{frame}
 
 \begin{frame}
-\frametitle{Esimerkki - kertolasku}
+\frametitle{Churchin numeraalit - kertolasku}
 \begin{align*}
 \textbf{MUL 2 3} \\
 \onslide<2->{ &\equiv (\lambda n m f . n (mf)) \; (\lambda fx . f (fx))  \; (\lambda fx . f (f(f(x))) \\}
@@ -142,4 +142,75 @@ Esimerkkejä:
 \end{align*}
 \end{frame}
 
+
+\begin{frame}
+\frametitle{Churchin numeraalit - huomautus}
+\begin{itemize}
+
+\item Churchin numeraalit eivät ole erityisen tehokas apuväline yhteen- ja kertolaskujen suorittamiseen
+
+\pause
+\par
+\item Luvun $n$ esittäminen Churchin numeraalina vie tilaa \textbf{O(n)}
+\pause
+\par
+\item Churchin numeraalien merkitys on lähinnä teoreettinen: lambdakalkyyli on tarpeeksi ilmaisuvoimainen laskennan malliksi
+
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\begin{itemize}
+\frametitle{Controllin ohjaus}
+
+\item If-Then-Else -rakenne voidaan toteuttaa varsin helposti lambdalausekkeilla
+\par
+\pause
+
+\item $TRUE \equiv \lambda xy . x$
+\pause
+\item $FALSE \equiv \lambda xy . y$
+\pause
+\item $IfThenElse \equiv \lambda pxy . pxy$
+\pause
+\par
+
+\item Myös rekursiota voidaan simuloida lambdalausekkeilla:
+\pause
+\par
+\item On olemassa lambdalauseke \textbf{Y}, jolle pätee $\textbf{Y} \; f \rightarrow_{\beta} \; f \; (\textbf{Y} \; f)$
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+\begin{itemize}
+\frametitle{Funktionaalinen ohjelmointi ja lambdakalkyyli}
+
+\item Monet funktionaalisen ohjelmoinnin tekniikat ovat peräisin lambdakalkyylista:
+\par
+\pause
+\item Anonyymit funktiot
+\par
+\pause
+\item Curryn muunnos ja osittain sovelletut funktiot
+\par
+\pause
+\item Funktioargumentit ja funktiopaluuarvot
+
+\end{itemize}
+\end{frame}
+
+
+
+
+%\begin{frame}
+%\frametitle{Sovellus - LISP}
+%\begin{itemize}
+%\item LISP-ohjelmointikieli voidaan nähdä lambdakalkyylin implementaationa, jota on %täydennetty vakiolla
+%\end{frame}
+
+%\end{itemize}
 \end{document}
