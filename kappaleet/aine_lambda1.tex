@@ -1,6 +1,19 @@
-\section{Lambdalausekkeet, vapaat muuttujat ja reduktiosäännöt}
+\section{Lambdalausekkeet ja vapaat muuttujat}
 
-Lambdalausekkeita ovat muodollisesti muuttujasymbolit, lambda-abstraktiot ja lambdalausekkeen sovellus lambdalausekkeelle. Formaalisti tämä määritelmä voidaan muotoilla seuraavasti~\cite[s.~8]{Hudak89}:
+\subsection{Lambdalausekkeet}
+
+Lambdalausekkeet koostuvat muuttujasymboleista, lambda-abstraktioista ja lambdalausekkeen sovelluksista muille lambdalausekkeelle.
+\par 
+Muuttujasymbolit ovat lamdalausekkeiden terminaalisymboleita, eräänlaisia lausekkeiden perusosia. Muuttajasymboleiden joukon valinnalla ei ole teorian kannalta merkitystä, kunhan symboleita on äärettömän monta ja ne voidaan erottaa toisistaan. Usein käytetään esimerkiksi ASCII-merkistön merkkijonoja.
+\par
+Lambda-abstraktioiden ideana on toimia yksiparametristen funktioden syntaktisena mallina. Esimerkiksi identiteettifunktio voidaan ilmaista lambdalausekkeella 
+\[ \underbrace{ \lambda x }_{ f(x) } \underbrace{ . }_{ = }  \underbrace{ x }_{x} \]
+Lambda-abstraktio koostuu muuttujasta ja rungosta. Muuttuja on lambda-merkin ja pisteen väliin jäävä symboli ja runko on pisteen oikealla puolella oleva lambdalauseke. 
+\par
+Sovellus pyrkii mallintamaan funktioon tehtyä sijoitusoperaatiota. Muuttujasymbolin $y$ sovellus ylläesitetylle identiteettifunktiolle voitaisiin ilmaista lambdalausekkeena seuraavasti:
+\[ ( \underbrace{ (\lambda x . x ) }_{ \text{kohde} } \; \underbrace{ y }_{ \text{sovellettava lauseke} } ) \]
+\par
+Formaalisti lambdalausekkeiden syntaksi voidaan muotoilla seuraavasti~\cite[s.~8]{Hudak89}:
 
 \begin{maar}[lambdalausekkeet]
 Lambdalausekkeiden joukko $E$ määritellään rekursiivisesti: 
@@ -18,7 +31,7 @@ Abstraktioille puolestaan käytetään seuraavaa oikealle assosiovaa lyhennysmer
 
 \par
 Esimerkiksi seuraavat ovat lambdalausekkeita:
-\pagebreak
+%\pagebreak
 \[ x \]
 \[ xyz \]
 \[ \lambda x . xyz \]
@@ -26,18 +39,36 @@ Esimerkiksi seuraavat ovat lambdalausekkeita:
 
 %Lambdalausekkeita reduktiosääntöjen kannalta tärkeitä käsitteitä ovat lambdalausekkeiden vapaat ja sidotut muuttujat sekä %substituutiosäännöt. Lambdalausekkeiden vapaat muuttujat ovat intuitiivisesti hyvin samanlaisia kuin ohjelmointikielissä yleensäkin: %muuttujien sidonnat vaikuttavat lausekehierarkiassa ylhäältä alaspäin ja hierarkiassa alempana sijaitsevat sidonnat sitovat vahvemmin kuin %hierarkiassa ylempänä sijaitsevat sidonnat.   
 
-Lambdalausekkeen vapailla muuttujilla tarkoitetaan sellaisia lausekkeessa esiintyviä muuttujia, jotka eivät esiinny lausekkeessa lambda-abstraktion muuttujaosana~\cite[s.~8]{Hudak89}. Formaalisti: 
+\subsection{Vapaat muuttujat}
+
+Lambdalausekkeen vapailla muuttujilla tarkoitetaan sellaisia lausekkeessa esiintyviä muuttujia, jotka eivät esiinny lausekkeessa lambda-abstraktion muuttujaosana~\cite[s.~8]{Hudak89}. Muuttujien jaottelu vapaisiin ja sidottuihin on olennaista myöhemmin määriteltävien reduktiosääntöjen kannalta. Lambdalausekkeiden vapaat ja sidotut muuttujat ovat pitkälti analogisia ohjelmointikielten sulkeumien vapaiden ja sidottujen muuttujien kanssa.
 
 \begin{maar}[Vapaat ja sidutut muuttujat]
-Lambdalausekkeen $e$ vapaat muuttujat, joita merkitään $fv(e)$, määritellään seuraavasti: 
+Lambdalausekkeen $e$ vapaat muuttujat, joita merkitään $fv(e)$, ovat: 
 \[fv(x) = \{x\}\ \text{ jos } x \text{ on muuttuja} \]
 \[fv(e_{1}e_{2}) = fv(e_{1}) \cup fv(e_{2}) \]
 \[ fv(\lambda x.e) = fv(e) - \{x\} \]
-
 Siis muuttuja $x$ on vapaa lambdalausekkeessa $e$ jos $x \in fv(e)$, muuten $x$ on sidottu lambdalausekkeessa $e$.
 \end{maar} 
+
+\subsection{Substituutiosäännöt}
+Jotta lambdalausekkeiden reduktiosäännöt voidaan määritellä, tarvitaan avuksi vielä seuraavat substituutiosäännöt ~\cite[s.~8]{Hudak89}. Substituutiosäännöt kuvaavat nimensä mukaisesti sitä, miten lambdalausekkeiden muuttujia voidaan korvata muilla lambdalausekkeilla kun lambda-abstraktioon kohdistuu sovellus.
 \par
-Jotta lambdalausekkeiden reduktiosäännöt voidaan määritellä, tarvitaan avuksi vielä seuraavat substituutiosäännöt ~\cite[s.~8]{Hudak89}.
+Tarkastellaan seuraavanlaista sovelluslauseketta:
+\[ (\lambda yx . yx) x \]
+Tavoitteena on määritellä substituutiosäännöt siten, että sovelluksen kohteena olevan lausekkeen muuttujaosan ilmentymät korvataan sovellettavalla lausekkeella. Tarkastellaan mitä ongelmia liittyy yksinkertaiseen tekstisubstituutioon yllä olevan lausekkeen tapauksessa.
+\[  
+	(\lambda yx . y \; x) x  \Longrightarrow_{\text{tekstisubstituutio}}
+	\lambda x . x \; x
+\]
+Substituutiosäännöt haluttaisiin kuitenkin määritellä siten, että lambda-abstraktion muuttujaosan nimellä ei ole merkitystä. Jos sovelluksen kohteena oleva lauseke olisi ollut muotoa
+\[  (\lambda yz . y \; z)  \],
+niin tällöin tekstisubstituutio olisi johtanut rakenteeltaan varsin erityyppiseen lausekkeeseen:
+\[  
+	(\lambda yz . y \; z) x  \Longrightarrow_{\text{tekstisubstituutio}}
+	\lambda z . x \; z
+\]
+Näiden naiviin tekstisubstituutioon liittyviin ongelmien ratkaisemiseksi määritellään seuraavat substituutiosäännöt, joiden tarkoituksena on ratkaista vapaiden ja sidottujen muuttujien yhteentörmäykseen liittyvät ongelmat.
 
 \begin{maar}[substituutiosäännöt]
 Olkoon $e$ lambdalauseke ja $x$ muuttuja. Muuttujan $x$ substituutiota lambdalausekkeella $e$ lambdalausekkeessa $e_{1}$ merkitään $[e/x] e_{1}$ ja se määritellään rekursiivisesti:  
@@ -60,14 +91,20 @@ Olkoon $e$ lambdalauseke ja $x$ muuttuja. Muuttujan $x$ substituutiota lambdalau
 \]
 \end{maar} 
 
-Määritelmän olennaisin sisältö on se, että substituution kohteena olevan lambdalausekkeen sidotut muuttujat tulee uudelleennimetä enen sijoituksen tekemistä siinä tapauksessa että substituution suorittaminen muuttaisi substituution kohteena olevan lausekkeen tai sijoitettavan lausekkeen vapaita muuttujia sidotuiksi. Esimerkiksi: \\
+Määritelmän olennaisin sisältö on se, että substituution kohteena olevan lambdalausekkeen sidotut muuttujat tulee uudelleennimetä enen sijoituksen tekemistä siinä tapauksessa että substituution suorittaminen muuttaisi substituution kohteena olevan lausekkeen tai sijoitettavan lausekkeen vapaita muuttujia sidotuiksi. Esimerkiksi edellä käsiteltyyn sovellukseen $(\lambda yx . y \; x) x$ liittyvät ongelmat ratkeavat seuraavalla tavalla substituutiosääntöjen avulla:
 
-\[ [\lambda x . x / y]((\lambda x . yx)  \stackrel{\eqref{eq:S3}}{=} \\ 
-	\lambda z . [\lambda x . x / y](yz) \stackrel{\eqref{eq:S2}}{=} \\
-	\lambda z . [\lambda x . x / y]y [\lambda x . x / y]z \stackrel{\eqref{eq:S1}}{=} \lambda z . (\lambda x . x) z	
+%\[ [\lambda x . x / y]((\lambda x . yx)  \stackrel{\eqref{eq:S3}}{=} \\ 
+%	\lambda z . [\lambda x . x / y](yz) \stackrel{\eqref{eq:S2}}{=} \\
+%	\lambda z . [\lambda x . x / y]y [\lambda x . x / y]z \stackrel{\eqref{eq:S1}}{=} \lambda z . (\lambda x . %x) z	
+%\]
+\[ [ x / y]((\lambda x . y \; x)  \stackrel{\eqref{eq:S3}}{=} \\ 
+	\lambda z . [ x / y](y \; z) \stackrel{\eqref{eq:S2}}{=} \\
+	\lambda z . [ x / y]y [ x / y]z \stackrel{\eqref{eq:S1}}{=} \lambda z . x \; z	
 \]   
 
 \par
+
+\subsection{Reduktiosäännöt}
 
 Määritellään lambdalausekkeiden reduktiosäännöt ~\cite[s.~9]{Hudak89}. Nämä säännöt kertovat miten lambdalausekkeita on sallittua sieventää. Beta-reduktio ilmaisee miten lambda-abstraktiosta ja mielivaltaisesta lambdalausekkeesta koostuvaa sovellusta voidaan sieventää muuttamatta lausekkeen arvoa. Eta-reduktiota puolestaan ilmaisee sen, että jos abstraktio ei tee muuta kuin soveltaa muuttujaansa lambdalausekkeeseen $e$, niin abstraktion arvo on sama kuin lausekkeen $e$.     
 

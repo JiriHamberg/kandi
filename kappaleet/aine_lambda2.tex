@@ -1,129 +1,55 @@
-\section{Normaalimuoto ja evaluointi}
+\section{Reduktiosäännöt ja ekvivalenssi}
 
-Edellä määriteltiin, millaiset muunnokset säilyttävät lambdalausekkeen arvon samana. Jotta lambdalausekkeilla voidaan suorittaa laskentaa, täytyy lausekkeen arvo ja lauseke kyetä erottamaan toisistaan. Laskennan määritelmä tulisi muotoilla siten, että (pseudokoodia):
+\subsection{Reduktiosäännöt}
 
-\[ 
-(\lambda x. 3 * x + 5) 6 \; \rightarrow \; 3 * 6 + 5 \; \rightarrow \; 18 + 5 \; \rightarrow \; 23 
-\]
+Määritellään lambdalausekkeiden reduktiosäännöt ~\cite[s.~9]{Hudak89}. Nämä säännöt kertovat miten lambdalausekkeita on sallittua sieventää. Beta-reduktio ilmaisee miten lambda-abstraktiosta ja mielivaltaisesta lambdalausekkeesta koostuvaa sovellusta voidaan sieventää muuttamatta lausekkeen arvoa. Eta-reduktiota puolestaan ilmaisee sen, että jos abstraktio ei tee muuta kuin soveltaa muuttujaansa lambdalausekkeeseen $e$, niin abstraktion arvo on sama kuin lausekkeen $e$.     
 
-mutta 
-
-\[ 18 + 5 \; \cancel{\rightarrow} \; (\lambda x. 3 * x + 5) 6 \]
-
-toisinsanottuna laskennalla tulisi olla tietty suunta ja laskennalla tulisi olla yksikäsitteinen päätepiste aina kun laskenta päättyy. Lambdalausekkeen laskennan päätepistettä kutsutaan lausekkeen normaalimuodoksi ja se määritellään seuraavasti~\cite[s.~9]{Hudak89}: 
-
-\begin{maar}[normaalimuoto]
-Lambdalauseke $L$ on normaalimuodossa, jos mihinkään sen alilausekkeista ei voida soveltaa $\beta$- tai $eta$-reduktiota ja jonka sidotuttujen muuttujien nimet ovat aakkosjärjestyksessä vasemmalta oikealle ja lausekkeen oikeanpuolisin sidottu muuttuja on aakkosjärjestyksessä pienin mahdollinen.  
+\begin{maar}[reduktiosäännöt]	
+	%\begin{enumerate}		
+\[\beta \text{-reduktio: } \; (\lambda x.e )\; e_{1} \rightarrow_{\beta} [e_{1} / x]e \]
+\[\eta \text{-reduktios: } \; \lambda x.(e \; x) \rightarrow_{\eta} e \text{ jos } x \notin fv(e) \]	
+	%\end{enumerate}
+Jos $\beta$-reduktion toistuva soveltaminen lausekkeen $N$ alilausekkeisiin tuottaa lausekkeen $M$, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{beta-reduktio} ja merkitään $N  \twoheadrightarrow_{\beta} M$. Vastaavasti Jos $\eta$-reduktion toistuva soveltaminen lausekkeen $N$ alilausekkeisiin tuottaa lausekkeen $M$, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{eta-reduktio} ja merkitään $N  \twoheadrightarrow_{\eta} M$. Lisäksi, jos lauseke $M$ saadaan lausekkeesta $N$ soveltamalla sen alilausekkeisiin toistuvasti eta- tai beta-reduktiota, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{reduktio} ja merkitään $N  \twoheadrightarrow M$        
 \end{maar}
 
-Yleensä sidottujen muuttujien uudelleennimeämistä ei ole tapana kirjoittaa auki, vaan ajatellaan, että lauseke on normaalimuodossa, kunhan sen alilausekkeisiin ei voida soveltaa $\beta$- tai $\eta$-reduktiota. Tällöin sidottujen muuttujien uudelleennimeäminen normaalimuodon vaatimalla tavalla on varsin suoraviivaista käyttäen $\alpha$-muunnosta.
-
 \par
 
-Lambdalausekkeiden evaluointi on siis lausekkeen johtamista normaalimuotoon, käyttäen $\beta$- ja $\eta$-reduktioita ja $\alpha$-muunnosta (sidottujen muuttujien uudelleennimeäminen) sen alilausekkeisiin. Erilaisia tapoja tämän tekemiseksi kutsutaan evaluontiostrategioiksi. Tyypillisiä evaluointiostrategiota ovat sovellusjärjestysevaluointi (\textit{applicative-order evaluation}) ja normaalijärjestysevaluointi (\textit{normal-order evaluation)}.
+%\begin{esim}[$\beta$-reduktio]
+%<ESIMERKKI>
+%\end{esim}
+%
+%\par
 
-\begin{alg}[sovellusjärjestysevaluointi] 
-Lambdalausekkeen $L$ sovellusjärjestysevaluointi on evaluointistrategia, jossa redusoidaan aina lausekkeen $L$ sisimmäista vasemmanpuolisinta alilauseketta, joka ei ole normaalimuodossa.
-\end{alg}
+\subsection{Lausekkeiden ekvivalenssi}
 
-\begin{alg}[normaalijärjestysevaluointi]
-Lambdalausekkeen $L$ normaalijärjestysevaluointi on evaluointistrategia, jossa redusoidaan aina lausekkeen $L$ vasemmanpuolisinta alilauseketta, joka ei ole normaalimuodossa.
-\end{alg}
+Seuraavat relaatiot~\cite[s.~23--24]{HBEB2000} karakterisoivat lambdalausekkeiden arvojen yhtäsuuruuden ja niiden ideana on toimia yksinkertaisina sääntöinä, joiden avulla voidaan päätellä ovatko kaksi lambdalausekkeen arvoiltaan yhtäsuuret. Kaksi lambdalauseketta ovat alfa-ekvivalentit, mikäli ne ne eroavat toisistaan ainoastaan sidottujen muuttijiensa nimien suhteen. Kaksi lauseketta ovat beta- tai eta-ekvivalentit jos toinen niistä saadaan toisesta käyttämällä beta- tai eta-reduktiota. Lisäksi kaksi lauseketta on keskenään alfa-ekvivalentit, mikäli toinen saadaan toisesta vaihtamalla sidottujen muuttujien nimiä.
 
-\begin{esim}
-Tarkastellaan, mitä tapahtuu lausekkeelle $(\lambda x . y) ((\lambda x . xx) (\lambda x . xx))$, kun siihen sovellataan eri evaluointistrategioita. Huomataan aluksi, että  
+\begin{maar}[lambdalausekkeiden arvojen yhtäsuuruus]
+	%\begin{enumerate}
+		 
+\[ 
+	\alpha \text{-ekvivalenssi: } \; \lambda x.e =_{\alpha} \lambda x_{i}.		[x/x_{i}]e \text{,  } \forall x_{i} \notin fv(e) 
+\]
+\[ 
+	\beta \text{-ekvivalenssi: } \; N =_{\beta} M \text{ jos ja vain jos } N 		\twoheadrightarrow_{\beta} M \text{ tai }
+	M \twoheadrightarrow_{\beta} N 
+\]
+\[ 
+	\eta \text{-ekvivalenssi: } \; N =_{\eta} M \text{ jos ja vain jos } N 		\twoheadrightarrow_{\eta} M \text{ tai }
+	M \twoheadrightarrow_{\eta} N 
+\]
+	%\end{enumerate}
+Lambdalausekkeet $N$ ja $M$ ovat arvoltaan yhtäsuuret, mikäli	on olemassa lambdalauseke $L$ siten että $N$ ja $L$ ovat keskenään alfa- beta- tai eta-ekvivalenttit ja $M$ ja $L$ ovat keskenään alfa-, beta- tai eta-ekvivalentit.	
+\end{maar}
 
-\[ (\lambda x . xx) (\lambda x . xx) \rightarrow_{\beta} (\lambda x . xx) (\lambda x . xx) \]
+Intuitiivisesti edellinen määritelmä tarkoittaa, että kaksi lambdalauseketta ovat arvoiltaan yhtäsuuret, mikäli on olemassa lauseke, joka voidaan johtaa molemmista lausekkeista käyttäen eta- ja beta-reduktiota sekä uudelleennimeämällä sidottuja muuttujia. 
 
-siten normaalijärjestysevaluoinilla:
+%\par
 
-\[ (\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow y \]
-
-mutta sovellusjärjestysevaluoinnilla:
-
-\[  (\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow
-	(\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow
-	(\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow \ldots \]
-	
-Sovellusjärjestysevaluointi ei siis tässä tapauksessa koskaan löydä lausekkeen normaalimuotoa. Tämän esimerkin perusteella evaluointistrategian valinnalla on merkitystä sen kannalta päättyykö laskenta vai ei. 
-\end{esim}
-
-
-\begin{lau}[Churchin-Rosserin teoreemat]
-\begin{enumerate} $ $\newline
-	\item Kullakin lambdalausekkeella on korkeintaan yksi normaalimuoto.
-	\item Jos lausekkeella on normaalimuoto, niin normaalijärjestysevaluointi löytää sen. 
-\end{enumerate}
-\end{lau}
-
-Churchin-Rossierin teoreemien todistukset, ks. ~\cite[s.~23--30]{HBEB2000}. Churchin-Rossierin teoreema 1. takaa, että lambdalausekkeiden laskenta on ristiriidatonta: mikään laskenta ei voi johtaa kahteen eri lopputulokseen. Toisaalta teoreema 2. takaa, että mikä tahansa lauseke, joka on mahdollista evaluoida, voidaan evaluoida käyttämällä normaalijärjestysevaluointia.
-
-\par
-
-Tähän mennessä olemme käsitelleet lambdalausekkeiden loogisia ja syntaktisia piirteitä liittämättä lausekkeisiin minkäänlaista semantiikkaa. Näytetään seuraavaksi miten lambdalausekkeilla voidaan määritellä kokonaisluvut ja hieman kokonaislukujen aritmetiikkaa.
-   
-\begin{esim}[Churchin numeraalit ja aritmetiikka]
-Kokonaisluvut voidaan määritellä monin eri tavoin käyttäen lambdalausekkeita. Näistä tunnetuin lienee Churchin alkuperäinen muotoilu~\cite[s.~20]{Sel2013}, jossa
-
-\[ \textbf{0} \equiv \lambda fx . x \]
-\[ \textbf{1} \equiv \lambda fx . fx \]
-\[ \textbf{2} \equiv \lambda fx . f (fx) \] 
-\[ \textbf{3} \equiv \lambda fx . f(f(fx)) \]
-\[ \vdots \]
-\[ \textbf{N} \equiv \lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} x)) \ldots ) \]
+ %Esimerkiksi seuraavat lambdalausekkeet ovat arvoiltaan yhtäsuuret:
  
-Kokonaisluku $N$ esitetään siis lausekkeena, jonka ensimmäistä parametria on sovellettu $N$-kertaa itselleen.
-
-\par
-
-Nyt yhteenlasku-funktio  \textbf{ADD} voidaan määritellä seuraavasti~\cite[s.~20]{Sel2013}:
-
-\[ \textbf{ADD} \equiv \lambda nmfx . n f (m f x) \] 
-
-sillä 
-
-%\begin{align}
-%\textbf{PLUS} N M &\equiv (\lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}}) \\
-%&= foo bar
-%\end{align}
-
-\begin{align*} \textbf{ADD N M} &\equiv (\lambda nmfx . n f (m f x)) \textbf{N M} \\ 
-&\equiv  (\lambda nmfx . n f (m f x)) \; (\lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} x)) \ldots )) \; (\lambda fx . \underbrace{ f ( f \ldots (f }_{ M-\text{kappaletta}} x)) \ldots ))\\ 
-&\rightarrow_{\beta} (\lambda mfx . ((\lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} x)) \ldots ) f (m f x)) \; \lambda fx . \underbrace{ f ( f \ldots (f }_{ M-\text{kappaletta}} x)) \ldots )\\ 
-&\rightarrow_{\beta} \lambda fx . ((\lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} x)) \ldots ) f ( (\lambda fx . \underbrace{ f ( f \ldots (f }_{ M-\text{kappaletta}} x)) \ldots )) f x ) \\
-&\rightarrow_{\beta} \lambda fx . ((\lambda x . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} x)) \ldots ) ( (\lambda fx . \underbrace{ f ( f \ldots (f }_{ M-\text{kappaletta}} x)) \ldots )) f x ) \\
-&\rightarrow_{\beta}  \lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} ( (\lambda fx . \underbrace{ f ( f \ldots (f }_{ M-\text{kappaletta}} x)) \ldots ) f x ) \ldots )\\
-&\rightarrow_{\beta}  \lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} ( (\lambda x . \underbrace{ f ( f \ldots (f }_{ M-\text{kappaletta}} x)) \ldots )  x ) \ldots) \\
-&\rightarrow_{\beta}  \lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} (\underbrace{ f ( f \ldots (f }_{ M-\text{kappaletta}} x) \ldots ) \ldots ) \\
-&\equiv \lambda fx . \underbrace{ f ( f \ldots (f }_{ N + M-\text{kappaletta}} x) \ldots ) \\
-&\equiv \textbf{N + M}  
-\end{align*}
-
-Kertolasku-funktiolle \textbf{MUL} voidaan antaa seuraava määritelmä~\cite[s.~20]{Sel2013}:
-
-\[ \textbf{MUL} \equiv \lambda n m f . n (mf) \]
-
-Identiteetti $\textbf{MUL N M } \equiv \textbf{N} * \textbf{M}$ voidaan johtaa samaan tapaan kuin funktion \textbf{ADD} tapauksessa suoraviivaisesti (joskin vaivalloisesti) $\beta$-reduktiota käyttämällä. 
-
-\par
-
-Näytetään vielä miten lauseke $2 * (1+1)$ voidaan esittää ja evaluida käyttäen Churchin numeraaleja. Ensinnäkin käyttäen Puolalaista notaatiota, lausekkeelle saadaan seuraava muotoilu
-\[* \; 3 \; (+ \; 1 \; 1) \] 
-joka voidaan suoraviivaisesti muuntaa lambdalausekkeeksi
-\[ \textbf{MUL 3 }(\textbf{ADD 1 1}) \]
-ja siten
-\begin{align*}
-\textbf{MUL 3 }(\textbf{ADD 1 1}) &\equiv (\lambda n m f . n (mf))  \; (\lambda f x . f(f(fx))) \;(\textbf{ADD 1 1}) \\
-&\twoheadrightarrow_{\beta} (\lambda n m f . n (mf) ) \; (\lambda f x . f(f(fx))) \; \textbf{2} \\
-&\rightarrow_{\beta} (\lambda m f . (\lambda f x . f(f(fx))) \; (m f)) \textbf{2}    \\
-&\rightarrow_{\beta} \lambda f . (\lambda f x . f(f(fx))) (\textbf{2} \; f) \\
-&\equiv \lambda f x . (\lambda f . f(f(fx))) ((\lambda f x . f (f x)) \; f) \\
-&\rightarrow_{\beta} \lambda f . (\lambda f x .  f(f(fx))) (\lambda x . f (f x)) \\
-&\rightarrow_{\beta} \lambda f . (\lambda x .  (\lambda x . f (f x))((\lambda x . f (f x))((\lambda x . f (f x))x))\\
-&\rightarrow_{\beta} \lambda f . (\lambda x .  (\lambda x . f (f x))((f (f( f( f x))))  \\
-&\rightarrow_{\beta} \lambda f . (\lambda x . f( f (f (f( f( f x)))))) \\
-&\equiv \lambda f x. f( f (f (f( f( f x))))) \\
-&\equiv \textbf{6}
-\end{align*} 
-\end{esim}   
-   
+%Lambdalausekkeen sanotaan olevan normaalimuodossa, jos siihen ei voida soveltaa $\eta$- tai $\beta$-reduktioita. Voidaan osoittaa, että kaikille lambdalausekkeille, jotka voidaan redusoida normaalimuotoon, pätee, että normaalimuoto saavutetaan valitsemalla aina lausekkeen vasemmanpuolisin alilauseke, jota voidaan vielä redusoida ja soveltamalla siihen $\eta$- tai $\beta$-reduktiota ja toistamalla tätä menettylyä kunnes lauseke on normaalimuodossa. Lisäksi voidaan osoittaa että jos lauseke voidaan redusoida normaalimuotoon, niin lausekkeen normaalimuoto on yksikäsitteinen. Näinollen lambdalausekkeen arvon laskemisella tarkoitetaan lausekkeen redusoimista normaalimuotoon.
+%\par
+%Kaikille lambdalausekkeille ei ole olemassa normaalimuotoa. Alan Turing todisti vuonna 1937, että Turingin kone on laskennan mallina ekvivalentti lambdakalkyylin kanssa. Tämä tulos ei voisi pitää paikkaansa, jos jokaiselle lambdalausekkeelle olisi löydettävissä normaalimuoto. Muuten ratkeamattomaksi tunnettu pysähtymisongelma voitaisiin ratkaista simuloimalla Turingin koneita lambdalausekkeilla.
+%\par 
+%Vaikka lambdalausekkeet ovat rakenteeltaan melko yksinkertaisia, voidaan niiden avulla ymmärtää ja mallintaa monia funktionaalisen ohjelmoinnin kannalta tärkeitä käsitteitä. Koska lambda-abstraktiot voivat ottaa parametrinaan ja antaa paluuarvonaan lambdafunktion, ovat esimerkiksi korkeamman asteen funktiot varsin luonnollinen osa lambdakalkyylia.

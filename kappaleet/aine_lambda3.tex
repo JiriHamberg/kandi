@@ -1,0 +1,129 @@
+\section{Normaalimuoto ja evaluointi}
+
+Edellä määriteltiin, millaiset muunnokset säilyttävät lambdalausekkeen arvon samana. Jotta lambdalausekkeilla voidaan suorittaa laskentaa, täytyy lausekkeen arvo ja lauseke kyetä erottamaan toisistaan. Laskennan määritelmä tulisi muotoilla siten, että (pseudokoodia):
+
+\[ 
+(\lambda x. 3 * x + 5) 6 \; \rightarrow \; 3 * 6 + 5 \; \rightarrow \; 18 + 5 \; \rightarrow \; 23 
+\]
+
+mutta 
+
+\[ 18 + 5 \; \cancel{\rightarrow} \; (\lambda x. 3 * x + 5) 6 \]
+
+toisinsanottuna laskennalla tulisi olla tietty suunta ja laskennalla tulisi olla yksikäsitteinen päätepiste aina kun laskenta päättyy. Lambdalausekkeen laskennan päätepistettä kutsutaan lausekkeen normaalimuodoksi ja se määritellään seuraavasti~\cite[s.~9]{Hudak89}: 
+
+\begin{maar}[normaalimuoto]
+Lambdalauseke $L$ on normaalimuodossa, jos mihinkään sen alilausekkeista ei voida soveltaa $\beta$- tai $eta$-reduktiota ja jonka sidotuttujen muuttujien nimet ovat aakkosjärjestyksessä vasemmalta oikealle ja lausekkeen oikeanpuolisin sidottu muuttuja on aakkosjärjestyksessä pienin mahdollinen.  
+\end{maar}
+
+Yleensä sidottujen muuttujien uudelleennimeämistä ei ole tapana kirjoittaa auki, vaan ajatellaan, että lauseke on normaalimuodossa, kunhan sen alilausekkeisiin ei voida soveltaa $\beta$- tai $\eta$-reduktiota. Tällöin sidottujen muuttujien uudelleennimeäminen normaalimuodon vaatimalla tavalla on varsin suoraviivaista käyttäen $\alpha$-muunnosta.
+
+\par
+
+Lambdalausekkeiden evaluointi on siis lausekkeen johtamista normaalimuotoon, käyttäen $\beta$- ja $\eta$-reduktioita ja $\alpha$-muunnosta (sidottujen muuttujien uudelleennimeäminen) sen alilausekkeisiin. Erilaisia tapoja tämän tekemiseksi kutsutaan evaluontiostrategioiksi. Tyypillisiä evaluointiostrategiota ovat sovellusjärjestysevaluointi (\textit{applicative-order evaluation}) ja normaalijärjestysevaluointi (\textit{normal-order evaluation)}.
+
+\begin{alg}[sovellusjärjestysevaluointi] 
+Lambdalausekkeen $L$ sovellusjärjestysevaluointi on evaluointistrategia, jossa redusoidaan aina lausekkeen $L$ sisimmäista vasemmanpuolisinta alilauseketta, joka ei ole normaalimuodossa.
+\end{alg}
+
+\begin{alg}[normaalijärjestysevaluointi]
+Lambdalausekkeen $L$ normaalijärjestysevaluointi on evaluointistrategia, jossa redusoidaan aina lausekkeen $L$ vasemmanpuolisinta alilauseketta, joka ei ole normaalimuodossa.
+\end{alg}
+
+\begin{esim}
+Tarkastellaan, mitä tapahtuu lausekkeelle $(\lambda x . y) ((\lambda x . xx) (\lambda x . xx))$, kun siihen sovellataan eri evaluointistrategioita. Huomataan aluksi, että  
+
+\[ (\lambda x . xx) (\lambda x . xx) \rightarrow_{\beta} (\lambda x . xx) (\lambda x . xx) \]
+
+siten normaalijärjestysevaluoinilla:
+
+\[ (\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow y \]
+
+mutta sovellusjärjestysevaluoinnilla:
+
+\[  (\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow
+	(\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow
+	(\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow \ldots \]
+	
+Sovellusjärjestysevaluointi ei siis tässä tapauksessa koskaan löydä lausekkeen normaalimuotoa. Tämän esimerkin perusteella evaluointistrategian valinnalla on merkitystä sen kannalta päättyykö laskenta vai ei. 
+\end{esim}
+
+
+\begin{lau}[Churchin-Rosserin teoreemat]
+\begin{enumerate} $ $\newline
+	\item Kullakin lambdalausekkeella on korkeintaan yksi normaalimuoto.
+	\item Jos lausekkeella on normaalimuoto, niin normaalijärjestysevaluointi löytää sen. 
+\end{enumerate}
+\end{lau}
+
+Churchin-Rossierin teoreemien todistukset, ks. ~\cite[s.~23--30]{HBEB2000}. Churchin-Rossierin teoreema 1. takaa, että lambdalausekkeiden laskenta on ristiriidatonta: mikään laskenta ei voi johtaa kahteen eri lopputulokseen. Toisaalta teoreema 2. takaa, että mikä tahansa lauseke, joka on mahdollista evaluoida, voidaan evaluoida käyttämällä normaalijärjestysevaluointia.
+
+\par
+
+Tähän mennessä olemme käsitelleet lambdalausekkeiden loogisia ja syntaktisia piirteitä liittämättä lausekkeisiin minkäänlaista semantiikkaa. Näytetään seuraavaksi miten lambdalausekkeilla voidaan määritellä kokonaisluvut ja hieman kokonaislukujen aritmetiikkaa.
+   
+\begin{esim}[Churchin numeraalit ja aritmetiikka]
+Kokonaisluvut voidaan määritellä monin eri tavoin käyttäen lambdalausekkeita. Näistä tunnetuin lienee Churchin alkuperäinen muotoilu~\cite[s.~20]{Sel2013}, jossa
+
+\[ \textbf{0} \equiv \lambda fx . x \]
+\[ \textbf{1} \equiv \lambda fx . fx \]
+\[ \textbf{2} \equiv \lambda fx . f (fx) \] 
+\[ \textbf{3} \equiv \lambda fx . f(f(fx)) \]
+\[ \vdots \]
+\[ \textbf{N} \equiv \lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} x)) \ldots ) \]
+ 
+Kokonaisluku $N$ esitetään siis lausekkeena, jonka ensimmäistä parametria on sovellettu $N$-kertaa itselleen.
+
+\par
+
+Nyt yhteenlasku-funktio  \textbf{ADD} voidaan määritellä seuraavasti~\cite[s.~20]{Sel2013}:
+
+\[ \textbf{ADD} \equiv \lambda nmfx . n f (m f x) \] 
+
+sillä 
+
+%\begin{align}
+%\textbf{PLUS} N M &\equiv (\lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}}) \\
+%&= foo bar
+%\end{align}
+
+\begin{align*} \textbf{ADD N M} &\equiv (\lambda nmfx . n f (m f x)) \textbf{N M} \\ 
+&\equiv  (\lambda nmfx . n f (m f x)) \; (\lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} x)) \ldots )) \; (\lambda fx . \underbrace{ f ( f \ldots (f }_{ M-\text{kappaletta}} x)) \ldots ))\\ 
+&\rightarrow_{\beta} (\lambda mfx . ((\lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} x)) \ldots ) f (m f x)) \; \lambda fx . \underbrace{ f ( f \ldots (f }_{ M-\text{kappaletta}} x)) \ldots )\\ 
+&\rightarrow_{\beta} \lambda fx . ((\lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} x)) \ldots ) f ( (\lambda fx . \underbrace{ f ( f \ldots (f }_{ M-\text{kappaletta}} x)) \ldots )) f x ) \\
+&\rightarrow_{\beta} \lambda fx . ((\lambda x . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} x)) \ldots ) ( (\lambda fx . \underbrace{ f ( f \ldots (f }_{ M-\text{kappaletta}} x)) \ldots )) f x ) \\
+&\rightarrow_{\beta}  \lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} ( (\lambda fx . \underbrace{ f ( f \ldots (f }_{ M-\text{kappaletta}} x)) \ldots ) f x ) \ldots )\\
+&\rightarrow_{\beta}  \lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} ( (\lambda x . \underbrace{ f ( f \ldots (f }_{ M-\text{kappaletta}} x)) \ldots )  x ) \ldots) \\
+&\rightarrow_{\beta}  \lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} (\underbrace{ f ( f \ldots (f }_{ M-\text{kappaletta}} x) \ldots ) \ldots ) \\
+&\equiv \lambda fx . \underbrace{ f ( f \ldots (f }_{ N + M-\text{kappaletta}} x) \ldots ) \\
+&\equiv \textbf{N + M}  
+\end{align*}
+
+Kertolasku-funktiolle \textbf{MUL} voidaan antaa seuraava määritelmä~\cite[s.~20]{Sel2013}:
+
+\[ \textbf{MUL} \equiv \lambda n m f . n (mf) \]
+
+Identiteetti $\textbf{MUL N M } \equiv \textbf{N} * \textbf{M}$ voidaan johtaa samaan tapaan kuin funktion \textbf{ADD} tapauksessa suoraviivaisesti (joskin vaivalloisesti) $\beta$-reduktiota käyttämällä. 
+
+\par
+
+Näytetään vielä miten lauseke $2 * (1+1)$ voidaan esittää ja evaluida käyttäen Churchin numeraaleja. Ensinnäkin käyttäen Puolalaista notaatiota, lausekkeelle saadaan seuraava muotoilu
+\[* \; 3 \; (+ \; 1 \; 1) \] 
+joka voidaan suoraviivaisesti muuntaa lambdalausekkeeksi
+\[ \textbf{MUL 3 }(\textbf{ADD 1 1}) \]
+ja siten
+\begin{align*}
+\textbf{MUL 3 }(\textbf{ADD 1 1}) &\equiv (\lambda n m f . n (mf))  \; (\lambda f x . f(f(fx))) \;(\textbf{ADD 1 1}) \\
+&\twoheadrightarrow_{\beta} (\lambda n m f . n (mf) ) \; (\lambda f x . f(f(fx))) \; \textbf{2} \\
+&\rightarrow_{\beta} (\lambda m f . (\lambda f x . f(f(fx))) \; (m f)) \textbf{2}    \\
+&\rightarrow_{\beta} \lambda f . (\lambda f x . f(f(fx))) (\textbf{2} \; f) \\
+&\equiv \lambda f x . (\lambda f . f(f(fx))) ((\lambda f x . f (f x)) \; f) \\
+&\rightarrow_{\beta} \lambda f . (\lambda f x .  f(f(fx))) (\lambda x . f (f x)) \\
+&\rightarrow_{\beta} \lambda f . (\lambda x .  (\lambda x . f (f x))((\lambda x . f (f x))((\lambda x . f (f x))x))\\
+&\rightarrow_{\beta} \lambda f . (\lambda x .  (\lambda x . f (f x))((f (f( f( f x))))  \\
+&\rightarrow_{\beta} \lambda f . (\lambda x . f( f (f (f( f( f x)))))) \\
+&\equiv \lambda f x. f( f (f (f( f( f x))))) \\
+&\equiv \textbf{6}
+\end{align*} 
+\end{esim}   
+   
