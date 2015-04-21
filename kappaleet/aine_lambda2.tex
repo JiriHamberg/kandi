@@ -1,8 +1,11 @@
 \section{Reduktiosäännöt ja ekvivalenssi}
 
 \subsection{Reduktiosäännöt}
-
-Määritellään lambdalausekkeiden reduktiosäännöt ~\cite[s.~9]{Hudak89}. Nämä säännöt kertovat miten lambdalausekkeita on sallittua sieventää. Beta-reduktio ilmaisee miten lambda-abstraktiosta ja mielivaltaisesta lambdalausekkeesta koostuvaa sovellusta voidaan sieventää muuttamatta lausekkeen arvoa. Eta-reduktiota puolestaan ilmaisee sen, että jos abstraktio ei tee muuta kuin soveltaa muuttujaansa lambdalausekkeeseen $e$, niin abstraktion arvo on sama kuin lausekkeen $e$.     
+Lambdalausekkeiden kiinnostavimpia piirteitä lienee, että niille voidaan muotoilla varsin yksinkertaiset laskusäännöt, jotka kuitenkin riittävät tekemään lambdakalkyylista Turing-täydellisen~\cite[liite]{Turing36}.  
+\par
+Kuten jo edellä mainittiin, voidaan lambda-abstraktio samastaa anonyymin funktion kanssa. On luontevaa ajatella, että lambdalausekkeen $M$ sovellus lambda-abstraktiolle $\lambda x . N$ vastaa abstraktin funktion $\lambda x . N$ arvoa argumentilla $M$. Tällöin reduktiosäännöt voidaan ymmärtää näiden anonyymien funktioden sievennyssäännöiksi.
+\par
+Määritellään lambdalausekkeiden reduktiosäännöt~\cite[s.~9]{Hudak89}. Reduktiosäännöt kertovat miten lambdalausekkeita voidaan sieventää muuttamatta niiden arvoa. Beta-reduktio ilmaisee miten lambda-abstraktiosta ja mielivaltaisesta lambdalausekkeesta koostuvaa sovellusta voidaan sieventää. Eta-reduktiota puolestaan ilmaisee sen, että jos lambda-abstraktio ei tee muuta kuin soveltaa muuttujaansa lambdalausekkeeseen $e$, niin abstraktion arvo on sama kuin lausekkeen $e$.    
 
 \begin{maar}[reduktiosäännöt]	
 	%\begin{enumerate}		
@@ -12,17 +15,19 @@ Määritellään lambdalausekkeiden reduktiosäännöt ~\cite[s.~9]{Hudak89}. N�
 Jos $\beta$-reduktion toistuva soveltaminen lausekkeen $N$ alilausekkeisiin tuottaa lausekkeen $M$, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{beta-reduktio} ja merkitään $N  \twoheadrightarrow_{\beta} M$. Vastaavasti Jos $\eta$-reduktion toistuva soveltaminen lausekkeen $N$ alilausekkeisiin tuottaa lausekkeen $M$, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{eta-reduktio} ja merkitään $N  \twoheadrightarrow_{\eta} M$. Lisäksi, jos lauseke $M$ saadaan lausekkeesta $N$ soveltamalla sen alilausekkeisiin toistuvasti eta- tai beta-reduktiota, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{reduktio} ja merkitään $N  \twoheadrightarrow M$        
 \end{maar}
 
-\par
-
 %\begin{esim}[$\beta$-reduktio]
 %<ESIMERKKI>
 %\end{esim}
 %
 %\par
 
-\subsection{Lausekkeiden ekvivalenssi}
+\subsection{Lausekkeiden yhtäsuuruus}
 
-Seuraavat relaatiot~\cite[s.~23--24]{HBEB2000} karakterisoivat lambdalausekkeiden arvojen yhtäsuuruuden ja niiden ideana on toimia yksinkertaisina sääntöinä, joiden avulla voidaan päätellä ovatko kaksi lambdalausekkeen arvoiltaan yhtäsuuret. Kaksi lambdalauseketta ovat alfa-ekvivalentit, mikäli ne ne eroavat toisistaan ainoastaan sidottujen muuttijiensa nimien suhteen. Kaksi lauseketta ovat beta- tai eta-ekvivalentit jos toinen niistä saadaan toisesta käyttämällä beta- tai eta-reduktiota. Lisäksi kaksi lauseketta on keskenään alfa-ekvivalentit, mikäli toinen saadaan toisesta vaihtamalla sidottujen muuttujien nimiä.
+Seuraavaksi esiteltävät relaatiot~\cite[s.~23--24]{HBEB2000} karakterisoivat lambdalausekkeiden arvojen yhtäsuuruuden ja niiden ideana on toimia yksinkertaisina sääntöinä, joiden avulla voidaan päätellä ovatko kaksi lambdalauseketta arvoiltaan yhtäsuuret.
+\par
+Intuitiivisesti on selvää, että jos kaksi lauseketta voidaan sieventää samaan muotoon, niin lausekkeilla on sama arvo. Lausekkeiden yhtäsuuruus määritelläänkin pitkälti edellä annettujen sievennyssääntöjen avulla. Lisäksi halutaan, että kaksi lambdalauseketta ovat yhtä suuret, jos ne eroavat toisistaan vain sidottujen muuttujiensa nimien suhteen.  
+\par
+Kaksi lambdalauseketta ovat alfa-ekvivalentit, mikäli ne ne eroavat toisistaan ainoastaan sidottujen muuttijiensa nimien suhteen. Kaksi lauseketta ovat beta- tai eta-ekvivalentit jos toinen niistä saadaan toisesta käyttämällä beta- tai eta-reduktiota.
 
 \begin{maar}[lambdalausekkeiden arvojen yhtäsuuruus]
 	%\begin{enumerate}

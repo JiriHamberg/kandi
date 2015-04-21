@@ -14,7 +14,7 @@ Sovellus pyrkii mallintamaan funktioon tehtyä sijoitusoperaatiota. Muuttujasymb
 \[ ( \underbrace{ (\lambda x . x ) }_{ \text{kohde} } \; \underbrace{ y }_{ \text{sovellettava lauseke} } ) \]
 \par
 Formaalisti lambdalausekkeiden syntaksi voidaan muotoilla seuraavasti~\cite[s.~8]{Hudak89}:
-
+\pagebreak
 \begin{maar}[lambdalausekkeet]
 Lambdalausekkeiden joukko $E$ määritellään rekursiivisesti: 
 \[ V \subset E \]
@@ -24,9 +24,9 @@ Lambdalausekkeiden joukko $E$ määritellään rekursiivisesti:
 missä $V$ on ääretön joukko muuttujia. Muuttujia on tapana merkitä symboleilla $x, y,z...$ tai vaihtoehtoisesti $x_{1}, x_{2}, x_{3}...$ ja mielivaltaisia lambdalausekkeita puolestaan symboleilla $L, N, M ...$ tai vaihtoehtoisesti $e_{1}, e_{2}, e_{3}...$.  Lauseketta joka on muotoa $\lambda x.e$ kutsutaan lambda-abstraktioksi tai lyhyesti abstraktioksi. Lauseketta, joka on muotoa $(e_{1} \; e_{2})$ kutsutaan lausekkeen $e_{2}$ sovellukseksi $e_{1}$:lle tai lyhyesti sovellukseksi.
 \end{maar}
 
-Sovelluksille on tapana käyttää vasemmalle assosioivaa lyhennysmerkintää: 
+Sovelluksille on tapana käyttää vasemmalta oikealle assosioivaa lyhennysmerkintää: 
 \[e_{1} e_{2} e_{3} \equiv ((e_{1} \; e_{2}) \; e_{3})\]
-Abstraktioille puolestaan käytetään seuraavaa oikealle assosiovaa lyhennysmerkintää: 
+Abstraktioille puolestaan käytetään seuraavaa oikealta vasemmalle assosiovaa lyhennysmerkintää: 
 \[ \lambda x_{1}x_{2}...x_{n}.e \equiv (\lambda x_{1} . ( \lambda x_{2} . ( \: ... \: ( \lambda x_{n} . e ))) \: ... \: ) \]
 
 \par
@@ -41,7 +41,7 @@ Esimerkiksi seuraavat ovat lambdalausekkeita:
 
 \subsection{Vapaat muuttujat}
 
-Lambdalausekkeen vapailla muuttujilla tarkoitetaan sellaisia lausekkeessa esiintyviä muuttujia, jotka eivät esiinny lausekkeessa lambda-abstraktion muuttujaosana~\cite[s.~8]{Hudak89}. Muuttujien jaottelu vapaisiin ja sidottuihin on olennaista myöhemmin määriteltävien reduktiosääntöjen kannalta. Lambdalausekkeiden vapaat ja sidotut muuttujat ovat pitkälti analogisia ohjelmointikielten sulkeumien vapaiden ja sidottujen muuttujien kanssa.
+Lambdalausekkeen vapailla muuttujilla tarkoitetaan sellaisia lausekkeessa esiintyviä muuttujia, jotka eivät esiinny lausekkeessa lambda-abstraktion muuttujaosana~\cite[s.~8]{Hudak89}. Muuttujien jaottelu vapaisiin ja sidottuihin on olennaista myöhemmin määriteltävien reduktiosääntöjen kannalta. Lambdalausekkeiden vapaat ja sidotut muuttujat ovat käsitteellisesti hyvin läheistä sukua aliohjelmien vapaille ja sidotuille muuttujille, sillä lambda-abstraktion muuttujaosa voidaan perustellusti samastaa aliohjelman argumenttilistaan.
 
 \begin{maar}[Vapaat ja sidutut muuttujat]
 Lambdalausekkeen $e$ vapaat muuttujat, joita merkitään $fv(e)$, ovat: 
@@ -102,56 +102,3 @@ Määritelmän olennaisin sisältö on se, että substituution kohteena olevan l
 	\lambda z . [ x / y]y [ x / y]z \stackrel{\eqref{eq:S1}}{=} \lambda z . x \; z	
 \]   
 
-\par
-
-\subsection{Reduktiosäännöt}
-
-Määritellään lambdalausekkeiden reduktiosäännöt ~\cite[s.~9]{Hudak89}. Nämä säännöt kertovat miten lambdalausekkeita on sallittua sieventää. Beta-reduktio ilmaisee miten lambda-abstraktiosta ja mielivaltaisesta lambdalausekkeesta koostuvaa sovellusta voidaan sieventää muuttamatta lausekkeen arvoa. Eta-reduktiota puolestaan ilmaisee sen, että jos abstraktio ei tee muuta kuin soveltaa muuttujaansa lambdalausekkeeseen $e$, niin abstraktion arvo on sama kuin lausekkeen $e$.     
-
-\begin{maar}[reduktiosäännöt]	
-	%\begin{enumerate}		
-\[\beta \text{-reduktio: } \; (\lambda x.e )\; e_{1} \rightarrow_{\beta} [e_{1} / x]e \]
-\[\eta \text{-reduktios: } \; \lambda x.(e \; x) \rightarrow_{\eta} e \text{ jos } x \notin fv(e) \]	
-	%\end{enumerate}
-Jos $\beta$-reduktion toistuva soveltaminen lausekkeen $N$ alilausekkeisiin tuottaa lausekkeen $M$, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{beta-reduktio} ja merkitään $N  \twoheadrightarrow_{\beta} M$. Vastaavasti Jos $\eta$-reduktion toistuva soveltaminen lausekkeen $N$ alilausekkeisiin tuottaa lausekkeen $M$, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{eta-reduktio} ja merkitään $N  \twoheadrightarrow_{\eta} M$. Lisäksi, jos lauseke $M$ saadaan lausekkeesta $N$ soveltamalla sen alilausekkeisiin toistuvasti eta- tai beta-reduktiota, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{reduktio} ja merkitään $N  \twoheadrightarrow M$        
-\end{maar}
-
-\par
-
-%\begin{esim}[$\beta$-reduktio]
-%<ESIMERKKI>
-%\end{esim}
-%
-%\par
-
-Seuraavat relaatiot~\cite[s.~23--24]{HBEB2000} karakterisoivat lambdalausekkeiden arvojen yhtäsuuruuden ja niiden ideana on toimia yksinkertaisina sääntöinä, joiden avulla voidaan päätellä ovatko kaksi lambdalausekkeen arvoiltaan yhtäsuuret. Kaksi lambdalauseketta ovat alfa-ekvivalentit, mikäli ne ne eroavat toisistaan ainoastaan sidottujen muuttijiensa nimien suhteen. Kaksi lauseketta ovat beta- tai eta-ekvivalentit jos toinen niistä saadaan toisesta käyttämällä beta- tai eta-reduktiota. Lisäksi kaksi lauseketta on keskenään alfa-ekvivalentit, mikäli toinen saadaan toisesta vaihtamalla sidottujen muuttujien nimiä.
-
-\begin{maar}[lambdalausekkeiden arvojen yhtäsuuruus]
-	%\begin{enumerate}
-		 
-\[ 
-	\alpha \text{-ekvivalenssi: } \; \lambda x.e =_{\alpha} \lambda x_{i}.		[x/x_{i}]e \text{,  } \forall x_{i} \notin fv(e) 
-\]
-\[ 
-	\beta \text{-ekvivalenssi: } \; N =_{\beta} M \text{ jos ja vain jos } N 		\twoheadrightarrow_{\beta} M \text{ tai }
-	M \twoheadrightarrow_{\beta} N 
-\]
-\[ 
-	\eta \text{-ekvivalenssi: } \; N =_{\eta} M \text{ jos ja vain jos } N 		\twoheadrightarrow_{\eta} M \text{ tai }
-	M \twoheadrightarrow_{\eta} N 
-\]
-	%\end{enumerate}
-Lambdalausekkeet $N$ ja $M$ ovat arvoltaan yhtäsuuret, mikäli	on olemassa lambdalauseke $L$ siten että $N$ ja $L$ ovat keskenään alfa- beta- tai eta-ekvivalenttit ja $M$ ja $L$ ovat keskenään alfa-, beta- tai eta-ekvivalentit.	
-\end{maar}
-
-Intuitiivisesti edellinen määritelmä tarkoittaa, että kaksi lambdalauseketta ovat arvoiltaan yhtäsuuret, mikäli on olemassa lauseke, joka voidaan johtaa molemmista lausekkeista käyttäen eta- ja beta-reduktiota sekä uudelleennimeämällä sidottuja muuttujia. 
-
-%\par
-
- %Esimerkiksi seuraavat lambdalausekkeet ovat arvoiltaan yhtäsuuret:
- 
-%Lambdalausekkeen sanotaan olevan normaalimuodossa, jos siihen ei voida soveltaa $\eta$- tai $\beta$-reduktioita. Voidaan osoittaa, että kaikille lambdalausekkeille, jotka voidaan redusoida normaalimuotoon, pätee, että normaalimuoto saavutetaan valitsemalla aina lausekkeen vasemmanpuolisin alilauseke, jota voidaan vielä redusoida ja soveltamalla siihen $\eta$- tai $\beta$-reduktiota ja toistamalla tätä menettylyä kunnes lauseke on normaalimuodossa. Lisäksi voidaan osoittaa että jos lauseke voidaan redusoida normaalimuotoon, niin lausekkeen normaalimuoto on yksikäsitteinen. Näinollen lambdalausekkeen arvon laskemisella tarkoitetaan lausekkeen redusoimista normaalimuotoon.
-%\par
-%Kaikille lambdalausekkeille ei ole olemassa normaalimuotoa. Alan Turing todisti vuonna 1937, että Turingin kone on laskennan mallina ekvivalentti lambdakalkyylin kanssa. Tämä tulos ei voisi pitää paikkaansa, jos jokaiselle lambdalausekkeelle olisi löydettävissä normaalimuoto. Muuten ratkeamattomaksi tunnettu pysähtymisongelma voitaisiin ratkaista simuloimalla Turingin koneita lambdalausekkeilla.
-%\par 
-%Vaikka lambdalausekkeet ovat rakenteeltaan melko yksinkertaisia, voidaan niiden avulla ymmärtää ja mallintaa monia funktionaalisen ohjelmoinnin kannalta tärkeitä käsitteitä. Koska lambda-abstraktiot voivat ottaa parametrinaan ja antaa paluuarvonaan lambdafunktion, ovat esimerkiksi korkeamman asteen funktiot varsin luonnollinen osa lambdakalkyylia.
