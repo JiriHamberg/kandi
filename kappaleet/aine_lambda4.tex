@@ -1,6 +1,6 @@
 \section{Lambdakalkyylin sovelluksia}
 
-\subsection{Kokonaisluku aritmetiikka}
+\subsection{Kokonaislukuaritmetiikka}
 Tähän mennessä olemme käsitelleet lambdalausekkeiden loogisia ja syntaktisia piirteitä liittämättä lausekkeisiin minkäänlaista semantiikkaa. Näytetään seuraavaksi miten lambdalausekkeilla voidaan määritellä kokonaisluvut ja hieman kokonaislukujen aritmetiikkaa.
    
 \begin{esim}[Churchin numeraalit ja aritmetiikka]
@@ -67,4 +67,48 @@ ja siten
 &\equiv \textbf{6}
 \end{align*} 
 \end{esim}   
-   
+
+\subsection{Kontrollinohjaus ja rekursiiviset funktiot}
+Tarkastellaan seuraavaksi miten kontrollinohjaus voidaan toteuttaa lambdakalkyylin keinoin. Määritellään aluksi totuusarvot $true$ ja $false$ lambdalausekkeina:
+\[ \textbf{ TRUE } \equiv \lambda x y . x \]
+\[ \textbf{ FALSE } \equiv \lambda x y . y \]
+Totuusarvo $\textbf{ TRUE }$ on siis funktio, joka ottaa kaksi argumenttia ja palauttaa näistä ensimmäisen ja totuusarvo $\textbf{ FALSE }$ on funktio, joka ottaa kaksi argumenttia ja palauttaa jälkimmäisen argumenttinsa. On syytä huomata, että tässä käytetty totuusarvojen määritelmä on täysin mielivaltainen. Yllä annettujen määritelmien etuna on, että ehtolausekke $IF$ voidaan antaa hyvin kompaktissa muodossa:
+\[ \textbf{ IF } \equiv \lambda p x y . p x y \]  
+Lauseke $\textbf{ IF }$ on funktio, joka ottaa argumenteinaan totuusarvon $p$ ja kaksi mielivaltaista lambdalauseketta $x$ ja $y$ ja palauttaa totuusarvon $p$ johon on sovellettu lausekkeita $x$ ja $y$. Suoraan yllä olevista totuusarvojen määritelmistä seuraa, että jos totuusarvo $p$ on $\textbf{ TRUE }$, niin palautetaan lauseke $x$ ja jos $p$ on $\textbf{ FALSE }$, niin palautetaan lauseke $y$.
+\par 
+Määritellään vielä yksi ehtolausekkeisiin liittyvä funktio, nimittäin vertailuoperaattori$\textbf{ ISZERO }$, joka ottaa argumenttinaan Churchin numeraalin ja palauttaa lausekkeen $\textbf{ TRUE }$, jos lauseke on $\textbf{ 0 }$ ja lausekkeen $\textbf{ FALSE }$ muulloin. $\textbf{ ISZERO }$ voidaan määritellä seuraavasti
+\[\textbf{ ISZERO } \equiv \lambda n . n (\lambda m . \textbf{ FALSE }) \textbf{ TRUE }  \]
+sillä
+\begin{align*}
+\textbf{ ISZERO } \textbf{ N }
+&\equiv (\lambda n . n (\lambda m . \textbf{ FALSE }) \textbf{ TRUE }) \textbf{ N } \\
+&\rightarrow_{\beta} \textbf{ N } (\lambda m . \textbf{ FALSE }) \textbf{ TRUE } \\
+&\equiv (\lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} x)) \ldots )  (\lambda m . \textbf{ FALSE }) \textbf{ TRUE } \\
+&\rightarrow_{\beta} (\lambda x . \underbrace{ (\lambda m . \textbf{ FALSE }) ( (\lambda m . \textbf{ FALSE }) \ldots ((\lambda m . \textbf{ FALSE }) }_{ N-\text{kappaletta}} x)) \ldots ) \textbf{ TRUE }
+\end{align*} 
+Nyt jos $\textbf{N} = \textbf{0}$, niin lauseke pelkistyy muotoon
+\[ (\lambda x . x) \textbf{ TRUE } \rightarrow_{\beta} \textbf{TRUE} \]
+Ja jos $\textbf{N} > \textbf{0}$, niin
+
+\begin{align*}
+\textbf{ ISZERO } \textbf{ N } &\twoheadrightarrow_{\beta} (\lambda x . \underbrace{ (\lambda m . \textbf{ FALSE }) ( (\lambda m . \textbf{ FALSE }) \ldots ((\lambda m . \textbf{ FALSE }) }_{ N-\text{kappaletta}} x)) \ldots ) \textbf{ TRUE } \\
+&\rightarrow_{\beta}  (\lambda m . \textbf{ FALSE }) ( (\lambda m . \textbf{ FALSE }) \ldots ((\lambda m . \textbf{ FALSE }) \textbf{ TRUE }) )) \ldots ) \\
+&\vdots \\
+&\rightarrow_{\beta} \textbf{ FALSE }
+\end{align*}
+\par
+Kuten yllä nähtiin, erinäisten ehtolausekkeiden määritteleminen lambdalausekkeiden avulla on varsin suoraviivaista. Huomattavasti haastavampaa on toistolausekkeiden toteuttaminen. Koska lambdalausekkeita voidaan käsitellä monella tapaa kuten funktiota, olisi toisto luontevaa toteuttaa rekursion avulla. Keskeiseksi ongelmaksi osoittautuu, että lambdakalkyylissa lausekkeita ei voida sitoa nimiin. Näinollen lambda-abstraktion rungossa ei voida viitata lambda-abstraktioon itseensä, mikä olisi tietysti toivottaa rekursion toteuttamisen kannalta. 
+\par 
+Rekursion ongelma on ratkaistavissa niin kutsuttujen kiintopistefunktioiden avulla. Tarkastellaan lauseketta 
+\[ \textbf{ Y } \equiv \lambda f . (\lambda x . f(xx)) (\lambda x . f(xx)) \]
+Tämä lauseke tunnetaan Curryn kiintopistelausekkeena löytäjänsä Haskell Curryn mukaan. Curryn kiintopistelausekkeella on seuraava mielenkiintoinen ominaisuus:
+\begin{align*}
+\textbf{ Y } e &\equiv \lambda f . (\lambda x . f(xx)) (\lambda x . f(xx)) e \\
+&\rightarrow_{\beta} (\lambda x . e(xx)) (\lambda x . e(xx)) \\
+&\rightarrow_{\beta} e((\lambda x . e(xx)(\lambda x . e(xx)) \\
+&\ =_{\beta} e(\textbf{Y }e) 
+\end{align*}
+
+
+
+
