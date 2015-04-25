@@ -108,7 +108,30 @@ Tämä lauseke tunnetaan Curryn kiintopistelausekkeena löytäjänsä Haskell Cu
 &\rightarrow_{\beta} e((\lambda x . e(xx)(\lambda x . e(xx)) \\
 &\ =_{\beta} e(\textbf{Y }e) 
 \end{align*}
+Kiintopistelausekkeen avulla voidaan tästä syystä simuloida rekursioa.
 
+%\begin{esim}
+Kertomafunktiolle voidaan antaa seuraava rekursiivinen määritelmä:
 
+\[factorial(0) = 1 \]
+\[factorial(n) = n * factorial(n-1) \text{ kun } n > 0\]
+
+Yritetään muodostaa lambdalauseke, jolla voidaan laskea luonnollisen luvun $n$ kertoma edellisen määritelmän hengessä. Oletetaan tunnetuksi lambdalauseke \textbf{PRED}, joka ottaa argumenttinaan Churchin numeraalin \textbf{N} ja palauttaa Churchin numeraalin \textbf{N - 1} jos \textbf{N} on vähintään 1, muulloin lausekkeen \textbf{0}. Määritellään
+\[ \textbf{FACT} \equiv \lambda f n. \textbf{IF } (\textbf{ISZERO } n) \textbf{ 1 } (\textbf{MUL } n (f (\textbf{PRED } n))) \]
+Nyt luvun $n$ kertoma voidaan laskea soveltamalla yllä annettua lauseketta \textbf{FACT} Curryn kiintopistelausekkeeseen. Lasketaan esimerkiksi luvun $2$ kertoma
+
+\begin{align*}
+\textbf{Y FACT 2} &\equiv \textbf{Y }\lambda f n. \textbf{IF } (\textbf{ISZERO } n) \textbf{ 1 } (\textbf{MUL } n  (f (\textbf{PRED } n))) \textbf{ 2} \\
+&\twoheadrightarrow_{\beta} \textbf{FACT }( \textbf{Y }\lambda f n. \textbf{IF } (\textbf{ISZERO } n ) \textbf{ 1 } (\textbf{MUL } n (f (\textbf{PRED } n))) ) \textbf{ 2} \\
+&\equiv \lambda f n. \textbf{IF } (\textbf{ISZERO } n) \textbf{ 1 } (\textbf{MUL } n  (f (\textbf{PRED } n))) ) \\
+	& \hspace{10 mm} ( \textbf{Y }\lambda f n. \textbf{IF } (\textbf{ISZERO } n ) \textbf{ 1 } (\textbf{MUL } n (f (\textbf{PRED } 	n))) ) \textbf{ 2 }\\
+&\rightarrow_{\beta} \lambda n. \textbf{IF } (\textbf{ISZERO } n) \textbf{ 1 } (\textbf{MUL } n \\
+	& \hspace{10 mm} (( \textbf{Y }\lambda f n. \textbf{IF } (\textbf{ISZERO } n ) \textbf{ 1 } (\textbf{MUL } n (f (\textbf{PRED  	} n))) )  (\textbf{PRED } n))) ) \textbf{ 2 }\\
+&\rightarrow_{\beta} \textbf{IF } (\textbf{ISZERO } 2) \textbf{ 1 } (\textbf{MUL } 2 \\
+	& \hspace{10 mm} (( \textbf{Y }\lambda f n. \textbf{IF } (\textbf{ISZERO } n ) \textbf{ 1 } (\textbf{MUL } n (f (\textbf{PRED  	} n))) )  (\textbf{PRED } 2))) )
+\end{align*}
+%&\twoheadrightarrow_{\beta} \textbf{FACT } \textbf{Y } \lambda f n. \textbf{IF } (\textbf{ISZERO } n) \textbf{ 1 } (\textbf{MUL } %n (f (\textbf{PRED } n))) n \\
+%&\equiv asf
+%\end{esim}
 
 
