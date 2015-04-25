@@ -122,13 +122,22 @@ Nyt luvun $n$ kertoma voidaan laskea soveltamalla yllä annettua lauseketta \tex
 
 \begin{align*}
 \textbf{Y FACT 2} &\equiv \textbf{Y }\lambda f n. \textbf{IF } (\textbf{ISZERO } n) \textbf{ 1 } (\textbf{MUL } n  (f (\textbf{PRED } n))) \textbf{ 2} \\
-&\twoheadrightarrow_{\beta} \textbf{FACT }( \textbf{Y }\lambda f n. \textbf{IF } (\textbf{ISZERO } n ) \textbf{ 1 } (\textbf{MUL } n (f (\textbf{PRED } n))) ) \textbf{ 2} \\
+&\twoheadrightarrow_{\beta} \textbf{FACT }( \textbf{Y } (\lambda f n. \textbf{IF } (\textbf{ISZERO } n ) \textbf{ 1 } (\textbf{MUL } n (f (\textbf{PRED } n))) ) \textbf{ 2} \\
 &\equiv \lambda f n. \textbf{IF } (\textbf{ISZERO } n) \textbf{ 1 } (\textbf{MUL } n  (f (\textbf{PRED } n))) ) \\
-	& \hspace{10 mm} ( \textbf{Y }\lambda f n. \textbf{IF } (\textbf{ISZERO } n ) \textbf{ 1 } (\textbf{MUL } n (f (\textbf{PRED } 	n))) ) \textbf{ 2 }\\
-&\rightarrow_{\beta} \lambda n. \textbf{IF } (\textbf{ISZERO } n) \textbf{ 1 } (\textbf{MUL } n \\
-	& \hspace{10 mm} (( \textbf{Y }\lambda f n. \textbf{IF } (\textbf{ISZERO } n ) \textbf{ 1 } (\textbf{MUL } n (f (\textbf{PRED  	} n))) )  (\textbf{PRED } n))) ) \textbf{ 2 }\\
-&\rightarrow_{\beta} \textbf{IF } (\textbf{ISZERO } 2) \textbf{ 1 } (\textbf{MUL } 2 \\
-	& \hspace{10 mm} (( \textbf{Y }\lambda f n. \textbf{IF } (\textbf{ISZERO } n ) \textbf{ 1 } (\textbf{MUL } n (f (\textbf{PRED  	} n))) )  (\textbf{PRED } 2))) )
+	& \hspace{10 mm} ( \textbf{Y } (\lambda f n. \textbf{IF } (\textbf{ISZERO } n ) \textbf{ 1 } (\textbf{MUL } n (f (\textbf{PRED } 	n))) ) \textbf{ 2 }\\
+&\rightarrow_{\beta} (\lambda n. \textbf{IF } (\textbf{ISZERO } n) \textbf{ 1 } (\textbf{MUL } n \\
+	& \hspace{10 mm} (( \textbf{Y }\lambda f n'. \textbf{IF } (\textbf{ISZERO } n' ) \textbf{ 1 } (\textbf{MUL } n' (f (\textbf{PRED  	} n'))) )  (\textbf{PRED } n))) ) \textbf{ 2 }\\
+&\rightarrow_{\beta} \textbf{IF } (\textbf{ISZERO } 2) \textbf{ 1 } (\textbf{MUL 2 } \\
+	& \hspace{10 mm} (( \textbf{Y }\lambda f n'. \textbf{IF } (\textbf{ISZERO } n' ) \textbf{ 1 } (\textbf{MUL } n'(f (\textbf{PRED  	} n'))) )  (\textbf{PRED 2 } ))) ) \\
+&\twoheadrightarrow_{\beta} \textbf{MUL 2 } \\
+	& \hspace{10 mm} (( \textbf{Y }\lambda f n'. \textbf{IF } (\textbf{ISZERO } n' ) \textbf{ 1 } (\textbf{MUL } n' (f (\textbf{PRED  	} n'))) )  (\textbf{PRED 2 }))) )	\\
+&\twoheadrightarrow_{\beta} \textbf{MUL 2 } \\
+	& \hspace{10 mm} (\textbf{FACT } (( \textbf{Y }\lambda f n'. \textbf{IF } (\textbf{ISZERO } n' ) \textbf{ 1 } (\textbf{MUL } n' (f (\textbf{PRED } n'))) )  (\textbf{1 } ))) ) \\
+& \equiv \textbf{MUL 2 } (\textbf{ FACT } ( \textbf{Y FACT} )  \textbf{1}) \\
+&\vdots \\
+& \twoheadrightarrow_{\beta} \textbf{MUL 2 } (\textbf{MUL 1 } ( \textbf{FACT} (\textbf{Y FACT}) \textbf{0} ) ) \\
+&\vdots \\
+& \twoheadrightarrow_{\beta} \textbf{MUL 2 } (\textbf{MUL 1 } \textbf{1} )	
 \end{align*}
 %&\twoheadrightarrow_{\beta} \textbf{FACT } \textbf{Y } \lambda f n. \textbf{IF } (\textbf{ISZERO } n) \textbf{ 1 } (\textbf{MUL } %n (f (\textbf{PRED } n))) n \\
 %&\equiv asf
