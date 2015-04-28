@@ -17,37 +17,31 @@ Yleensä sidottujen muuttujien uudelleennimeämistä ei ole tapana kirjoittaa au
 Lambdalausekkeiden evaluointi on siis lausekkeen johtamista normaalimuotoon, käyttäen $\beta$- ja $\eta$-reduktioita ja $\alpha$-muunnosta (sidottujen muuttujien uudelleennimeäminen) sen alilausekkeisiin. Erilaisia tapoja tämän tekemiseksi kutsutaan evaluontiostrategioiksi. Tyypillisiä evaluointiostrategiota ovat sovellusjärjestysevaluointi (\textit{applicative-order evaluation}) ja normaalijärjestysevaluointi (\textit{normal-order evaluation)}.
 
 \begin{alg}[sovellusjärjestysevaluointi] 
-Lambdalausekkeen $L$ sovellusjärjestysevaluointi on evaluointistrategia, jossa redusoidaan aina lausekkeen $L$ sisimmäista vasemmanpuolisinta alilauseketta, joka ei ole normaalimuodossa.
+Lambdalausekkeen $L$ sovellusjärjestysevaluointi on evaluointistrategia, jossa redusoidaan aina lausekkeen $L$ (sulkujen mukaan) sisimmäista vasemmanpuolisinta alilauseketta, joka ei ole normaalimuodossa.
 \end{alg}
 
 \begin{alg}[normaalijärjestysevaluointi]
-Lambdalausekkeen $L$ normaalijärjestysevaluointi on evaluointistrategia, jossa redusoidaan aina lausekkeen $L$ vasemmanpuolisinta alilauseketta, joka ei ole normaalimuodossa.
+Lambdalausekkeen $L$ normaalijärjestysevaluointi on evaluointistrategia, jossa redusoidaan aina lausekkeen $L$ vasemmanpuolisinta, (sulkujen mukaan) ulointa alilauseketta, joka ei ole normaalimuodossa.
 \end{alg}
 
 \begin{esim}
 Tarkastellaan, mitä tapahtuu lausekkeelle $(\lambda x . y) ((\lambda x . xx) (\lambda x . xx))$, kun siihen sovellataan eri evaluointistrategioita. Huomataan aluksi, että  
-
 \[ (\lambda x . xx) (\lambda x . xx) \rightarrow_{\beta} (\lambda x . xx) (\lambda x . xx) \]
-
 siten normaalijärjestysevaluoinilla:
-
 \[ (\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow y \]
-
 mutta sovellusjärjestysevaluoinnilla:
-
 \[  (\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow
 	(\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow
 	(\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow \ldots \]
-	
 Sovellusjärjestysevaluointi ei siis tässä tapauksessa koskaan löydä lausekkeen normaalimuotoa. Tämän esimerkin perusteella evaluointistrategian valinnalla on merkitystä sen kannalta päättyykö laskenta vai ei. 
 \end{esim}
-
-
+\par
+Seuraavat lambdalausekkeiden normaalimuotoa koskevat tärkeät tulokset tunnetaan Churchin-Rosserin teoreemina: 
 \begin{lau}[Churchin-Rosserin teoreemat]
 \begin{enumerate} $ $\newline
 	\item Kullakin lambdalausekkeella on korkeintaan yksi normaalimuoto.
 	\item Jos lausekkeella on normaalimuoto, niin normaalijärjestysevaluointi löytää sen. 
 \end{enumerate}
 \end{lau}
-
-Churchin-Rossierin teoreemien todistukset, ks. ~\cite[s.~23--30]{HBEB2000}. Churchin-Rossierin teoreema 1. takaa, että lambdalausekkeiden laskenta on ristiriidatonta: mikään laskenta ei voi johtaa kahteen eri lopputulokseen. Toisaalta teoreema 2. takaa, että mikä tahansa lauseke, joka on mahdollista evaluoida, voidaan evaluoida käyttämällä normaalijärjestysevaluointia.
+\par
+Churchin-Rossierin teoreemien todistuksia lyötyy alan kirjallisuudesta lukuisia, esimerkiksi Henk Barendregtin ja Erik Barendsenin luentomateriaalista \textit{Introduction to Lambda Calculus}~\cite[s.~23--30]{HBEB2000}. Churchin-Rossierin teoreema 1. takaa, että lambdalausekkeiden laskenta on ristiriidatonta: mikään laskenta ei voi johtaa kahteen eri lopputulokseen. Toisaalta teoreema 2. takaa, että mikä tahansa lauseke, joka on mahdollista evaluoida, voidaan evaluoida käyttämällä normaalijärjestysevaluointia.

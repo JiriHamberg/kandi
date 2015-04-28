@@ -45,10 +45,8 @@ Kertolasku-funktiolle \textbf{MUL} voidaan antaa seuraava määritelmä~\cite[s.
 \[ \textbf{MUL} \equiv \lambda n m f . n (mf) \]
 
 Identiteetti $\textbf{MUL N M } \equiv \textbf{N} * \textbf{M}$ voidaan johtaa samaan tapaan kuin funktion \textbf{ADD} tapauksessa suoraviivaisesti (joskin vaivalloisesti) $\beta$-reduktiota käyttämällä. 
-
 \par
-
-Näytetään vielä miten lauseke $3 * (1+1)$ voidaan esittää ja evaluida käyttäen Churchin numeraaleja. Ensinnäkin käyttäen Puolalaista notaatiota, lausekkeelle saadaan seuraava muotoilu
+Näytetään vielä miten lauseke $3 \; * \; (1  \; + \; 1)$ voidaan esittää ja evaluida käyttäen Churchin numeraaleja. Ensinnäkin käyttäen Puolalaista notaatiota, lausekkeelle saadaan seuraava muotoilu
 \[* \; 3 \; (+ \; 1 \; 1) \] 
 joka voidaan suoraviivaisesti muuntaa lambdalausekkeeksi
 \[ \textbf{MUL 3 }(\textbf{ADD 1 1}) \]
@@ -110,7 +108,6 @@ Tämä lauseke tunnetaan Curryn kiintopistelausekkeena löytäjänsä Haskell Cu
 \end{align*}
 Kiintopistelausekkeen avulla voidaan tästä syystä simuloida rekursioa.
 
-%\begin{esim}
 Kertomafunktiolle voidaan antaa seuraava rekursiivinen määritelmä:
 
 \[factorial(0) = 1 \]
@@ -118,8 +115,9 @@ Kertomafunktiolle voidaan antaa seuraava rekursiivinen määritelmä:
 
 Yritetään muodostaa lambdalauseke, jolla voidaan laskea luonnollisen luvun $n$ kertoma edellisen määritelmän hengessä. Oletetaan tunnetuksi lambdalauseke \textbf{PRED}, joka ottaa argumenttinaan Churchin numeraalin \textbf{N} ja palauttaa Churchin numeraalin \textbf{N - 1} jos \textbf{N} on vähintään 1, muulloin lausekkeen \textbf{0}. Määritellään
 \[ \textbf{FACT} \equiv \lambda f n. \textbf{IF } (\textbf{ISZERO } n) \textbf{ 1 } (\textbf{MUL } n (f (\textbf{PRED } n))) \]
-Nyt luvun $n$ kertoma voidaan laskea soveltamalla yllä annettua lauseketta \textbf{FACT} Curryn kiintopistelausekkeeseen. Lasketaan esimerkiksi luvun $2$ kertoma
+Nyt luvun $n$ kertoma voidaan laskea soveltamalla yllä annettua lauseketta \textbf{FACT} Curryn kiintopistelausekkeeseen. Seuraavassa esimerkissä on hahmotelma luvun 2 kertoman laskemiseksi käyttäen Curryn kiintopistelauseketta ja yllä annettua lauseketta \textbf{FACT}. Kuten huomataan, on yksinkertaisenkin rekursiivisen lausekkeen saattaminen normaalimuotoon varsin työlästä.  
 
+\begin{esim}
 \begin{align*}
 \textbf{Y FACT 2} &\equiv \textbf{Y }\lambda f n. \textbf{IF } (\textbf{ISZERO } n) \textbf{ 1 } (\textbf{MUL } n  (f (\textbf{PRED } n))) \textbf{ 2} \\
 &\twoheadrightarrow_{\beta} \textbf{FACT }( \textbf{Y } (\lambda f n. \textbf{IF } (\textbf{ISZERO } n ) \textbf{ 1 } (\textbf{MUL } n (f (\textbf{PRED } n))) ) \textbf{ 2} \\
@@ -137,10 +135,11 @@ Nyt luvun $n$ kertoma voidaan laskea soveltamalla yllä annettua lauseketta \tex
 &\vdots \\
 & \twoheadrightarrow_{\beta} \textbf{MUL 2 } (\textbf{MUL 1 } ( \textbf{FACT} (\textbf{Y FACT}) \textbf{0} ) ) \\
 &\vdots \\
-& \twoheadrightarrow_{\beta} \textbf{MUL 2 } (\textbf{MUL 1 } \textbf{1} )	
+& \twoheadrightarrow_{\beta} \textbf{MUL 2 } (\textbf{MUL 1 } \textbf{1} )
+&\vdots \\
+& \twoheadrightarrow_{\beta} \textbf{ 2 }
 \end{align*}
-%&\twoheadrightarrow_{\beta} \textbf{FACT } \textbf{Y } \lambda f n. \textbf{IF } (\textbf{ISZERO } n) \textbf{ 1 } (\textbf{MUL } %n (f (\textbf{PRED } n))) n \\
-%&\equiv asf
-%\end{esim}
+\end{esim}
+\par
 
 
