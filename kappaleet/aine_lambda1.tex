@@ -4,9 +4,9 @@
 
 Lambdalausekkeet koostuvat muuttujasymboleista, lambda-abstraktioista ja lambdalausekkeiden sovelluksista muille lambdalausekkeille.
 \par 
-Muuttujasymbolit ovat lamdalausekkeiden terminaalisymboleita, eräänlaisia lausekkeiden perusosia. Muuttajasymboleiden joukon valinnalla ei ole teorian kannalta merkitystä, kunhan symboleita on äärettömän monta ja ne voidaan erottaa toisistaan. Usein käytetään esimerkiksi ASCII-merkistön merkkijonoja.
+Muuttujasymbolit ovat lamdalausekkeiden terminaalisymboleita, eräänlaisia lausekkeiden perusosia. Muuttujasymboleiden joukon valinnalla ei ole teorian kannalta merkitystä, kunhan symboleita on äärettömän monta ja ne voidaan erottaa toisistaan. Usein käytetään esimerkiksi ASCII-merkistön merkkijonoja.
 \par
-Lambda-abstraktioiden ideana on toimia yksiparametristen funktioden syntaktisena mallina. Esimerkiksi identiteettifunktio voidaan ilmaista lambdalausekkeella 
+Lambda-abstraktioiden ideana on toimia yksiparametristen funktioiden syntaktisena mallina. Esimerkiksi identiteettifunktio voidaan ilmaista lambdalausekkeella: 
 \[ \underbrace{ \lambda x }_{ f(x) } \underbrace{ . }_{ = }  \underbrace{ x }_{x} \]
 Lambda-abstraktio koostuu muuttujasta ja rungosta. Muuttuja on lambda-merkin ja pisteen väliin jäävä symboli ja runko on pisteen oikealla puolella oleva lambdalauseke. 
 \par
@@ -21,12 +21,12 @@ Lambdalausekkeiden joukko $E$ määritellään rekursiivisesti:
 \[ \text{Jos } e_{1} \in E \text{ ja } e_{2} \in E, \text{ niin }  (e_{1} \; e_{2}) \in E \]
 \[ \text{Jos } x \in V \text{ ja } e \in E, \text{ niin } \lambda x.e \in E \]
 
-missä $V$ on ääretön joukko muuttujia. Muuttujia on tapana merkitä symboleilla $x, y,z...$ tai vaihtoehtoisesti $x_{1}, x_{2}, x_{3}...$ ja mielivaltaisia lambdalausekkeita puolestaan symboleilla $L, N, M ...$ tai vaihtoehtoisesti $e_{1}, e_{2}, e_{3}...$.  Lauseketta joka on muotoa $\lambda x.e$ kutsutaan lambda-abstraktioksi tai lyhyesti abstraktioksi. Lauseketta, joka on muotoa $(e_{1} \; e_{2})$ kutsutaan lausekkeen $e_{2}$ sovellukseksi $e_{1}$:lle tai lyhyesti sovellukseksi.
+missä $V$ on ääretön joukko muuttujia. Muuttujia on tapana merkitä symboleilla $x, y,z...$ tai vaihtoehtoisesti $x_{1}, x_{2}, x_{3}...$ ja mielivaltaisia lambdalausekkeita puolestaan symboleilla $L, N, M ...$ tai vaihtoehtoisesti $e_{1}, e_{2}, e_{3}...$.  Lauseketta, joka on muotoa $\lambda x.e$, kutsutaan lambda-abstraktioksi tai lyhyesti abstraktioksi. Lauseketta, joka on muotoa $(e_{1} \; e_{2})$, kutsutaan lausekkeen $e_{2}$ sovellukseksi $e_{1}$:lle tai lyhyesti sovellukseksi.
 \end{maar}
 
 Sovelluksille on tapana käyttää vasemmalta oikealle assosioivaa lyhennysmerkintää: 
 \[e_{1} e_{2} e_{3} \equiv ((e_{1} \; e_{2}) \; e_{3})\]
-Abstraktioille puolestaan käytetään seuraavaa oikealta vasemmalle assosiovaa lyhennysmerkintää, joka tunnetaan nimellä Curryn muunnos: 
+Abstraktioille puolestaan käytetään seuraavaa oikealta vasemmalle assosioivaa lyhennysmerkintää, joka tunnetaan nimellä Curryn muunnos: 
 \[ \lambda x_{1}x_{2}...x_{n}.e \equiv (\lambda x_{1} . ( \lambda x_{2} . ( \: ... \: ( \lambda x_{n} . e ))) \: ... \: ) \]
 
 \par
@@ -39,9 +39,9 @@ Esimerkiksi seuraavat ovat lambdalausekkeita:
 
 \par
 
-Kukin lambda-abstraktio sisältää täsmälleen yhden muuttujan, joten voi vaikuttaa siltä, että lambdalausekkeilla voidaan mallintaa vain yksiparametrisia funktiota. Tämä näennäinen ongelma ratkeaa varsin helposti, sillä lambda-abstraktion runko voi sisältää lambda-abstraktion. Esimerkiksi
+Kukin lambda-abstraktio sisältää täsmälleen yhden muuttujan, joten voi vaikuttaa siltä, että lambdalausekkeilla voidaan mallintaa vain yksiparametrisia funktioita. Tämä näennäinen ongelma ratkeaa varsin helposti, sillä lambda-abstraktion runko voi sisältää lambda-abstraktion. Esimerkiksi:
 \[ \lambda \underbrace{x}_{\text{muuttuja 1}} . ( \lambda \underbrace{y}_{\text{muuttuja 2}} . \underbrace{(x \; y)}_{\text{funktion runko}} ) \]
-Käyttämällä Curryn muunnosta edellisen lausekkeen yhteys kaksiparametriseen funktioon nähdään vieläkin helpommin
+Käyttämällä Curryn muunnosta edellisen lausekkeen yhteys kaksiparametriseen funktioon nähdään vieläkin helpommin:
 \[ \lambda \underbrace{xy}_{\text{f(x,y)}} \underbrace{.}_{=} \underbrace{xy}_{\text{funktion runko}}  \]
 %Lambdalausekkeita reduktiosääntöjen kannalta tärkeitä käsitteitä ovat lambdalausekkeiden vapaat ja sidotut muuttujat sekä %substituutiosäännöt. Lambdalausekkeiden vapaat muuttujat ovat intuitiivisesti hyvin samanlaisia kuin ohjelmointikielissä yleensäkin: %muuttujien sidonnat vaikuttavat lausekehierarkiassa ylhäältä alaspäin ja hierarkiassa alempana sijaitsevat sidonnat sitovat vahvemmin kuin %hierarkiassa ylempänä sijaitsevat sidonnat.   
 
@@ -49,16 +49,18 @@ Käyttämällä Curryn muunnosta edellisen lausekkeen yhteys kaksiparametriseen 
 
 Lambdalausekkeen vapailla muuttujilla tarkoitetaan sellaisia lausekkeessa esiintyviä muuttujia, jotka eivät esiinny lausekkeessa lambda-abstraktion muuttujaosana~\cite[s.~8]{Hudak89}. Muuttujien jaottelu vapaisiin ja sidottuihin on olennaista myöhemmin määriteltävien reduktiosääntöjen kannalta. Lambdalausekkeiden vapaat ja sidotut muuttujat ovat käsitteellisesti hyvin läheistä sukua aliohjelmien vapaille ja sidotuille muuttujille, sillä lambda-abstraktion muuttujaosa voidaan perustellusti samastaa aliohjelman argumenttilistaan.
 
-\begin{maar}[Vapaat ja sidutut muuttujat]
-Lambdalausekkeen $e$ vapaat muuttujat, joita merkitään $fv(e)$, ovat: 
-\[fv(x) = \{x\}\ \text{ jos } x \text{ on muuttuja} \]
-\[fv(e_{1}e_{2}) = fv(e_{1}) \cup fv(e_{2}) \]
-\[ fv(\lambda x.e) = fv(e) - \{x\} \]
-Siis muuttuja $x$ on vapaa lambdalausekkeessa $e$ jos $x \in fv(e)$, muuten $x$ on sidottu lambdalausekkeessa $e$.
+\begin{maar}[Vapaat ja sidotut muuttujat]
+Lambdalausekkeen $e$ vapaat muuttujat, joita merkitään $fv(e)$, ovat:
+\begin{align*} 
+fv(x) &= \{x\}\ \text{ jos } x \text{ on muuttuja} \\
+fv(e_{1}e_{2}) &= fv(e_{1}) \cup fv(e_{2}) \\
+fv(\lambda x.e) &= fv(e) - \{x\}
+\end{align*}
+Muuttuja $x$ on vapaa lambdalausekkeessa $e$, jos $x \in fv(e)$. Muuten $x$ on sidottu lambdalausekkeessa $e$.
 \end{maar} 
 
 \subsection{Substituutiosäännöt}
-Jotta lambdalausekkeiden reduktiosäännöt voidaan määritellä, tarvitaan avuksi vielä seuraavat substituutiosäännöt ~\cite[s.~8]{Hudak89}. Substituutiosäännöt kuvaavat nimensä mukaisesti sitä, miten lambdalausekkeiden muuttujia voidaan korvata muilla lambdalausekkeilla kun lambda-abstraktioon kohdistuu sovellus.
+Jotta lambdalausekkeiden reduktiosäännöt voidaan määritellä, tarvitaan avuksi vielä seuraavat substituutiosäännöt ~\cite[s.~8]{Hudak89}. Substituutiosäännöt kuvaavat nimensä mukaisesti sitä, miten lambdalausekkeiden muuttujia voidaan korvata muilla lambdalausekkeilla, kun lambda-abstraktioon kohdistuu sovellus.
 \par
 Tarkastellaan seuraavanlaista sovelluslauseketta:
 \[ (\lambda yx . yx) x \]
@@ -67,15 +69,15 @@ Tavoitteena on määritellä substituutiosäännöt siten, että sovelluksen koh
 	(\lambda yx . y \; x) x  \rightarrow_{\text{tekstisubstituutio}} \label{eq:1} \tag{\textbf{1}}
 	\lambda x . x \; x
 \]
-Substituutiosäännöt haluttaisiin kuitenkin määritellä siten, että lambda-abstraktion muuttujaosan nimellä ei ole merkitystä substituution lopputuloksen kannalta. Jos kohdassa \eqref{eq:1} sovelluksen kohteena olevan lausekkeen muuttujaosa olisi nimetty toisin, esimerkiksi
+Substituutiosäännöt haluttaisiin kuitenkin määritellä siten, että lambda-abstraktion muuttujaosan nimellä ei ole merkitystä substituution lopputuloksen kannalta. Jos kohdassa \eqref{eq:1} sovelluksen kohteena olevan lausekkeen muuttujaosa olisi nimetty toisin, esimerkiksi:
 \[  (\lambda yz . y \; z)  \]
-niin tällöin tekstisubstituutio olisi tuottanut rakenteeltaan varsin erityyppiseen lausekkeeseen:
+niin tällöin tekstisubstituutio olisi johtanut rakenteeltaan varsin erityyppiseen lausekkeeseen:
 \[  
 	(\lambda yz . y \; z) x  \rightarrow_{\text{tekstisubstituutio}} \label{eq:2} \tag{\textbf{2}}
 	\lambda z . x \; z
 \]
 Tapauksessa \eqref{eq:1} lausekkeella ei substituution jälkeen ole vapaita muuttujia, mutta tapauksessa \eqref{eq:2} lausekkeella on substituution jälkeen vapaa muuttuja $x$.
-Näiden naiiviin tekstisubstituutioon liittyviin ongelmien ratkaisemiseksi määritellään seuraavat substituutiosäännöt,joiden tarkoituksena on ratkaista vapaiden ja sidottujen muuttujien yhteentörmäykseen liittyvät ongelmat substituutioissa.
+Näiden naiiviin tekstisubstituutioon liittyvien ongelmien ratkaisemiseksi määritellään seuraavat substituutiosäännöt, joiden tarkoituksena on ratkaista vapaiden ja sidottujen muuttujien yhteentörmäykseen liittyvät ongelmat substituutioissa.
 
 \begin{maar}[substituutiosäännöt]
 Olkoon $e$ lambdalauseke ja $x$ muuttuja. Muuttujan $x$ substituutiota lambdalausekkeella $e$ lambdalausekkeessa $e_{1}$ merkitään $[e/x] e_{1}$ ja se määritellään rekursiivisesti lausekkeen $e_{1}$ rakenteen suhteen:  
@@ -115,7 +117,7 @@ Olkoon $e$ lambdalauseke ja $x$ muuttuja. Muuttujan $x$ substituutiota lambdalau
 
 \end{maar} 
 
-Määritelmän olennaisin sisältö on se, että substituution kohteena olevan lambdalausekkeen sidotut muuttujat tulee uudelleennimetä enen sijoituksen tekemistä siinä tapauksessa että substituution suorittaminen muuttaisi substituution kohteena olevan lausekkeen tai sijoitettavan lausekkeen vapaita muuttujia sidotuiksi. Esimerkiksi edellä käsiteltyyn sovellukseen $(\lambda yx . y \; x) x$ liittyvät ongelmat ratkeavat seuraavalla tavalla substituutiosääntöjen avulla:
+Määritelmän olennaisin sisältö on se, että substituution kohteena olevan lambdalausekkeen sidotut muuttujat tulee uudelleennimetä ennen sijoituksen tekemistä siinä tapauksessa, että substituution suorittaminen muuttaisi substituution kohteena olevan lausekkeen tai sijoitettavan lausekkeen vapaita muuttujia sidotuiksi. Esimerkiksi edellä käsiteltyyn sovellukseen $(\lambda yx . y \; x) x$ liittyvät ongelmat ratkeavat seuraavalla tavalla substituutiosääntöjen avulla:
 
 %\[ [\lambda x . x / y]((\lambda x . yx)  \stackrel{\eqref{eq:S3}}{=} \\ 
 %	\lambda z . [\lambda x . x / y](yz) \stackrel{\eqref{eq:S2}}{=} \\

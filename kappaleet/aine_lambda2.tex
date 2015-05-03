@@ -1,18 +1,18 @@
 \section{Reduktiosäännöt ja yhtäsuuruus}
 
 \subsection{Reduktiosäännöt}
-Lambdalausekkeiden kiinnostavimpia piirteitä lienee, että niille voidaan muotoilla varsin yksinkertaiset laskusäännöt, jotka kuitenkin riittävät tekemään lambdakalkyylista Turing-täydellisen~\cite[liite]{Turing36}.  
+Lambdalausekkeiden kiinnostavimpia piirteitä lienee se, että niille voidaan muotoilla varsin yksinkertaiset laskusäännöt, jotka kuitenkin riittävät tekemään lambdakalkyylista Turing-täydellisen~\cite[liite]{Turing36}.  
 \par
-Kuten jo edellä mainittiin, voidaan lambda-abstraktio samastaa anonyymin funktion kanssa. On luontevaa ajatella, että lambdalausekkeen $M$ sovellus lambda-abstraktiolle $\lambda x . N$ vastaa abstraktin funktion $\lambda x . N$ arvoa argumentilla $M$. Tällöin reduktiosäännöt voidaan ymmärtää näiden anonyymien funktioden sievennyssäännöiksi.
+Kuten jo edellä mainittiin, voidaan lambda-abstraktio samastaa anonyymin funktion kanssa. On luontevaa ajatella, että lambdalausekkeen $M$ sovellus lambda-abstraktiolle $\lambda x . N$ vastaa abstraktin funktion $\lambda x . N$ arvoa argumentilla $M$. Tällöin reduktiosäännöt voidaan ymmärtää näiden anonyymien funktioiden sievennyssäännöiksi.
 \par
-Määritellään seuraavaksi lambdalausekkeiden reduktiosäännöt~\cite[s.~9]{Hudak89}. Reduktiosäännöt kertovat miten lambdalausekkeita voidaan sieventää muuttamatta niiden arvoa. Beta-reduktio ilmaisee miten lambda-abstraktiosta ja mielivaltaisesta lambdalausekkeesta koostuvaa sovellusta voidaan sieventää. Eta-reduktiota puolestaan ilmaisee sen, että jos lambda-abstraktio ei tee muuta kuin soveltaa muuttujaansa lambdalausekkeeseen $e$, niin abstraktion arvo on sama kuin lausekkeen $e$.    
+Määritellään seuraavaksi lambdalausekkeiden reduktiosäännöt~\cite[s.~9]{Hudak89}. Reduktiosäännöt kertovat, miten lambdalausekkeita voidaan sieventää muuttamatta niiden arvoa. Beta-reduktio ilmaisee, miten lambda-abstraktiosta ja mielivaltaisesta lambdalausekkeesta koostuvaa sovellusta voidaan sieventää. Eta-reduktiota puolestaan ilmaisee sen, että jos lambda-abstraktio ei tee muuta kuin soveltaa muuttujaansa lambdalausekkeeseen $e$, niin abstraktion arvo on sama kuin lausekkeen $e$.    
 
 \begin{maar}[reduktiosäännöt]	
-	%\begin{enumerate}		
-\[\beta \text{-reduktio: } \; (\lambda x.e )\; e_{1} \rightarrow_{\beta} [e_{1} / x]e \]
-\[\eta \text{-reduktios: } \; \lambda x.(e \; x) \rightarrow_{\eta} e \text{ jos } x \notin fv(e) \]	
-	%\end{enumerate}
-Jos $\beta$-reduktion toistuva soveltaminen lausekkeen $N$ alilausekkeisiin tuottaa lausekkeen $M$, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{beta-reduktio} ja merkitään $N  \twoheadrightarrow_{\beta} M$. Vastaavasti Jos $\eta$-reduktion toistuva soveltaminen lausekkeen $N$ alilausekkeisiin tuottaa lausekkeen $M$, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{eta-reduktio} ja merkitään $N  \twoheadrightarrow_{\eta} M$. Lisäksi, jos lauseke $M$ saadaan lausekkeesta $N$ soveltamalla sen alilausekkeisiin toistuvasti eta- tai beta-reduktiota, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{reduktio} ja merkitään $N  \twoheadrightarrow M$        
+\begin{align*}			
+\beta \text{-reduktio: }& \; (\lambda x.e )\; e_{1} \rightarrow_{\beta} [e_{1} / x]e \\
+\eta \text{-reduktio: }& \; \lambda x.(e \; x) \rightarrow_{\eta} e \text{ jos } x \notin fv(e)
+\end{align*}
+Jos $\beta$-reduktion toistuva soveltaminen lausekkeen $N$ alilausekkeisiin tuottaa lausekkeen $M$, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{beta-reduktio} ja merkitään $N  \twoheadrightarrow_{\beta} M$. Vastaavasti, jos $\eta$-reduktion toistuva soveltaminen lausekkeen $N$ alilausekkeisiin tuottaa lausekkeen $M$, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{eta-reduktio} ja merkitään $N  \twoheadrightarrow_{\eta} M$. Lisäksi, jos lauseke $M$ saadaan lausekkeesta $N$ soveltamalla sen alilausekkeisiin toistuvasti eta- tai beta-reduktiota, niin sanotaan, että $M$ on lausekkeen $N$ \textbf{reduktio} ja merkitään $N  \twoheadrightarrow M$        .
 \end{maar}
 
 %\begin{esim}[$\beta$-reduktio]
@@ -23,31 +23,25 @@ Jos $\beta$-reduktion toistuva soveltaminen lausekkeen $N$ alilausekkeisiin tuot
 
 \subsection{Lausekkeiden yhtäsuuruus}
 
-Seuraavaksi esiteltävät relaatiot~\cite[s.~23--24]{HBEB2000} karakterisoivat lambdalausekkeiden arvojen yhtäsuuruuden ja niiden ideana on toimia yksinkertaisina sääntöinä, joiden avulla voidaan päätellä ovatko kaksi lambdalauseketta arvoiltaan yhtäsuuret.
+Seuraavaksi esiteltävät relaatiot~\cite[s.~23--24]{HBEB2000} karakterisoivat lambdalausekkeiden arvojen yhtäsuuruuden ja niiden ideana on toimia yksinkertaisina sääntöinä, joiden avulla voidaan päätellä, ovatko kaksi lambdalauseketta arvoiltaan yhtäsuuret.
 \par
 Intuitiivisesti on selvää, että jos kaksi lauseketta voidaan sieventää samaan muotoon, niin lausekkeilla on sama arvo. Lausekkeiden yhtäsuuruus määritelläänkin pitkälti edellä annettujen sievennyssääntöjen avulla. Lisäksi halutaan, että kaksi lambdalauseketta ovat yhtä suuret, jos ne eroavat toisistaan vain sidottujen muuttujiensa nimien suhteen.  
 \par
-Kaksi lambdalauseketta ovat alfa-ekvivalentit, mikäli ne ne eroavat toisistaan ainoastaan sidottujen muuttijiensa nimien suhteen. Kaksi lauseketta ovat beta- tai eta-ekvivalentit jos toinen niistä saadaan toisesta käyttämällä beta- tai eta-reduktiota.
+Kaksi lambdalauseketta ovat alfa-ekvivalentit, mikäli ne eroavat toisistaan ainoastaan sidottujen muuttujiensa nimien suhteen. Kaksi lauseketta ovat beta- tai eta-ekvivalentit, jos toinen niistä saadaan toisesta käyttämällä beta- tai eta-reduktiota.
 
 \begin{maar}[lambdalausekkeiden arvojen yhtäsuuruus]
 	%\begin{enumerate}
 		 
-\[ 
-	\alpha \text{-ekvivalenssi: } \; \lambda x.e =_{\alpha} \lambda x_{i}.		[x/x_{i}]e \text{,  } \forall x_{i} \notin fv(e) 
-\]
-\[ 
-	\beta \text{-ekvivalenssi: } \; N =_{\beta} M \text{ jos ja vain jos } N 		\twoheadrightarrow_{\beta} M \text{ tai }
-	M \twoheadrightarrow_{\beta} N 
-\]
-\[ 
-	\eta \text{-ekvivalenssi: } \; N =_{\eta} M \text{ jos ja vain jos } N 		\twoheadrightarrow_{\eta} M \text{ tai }
-	M \twoheadrightarrow_{\eta} N 
-\]
+\begin{align*}
+\alpha \text{-ekvivalenssi: }& \; \lambda x.e =_{\alpha} \lambda x_{i}.		[x/x_{i}]e \text{,  } \forall x_{i} \notin fv(e) \\ 
+\beta \text{-ekvivalenssi: }& \; N =_{\beta} M \text{ jos ja vain jos } N 		\twoheadrightarrow_{\beta} M \text{ tai } M \twoheadrightarrow_{\beta} N \\
+\eta \text{-ekvivalenssi: }& \; N =_{\eta} M \text{ jos ja vain jos } N 		\twoheadrightarrow_{\eta} M \text{ tai } M \twoheadrightarrow_{\eta} N 
+\end{align*}
 	%\end{enumerate}
-Lambdalausekkeet $N$ ja $M$ ovat arvoltaan yhtäsuuret, mikäli	on olemassa lambdalauseke $L$ siten että $N$ ja $L$ ovat keskenään alfa- beta- tai eta-ekvivalenttit ja $M$ ja $L$ ovat keskenään alfa-, beta- tai eta-ekvivalentit.	
+Lambdalausekkeet $N$ ja $M$ ovat arvoiltaan yhtäsuuret, mikäli	on olemassa lambdalauseke $L$ siten, että $N$ ja $L$ ovat keskenään alfa- beta- tai eta-ekvivalentit ja $M$ ja $L$ ovat keskenään alfa-, beta- tai eta-ekvivalentit.	
 \end{maar}
 
-Intuitiivisesti edellinen määritelmä tarkoittaa, että kaksi lambdalauseketta ovat arvoiltaan yhtäsuuret, mikäli on olemassa lauseke, joka voidaan johtaa molemmista lausekkeista käyttäen eta- ja beta-reduktiota sekä uudelleennimeämällä sidottuja muuttujia. 
+Intuitiivisesti edellinen määritelmä tarkoittaa sitä, että kaksi lambdalauseketta ovat arvoiltaan yhtäsuuret, mikäli on olemassa lauseke, joka voidaan johtaa molemmista lausekkeista käyttäen eta- ja beta-reduktiota sekä uudelleennimeämällä sidottuja muuttujia. 
 
 %\par
 
