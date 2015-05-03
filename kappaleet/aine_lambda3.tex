@@ -6,15 +6,15 @@ Edellä määriteltiin, millaiset muunnokset säilyttävät lambdalausekkeen arv
 \]
 mutta 
 \[ 18 + 5 \; \cancel{\rightarrow} \; (\lambda x. 3 * x + 5) 6 \]
-toisinsanottuna laskennalla tulisi olla tietty suunta ja laskennalla tulisi olla yksikäsitteinen päätepiste aina kun laskenta päättyy. Lambdalausekkeen laskennan päätepistettä kutsutaan lausekkeen normaalimuodoksi ja se määritellään seuraavasti~\cite[s.~9]{Hudak89}: 
+Toisin sanottuna laskennalla tulisi olla tietty suunta ja laskennalla tulisi olla yksikäsitteinen päätepiste aina kun laskenta päättyy. Lambdalausekkeen laskennan päätepistettä kutsutaan lausekkeen normaalimuodoksi ja se määritellään seuraavasti~\cite[s.~9]{Hudak89}: 
 
 \begin{maar}[normaalimuoto]
-Lambdalauseke $L$ on normaalimuodossa, jos mihinkään sen alilausekkeista ei voida soveltaa $\beta$- tai $eta$-reduktiota ja jonka sidotuttujen muuttujien nimet ovat aakkosjärjestyksessä vasemmalta oikealle.  
+Lambdalauseke $L$ on normaalimuodossa, jos mihinkään sen alilausekkeista ei voida soveltaa $\beta$- tai $\eta$-reduktiota ja sen sidotuttujen muuttujien nimet ovat aakkosjärjestyksessä vasemmalta oikealle ja lausekkeen vasemmanpuolisin sidottu muuttuja on aakkosjärjestyksessä seuraavana lausekkeen aakkosjärjestyksissä suurimman vapaan muuttujan jälkeen.  
 \end{maar}
 
-Yleensä sidottujen muuttujien uudelleennimeämistä ei ole tapana kirjoittaa auki, vaan ajatellaan, että lauseke on normaalimuodossa, kunhan sen alilausekkeisiin ei voida soveltaa $\beta$- tai $\eta$-reduktiota. Tällöin sidottujen muuttujien uudelleennimeäminen normaalimuodon vaatimalla tavalla on varsin suoraviivaista käyttäen $\alpha$-muunnosta.
+Usein sidottujen muuttujien uudelleennimeämistä ei ole tapana kirjoittaa auki, vaan lauseke johdetaan "normaalimuotoon modulo $\alpha$-muunnos", eli muotoon, jossa sen alilausekkeisiin ei voida soveltaa $\beta$- tai $\eta$-reduktiota. Tällöin sidottujen muuttujien uudelleennimeäminen normaalimuodon vaatimalla tavalla on varsin suoraviivaista.
 \par
-Lambdalausekkeiden evaluointi on siis lausekkeen johtamista normaalimuotoon, käyttäen $\beta$- ja $\eta$-reduktioita ja $\alpha$-muunnosta (sidottujen muuttujien uudelleennimeäminen) sen alilausekkeisiin. Erilaisia tapoja tämän tekemiseksi kutsutaan evaluontiostrategioiksi. Tyypillisiä evaluointiostrategiota ovat sovellusjärjestysevaluointi (\textit{applicative-order evaluation}) ja normaalijärjestysevaluointi (\textit{normal-order evaluation)}.
+Lambdalausekkeiden evaluointi on siis lausekkeen johtamista normaalimuotoon, käyttäen $\beta$- ja $\eta$-reduktioita ja $\alpha$-muunnosta (sidottujen muuttujien uudelleennimeäminen) sen alilausekkeisiin. Erilaisia tapoja tämän tekemiseksi kutsutaan evaluontiostrategioiksi. Tyypillisiä evaluointiostrategiota ovat sovellusjärjestysevaluointi (\textit{applicative-order evaluation}) ja normaalijärjestysevaluointi~\cite[s.~ 10]{Hudak89} (\textit{normal-order evaluation)}.
 
 \begin{alg}[sovellusjärjestysevaluointi] 
 Lambdalausekkeen $L$ sovellusjärjestysevaluointi on evaluointistrategia, jossa redusoidaan aina lausekkeen $L$ (sulkujen mukaan) sisimmäista vasemmanpuolisinta alilauseketta, joka ei ole normaalimuodossa.
@@ -27,21 +27,21 @@ Lambdalausekkeen $L$ normaalijärjestysevaluointi on evaluointistrategia, jossa 
 \begin{esim}
 Tarkastellaan, mitä tapahtuu lausekkeelle $(\lambda x . y) ((\lambda x . xx) (\lambda x . xx))$, kun siihen sovellataan eri evaluointistrategioita. Huomataan aluksi, että  
 \[ (\lambda x . xx) (\lambda x . xx) \rightarrow_{\beta} (\lambda x . xx) (\lambda x . xx) \]
-siten normaalijärjestysevaluoinilla:
-\[ (\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow y \]
+siten normaalijärjestysevaluoinnilla:
+\[ (\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \rightarrow_{\beta} y \]
 mutta sovellusjärjestysevaluoinnilla:
-\[  (\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow
-	(\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow
-	(\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \Longrightarrow \ldots \]
+\[  (\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \rightarrow_{\beta}
+	(\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \rightarrow_{\beta}
+	(\lambda x . y) ((\lambda x . xx) (\lambda x . xx)) \rightarrow_{\beta} \ldots \]
 Sovellusjärjestysevaluointi ei siis tässä tapauksessa koskaan löydä lausekkeen normaalimuotoa. Tämän esimerkin perusteella evaluointistrategian valinnalla on merkitystä sen kannalta päättyykö laskenta vai ei. 
 \end{esim}
 \par
 Seuraavat lambdalausekkeiden normaalimuotoa koskevat tärkeät tulokset tunnetaan Churchin-Rosserin teoreemina: 
 \begin{lau}[Churchin-Rosserin teoreemat]
-\begin{enumerate} $ $\newline
+\begin{enumerate} $ $ %\newline
 	\item Kullakin lambdalausekkeella on korkeintaan yksi normaalimuoto.
 	\item Jos lausekkeella on normaalimuoto, niin normaalijärjestysevaluointi löytää sen. 
 \end{enumerate}
 \end{lau}
 \par
-Churchin-Rossierin teoreemien todistuksia lyötyy alan kirjallisuudesta lukuisia, esimerkiksi Henk Barendregtin ja Erik Barendsenin luentomateriaalista \textit{Introduction to Lambda Calculus}~\cite[s.~23--30]{HBEB2000}. Churchin-Rossierin teoreema 1. takaa, että lambdalausekkeiden laskenta on ristiriidatonta: mikään laskenta ei voi johtaa kahteen eri lopputulokseen. Toisaalta teoreema 2. takaa, että mikä tahansa lauseke, joka on mahdollista evaluoida, voidaan evaluoida käyttämällä normaalijärjestysevaluointia.
+Churchin-Rosserin teoreemien todistuksia lyötyy alan kirjallisuudesta lukuisia, esimerkiksi Henk Barendregtin ja Erik Barendsenin luentomateriaalista \textit{Introduction to Lambda Calculus}~\cite[s.~23--30]{HBEB2000}. Churchin-Rosserin teoreema 1 takaa, että lambdalausekkeiden laskenta on ristiriidatonta: mikään laskenta ei voi johtaa kahteen eri lopputulokseen. Toisaalta teoreema 2 takaa, että mikä tahansa lauseke, joka on mahdollista evaluoida, voidaan evaluoida käyttämällä normaalijärjestysevaluointia.

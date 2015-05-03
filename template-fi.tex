@@ -79,19 +79,21 @@
 \author{Jiri Hamberg}
 \date{\today}
 %\level{Seminaariraportti}
-%\level{Kandidaatintutkielma}
+\level{Kandidaatintutkielma}
 
-\abstract{Tarkastellaan lambdalausekkeita matemaattisen logiikan formaalina järjestelmänä sekä laskennan mallina. Määritellään lausekkeille reduktiosäännöt ja ekvivalenssirelaatiot ja esitellään Churchin-Rosserin teoreemat. Lopuksi näytetään miten edellä kuvatut käsitteet soveltuvat kokonaislukuaritmetiikan mallintamiseen.}
+%\abstract{Tarkastellaan lambdalausekkeita matemaattisen logiikan formaalina järjestelmänä sekä laskennan mallina. Määritellään lausekkeille reduktiosäännöt ja ekvivalenssirelaatiot ja esitellään Churchin-Rosserin teoreemat. Lopuksi näytetään miten edellä kuvatut käsitteet soveltuvat kokonaislukuaritmetiikan mallintamiseen.}
+
+\abstract{Lambdakalkyyli on laskennan malli, johon funktionaalinen ohjelmointiparadigma perustuu. Lambdakalkyylissa laskenta esitetään rakenteisten lambdalausekkeiden sekä näille määriteltävien reduktiosääntöjen avulla. Lambdakalkyyli voidaan nähdä myös yksinkertaisena funktionaalisena ohjelmointikielenä, jonka avulla voidaan määritellä esimerkiksi kokonaislukujen aritmetiikka sekä kontrollinohjausrakenteita, mukaanlukien rekursio.}
 
 % The following can be used to specify keywords and classification of the paper:
 
-\keywords{lambda calculus }
+\keywords{ lambda calculus, functional programming }
 
 % classification according to ACM Computing Classification System (http://www.acm.org/about/class/)
 % This is probably mostly relevant for computer scientists
 % uncomment the following; contents of \classification will be printed under the abstract with a title
 % "ACM Computing Classification System (CCS):"
-% \classification{}
+\classification{Lambda calculus}
 
 % If the automatic page number counting is not working as desired in your case,
 % uncomment the following to manually set the number of pages displayed in the abstract page:
@@ -103,7 +105,7 @@
 %
 % \faculty{Matemaattis-luonnontieteellinen}
 \department{Tietojenkäsittelytieteen laitos}
-% \subject{Tietojenkäsittelytiede}
+\subject{Tietojenkäsittelytiede}
 %
 % If you are not from the University of Helsinki, then you will most likely want to set these also:
 %
@@ -132,17 +134,27 @@
 
 \mainmatter       % clear page, start arabic page numbering
 
+\titlespacing{\section}{0pt}{*20}{*1.5}
+
 %\section{Esimerkkiluku}
 
 % Write some science here.
 
 %Esimerkkilause ja lähdeviite~\cite{esimerkki}.
-\include{kappaleet/aine_johdanto}
-\include{kappaleet/aine_lambda1}
-\include{kappaleet/aine_lambda2}
-\include{kappaleet/aine_lambda3}
-\include{kappaleet/aine_lambda4}
-\include{kappaleet/aine_yhteenveto}
+%\include{kappaleet/aine_johdanto}
+%\include{kappaleet/aine_lambda1}
+%\include{kappaleet/aine_lambda2}
+%\include{kappaleet/aine_lambda3}
+%\include{kappaleet/aine_lambda4}
+%\include{kappaleet/aine_yhteenveto}
+\input{kappaleet/aine_johdanto}
+\input{kappaleet/aine_lambda1}
+\input{kappaleet/aine_lambda2}
+\input{kappaleet/aine_lambda3}
+\pagebreak
+\input{kappaleet/aine_lambda4}
+\input{kappaleet/aine_yhteenveto}
+
 
 % --- References ---
 %

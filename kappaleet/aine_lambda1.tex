@@ -2,7 +2,7 @@
 
 \subsection{Lambdalausekkeet}
 
-Lambdalausekkeet koostuvat muuttujasymboleista, lambda-abstraktioista ja lambdalausekkeen sovelluksista muille lambdalausekkeelle.
+Lambdalausekkeet koostuvat muuttujasymboleista, lambda-abstraktioista ja lambdalausekkeiden sovelluksista muille lambdalausekkeille.
 \par 
 Muuttujasymbolit ovat lamdalausekkeiden terminaalisymboleita, eräänlaisia lausekkeiden perusosia. Muuttajasymboleiden joukon valinnalla ei ole teorian kannalta merkitystä, kunhan symboleita on äärettömän monta ja ne voidaan erottaa toisistaan. Usein käytetään esimerkiksi ASCII-merkistön merkkijonoja.
 \par
@@ -26,7 +26,7 @@ missä $V$ on ääretön joukko muuttujia. Muuttujia on tapana merkitä symbolei
 
 Sovelluksille on tapana käyttää vasemmalta oikealle assosioivaa lyhennysmerkintää: 
 \[e_{1} e_{2} e_{3} \equiv ((e_{1} \; e_{2}) \; e_{3})\]
-Abstraktioille puolestaan käytetään seuraavaa oikealta vasemmalle assosiovaa lyhennysmerkintää: 
+Abstraktioille puolestaan käytetään seuraavaa oikealta vasemmalle assosiovaa lyhennysmerkintää, joka tunnetaan nimellä Curryn muunnos: 
 \[ \lambda x_{1}x_{2}...x_{n}.e \equiv (\lambda x_{1} . ( \lambda x_{2} . ( \: ... \: ( \lambda x_{n} . e ))) \: ... \: ) \]
 
 \par
@@ -37,6 +37,12 @@ Esimerkiksi seuraavat ovat lambdalausekkeita:
 \[ \lambda x . xyz \]
 \[ (\lambda xy . xyx) z \]
 
+\par
+
+Kukin lambda-abstraktio sisältää täsmälleen yhden muuttujan, joten voi vaikuttaa siltä, että lambdalausekkeilla voidaan mallintaa vain yksiparametrisia funktiota. Tämä näennäinen ongelma ratkeaa varsin helposti, sillä lambda-abstraktion runko voi sisältää lambda-abstraktion. Esimerkiksi
+\[ \lambda \underbrace{x}_{\text{muuttuja 1}} . ( \lambda \underbrace{y}_{\text{muuttuja 2}} . \underbrace{(x \; y)}_{\text{funktion runko}} ) \]
+Käyttämällä Curryn muunnosta edellisen lausekkeen yhteys kaksiparametriseen funktioon nähdään vieläkin helpommin
+\[ \lambda \underbrace{xy}_{\text{f(x,y)}} \underbrace{.}_{=} \underbrace{xy}_{\text{funktion runko}}  \]
 %Lambdalausekkeita reduktiosääntöjen kannalta tärkeitä käsitteitä ovat lambdalausekkeiden vapaat ja sidotut muuttujat sekä %substituutiosäännöt. Lambdalausekkeiden vapaat muuttujat ovat intuitiivisesti hyvin samanlaisia kuin ohjelmointikielissä yleensäkin: %muuttujien sidonnat vaikuttavat lausekehierarkiassa ylhäältä alaspäin ja hierarkiassa alempana sijaitsevat sidonnat sitovat vahvemmin kuin %hierarkiassa ylempänä sijaitsevat sidonnat.   
 
 \subsection{Vapaat muuttujat}
@@ -58,37 +64,55 @@ Tarkastellaan seuraavanlaista sovelluslauseketta:
 \[ (\lambda yx . yx) x \]
 Tavoitteena on määritellä substituutiosäännöt siten, että sovelluksen kohteena olevan lausekkeen muuttujaosan ilmentymät korvataan sovellettavalla lausekkeella. Tarkastellaan mitä ongelmia liittyy yksinkertaiseen tekstisubstituutioon yllä olevan lausekkeen tapauksessa.
 \[  
-	(\lambda yx . y \; x) x  \Longrightarrow_{\text{tekstisubstituutio}}
+	(\lambda yx . y \; x) x  \rightarrow_{\text{tekstisubstituutio}} \label{eq:1} \tag{\textbf{1}}
 	\lambda x . x \; x
 \]
-Substituutiosäännöt haluttaisiin kuitenkin määritellä siten, että lambda-abstraktion muuttujaosan nimellä ei ole merkitystä. Jos sovelluksen kohteena oleva lauseke olisi ollut muotoa
-\[  (\lambda yz . y \; z)  \],
-niin tällöin tekstisubstituutio olisi johtanut rakenteeltaan varsin erityyppiseen lausekkeeseen:
+Substituutiosäännöt haluttaisiin kuitenkin määritellä siten, että lambda-abstraktion muuttujaosan nimellä ei ole merkitystä substituution lopputuloksen kannalta. Jos kohdassa \eqref{eq:1} sovelluksen kohteena olevan lausekkeen muuttujaosa olisi nimetty toisin, esimerkiksi
+\[  (\lambda yz . y \; z)  \]
+niin tällöin tekstisubstituutio olisi tuottanut rakenteeltaan varsin erityyppiseen lausekkeeseen:
 \[  
-	(\lambda yz . y \; z) x  \Longrightarrow_{\text{tekstisubstituutio}}
+	(\lambda yz . y \; z) x  \rightarrow_{\text{tekstisubstituutio}} \label{eq:2} \tag{\textbf{2}}
 	\lambda z . x \; z
 \]
-Näiden naiviin tekstisubstituutioon liittyviin ongelmien ratkaisemiseksi määritellään seuraavat substituutiosäännöt, joiden tarkoituksena on ratkaista vapaiden ja sidottujen muuttujien yhteentörmäykseen liittyvät ongelmat.
+Tapauksessa \eqref{eq:1} lausekkeella ei substituution jälkeen ole vapaita muuttujia, mutta tapauksessa \eqref{eq:2} lausekkeella on substituution jälkeen vapaa muuttuja $x$.
+Näiden naiiviin tekstisubstituutioon liittyviin ongelmien ratkaisemiseksi määritellään seuraavat substituutiosäännöt,joiden tarkoituksena on ratkaista vapaiden ja sidottujen muuttujien yhteentörmäykseen liittyvät ongelmat substituutioissa.
 
 \begin{maar}[substituutiosäännöt]
-Olkoon $e$ lambdalauseke ja $x$ muuttuja. Muuttujan $x$ substituutiota lambdalausekkeella $e$ lambdalausekkeessa $e_{1}$ merkitään $[e/x] e_{1}$ ja se määritellään rekursiivisesti:  
+Olkoon $e$ lambdalauseke ja $x$ muuttuja. Muuttujan $x$ substituutiota lambdalausekkeella $e$ lambdalausekkeessa $e_{1}$ merkitään $[e/x] e_{1}$ ja se määritellään rekursiivisesti lausekkeen $e_{1}$ rakenteen suhteen:  
 
-\[[e/x]x_{1} = 
+%\[[e/x]x_{1} = 
+%        \begin{cases}
+%                e & \text{jos } x = x_{1} \\
+%                x_{1} & \text{muulloin}
+%        \end{cases}
+%        \label{eq:S1} \tag{\textbf{S1}}
+%\]
+%\[ [e/x](e_{1} \; e_{2}) = ([e/x]e_{1} \; [e/x]e_{2}) \label{eq:S2} \tag{\textbf{S2}}\]
+%\[[e/x](\lambda x_{1}.e_{1}) = 
+%        \begin{cases}
+%                \lambda x_{1}.e_{1} & \text{jos } x = x_{1} \\
+%                \lambda x_{1}.[e/x]e_{1} & \text{ jos } x \neq x_{1} \text{ ja } x_{1} \notin fv(e) \\
+%                \lambda x_{i}.[e/x]([x_{i}/x_{1}]e_{1}) & \text{muulloin, missä } x_{i} \neq x \text { ja } %x_{i} \neq x_{1} \text{ ja } x_{i} \notin fv(e) \cup fv(e_{1})
+%        \end{cases}
+% \label{eq:S3} \tag{\textbf{S3}}       
+%\]
+
+\begin{align*}
+[e/x]x_{1} &= 
         \begin{cases}
                 e & \text{jos } x = x_{1} \\
                 x_{1} & \text{muulloin}
         \end{cases}
-        \label{eq:S1} \tag{\textbf{S1}}
-\]
-\[ [e/x](e_{1} \; e_{2}) = ([e/x]e_{1} \; [e/x]e_{2}) \label{eq:S2} \tag{\textbf{S2}}\]
-\[[e/x](\lambda x_{1}.e_{1}) = 
+        \label{eq:S1} \tag{\textbf{S1}} \\
+[e/x](e_{1} \; e_{2}) &= ([e/x]e_{1} \; [e/x]e_{2}) \label{eq:S2} \tag{\textbf{S2}} \\
+[e/x](\lambda x_{1}.e_{1}) &= 
         \begin{cases}
-                \lambda x_{1}.e_{1} & \text{jos } x = x_{1} \\
+                \lambda x_{1}.e_{1} & \text{jos } x = x_{1} \label{eq:S3} \tag{\textbf{S3}} \\
                 \lambda x_{1}.[e/x]e_{1} & \text{ jos } x \neq x_{1} \text{ ja } x_{1} \notin fv(e) \\
                 \lambda x_{i}.[e/x]([x_{i}/x_{1}]e_{1}) & \text{muulloin, missä } x_{i} \neq x \text { ja } x_{i} \neq x_{1} \text{ ja } x_{i} \notin fv(e) \cup fv(e_{1})
-        \end{cases}
- \label{eq:S3} \tag{\textbf{S3}}       
-\]
+        \end{cases}       
+\end{align*}
+
 \end{maar} 
 
 Määritelmän olennaisin sisältö on se, että substituution kohteena olevan lambdalausekkeen sidotut muuttujat tulee uudelleennimetä enen sijoituksen tekemistä siinä tapauksessa että substituution suorittaminen muuttaisi substituution kohteena olevan lausekkeen tai sijoitettavan lausekkeen vapaita muuttujia sidotuiksi. Esimerkiksi edellä käsiteltyyn sovellukseen $(\lambda yx . y \; x) x$ liittyvät ongelmat ratkeavat seuraavalla tavalla substituutiosääntöjen avulla:

@@ -2,32 +2,19 @@
 
 \subsection{Kokonaislukuaritmetiikka}
 Tähän mennessä olemme käsitelleet lambdalausekkeiden loogisia ja syntaktisia piirteitä liittämättä lausekkeisiin minkäänlaista semantiikkaa. Näytetään seuraavaksi miten lambdalausekkeilla voidaan määritellä kokonaisluvut ja hieman kokonaislukujen aritmetiikkaa.
-   
-\begin{esim}[Churchin numeraalit ja aritmetiikka]
+\par   
 Kokonaisluvut voidaan määritellä monin eri tavoin käyttäen lambdalausekkeita. Näistä tunnetuin lienee Churchin alkuperäinen muotoilu~\cite[s.~20]{Sel2013}, jossa
-
 \[ \textbf{0} \equiv \lambda fx . x \]
 \[ \textbf{1} \equiv \lambda fx . fx \]
 \[ \textbf{2} \equiv \lambda fx . f (fx) \] 
 \[ \textbf{3} \equiv \lambda fx . f(f(fx)) \]
 \[ \vdots \]
 \[ \textbf{N} \equiv \lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} x)) \ldots ) \]
- 
 Kokonaisluku $N$ esitetään siis lausekkeena, jonka ensimmäistä parametria on sovellettu $N$-kertaa itselleen.
-
 \par
-
-Nyt yhteenlasku-funktio  \textbf{ADD} voidaan määritellä seuraavasti~\cite[s.~20]{Sel2013}:
-
+Käyttäen luonnollisille luvuille Churchin koodausta, yhteenlaskufunktio \textbf{ADD} voidaan määritellä seuraavasti~\cite[s.~20]{Sel2013}:
 \[ \textbf{ADD} \equiv \lambda nmfx . n f (m f x) \] 
-
 sillä 
-
-%\begin{align}
-%\textbf{PLUS} N M &\equiv (\lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}}) \\
-%&= foo bar
-%\end{align}
-
 \begin{align*} \textbf{ADD N M} &\equiv (\lambda nmfx . n f (m f x)) \textbf{N M} \\ 
 &\equiv  (\lambda nmfx . n f (m f x)) \; (\lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} x)) \ldots )) \; (\lambda fx . \underbrace{ f ( f \ldots (f }_{ M-\text{kappaletta}} x)) \ldots ))\\ 
 &\rightarrow_{\beta} (\lambda mfx . ((\lambda fx . \underbrace{ f ( f \ldots (f }_{ N-\text{kappaletta}} x)) \ldots ) f (m f x)) \; \lambda fx . \underbrace{ f ( f \ldots (f }_{ M-\text{kappaletta}} x)) \ldots )\\ 
@@ -40,15 +27,15 @@ sillä
 &\equiv \textbf{N + M}  
 \end{align*}
 
-Kertolasku-funktiolle \textbf{MUL} voidaan antaa seuraava määritelmä~\cite[s.~20]{Sel2013}:
+Churchin numeraalien kertolaskufunktio \textbf{MUL} voidaan puolestaan määritellä seuraavalla tavall~\cite[s.~20]{Sel2013}:
 
 \[ \textbf{MUL} \equiv \lambda n m f . n (mf) \]
 
-Identiteetti $\textbf{MUL N M } \equiv \textbf{N} * \textbf{M}$ voidaan johtaa samaan tapaan kuin funktion \textbf{ADD} tapauksessa suoraviivaisesti (joskin vaivalloisesti) $\beta$-reduktiota käyttämällä. 
+Identiteetti $\textbf{MUL N M } \twoheadrightarrow_{\beta}\textbf{N} * \textbf{M}$ voidaan johtaa samaan tapaan kuin funktion \textbf{ADD} tapauksessa suoraviivaisesti, joskin vaivalloisesti $\beta$-reduktiota käyttämällä. 
 \par
-Näytetään vielä miten lauseke $3 \; * \; (1  \; + \; 1)$ voidaan esittää ja evaluida käyttäen Churchin numeraaleja. Ensinnäkin käyttäen Puolalaista notaatiota, lausekkeelle saadaan seuraava muotoilu
+Näytetään vielä miten lauseke $3 \; * \; (1  \; + \; 1)$ voidaan esittää ja evaluoida käyttäen Churchin numeraaleja. Käyttäen puolalaista notaatiota, lausekkeelle saadaan seuraava esitys
 \[* \; 3 \; (+ \; 1 \; 1) \] 
-joka voidaan suoraviivaisesti muuntaa lambdalausekkeeksi
+joka voidaan koodata esittää lambdalausekkeella
 \[ \textbf{MUL 3 }(\textbf{ADD 1 1}) \]
 ja siten
 \begin{align*}
@@ -64,17 +51,16 @@ ja siten
 &\equiv \lambda f x. f( f (f (f( f( f x))))) \\
 &\equiv \textbf{6}
 \end{align*} 
-\end{esim}   
 
 \subsection{Kontrollinohjaus ja rekursiiviset funktiot}
 Tarkastellaan seuraavaksi miten kontrollinohjaus voidaan toteuttaa lambdakalkyylin keinoin. Määritellään aluksi totuusarvot $true$ ja $false$ lambdalausekkeina:
 \[ \textbf{ TRUE } \equiv \lambda x y . x \]
 \[ \textbf{ FALSE } \equiv \lambda x y . y \]
-Totuusarvo $\textbf{ TRUE }$ on siis funktio, joka ottaa kaksi argumenttia ja palauttaa näistä ensimmäisen ja totuusarvo $\textbf{ FALSE }$ on funktio, joka ottaa kaksi argumenttia ja palauttaa jälkimmäisen argumenttinsa. On syytä huomata, että tässä käytetty totuusarvojen määritelmä on täysin mielivaltainen. Yllä annettujen määritelmien etuna on, että ehtolausekke $IF$ voidaan antaa hyvin kompaktissa muodossa:
-\[ \textbf{ IF } \equiv \lambda p x y . p x y \]  
-Lauseke $\textbf{ IF }$ on funktio, joka ottaa argumenteinaan totuusarvon $p$ ja kaksi mielivaltaista lambdalauseketta $x$ ja $y$ ja palauttaa totuusarvon $p$ johon on sovellettu lausekkeita $x$ ja $y$. Suoraan yllä olevista totuusarvojen määritelmistä seuraa, että jos totuusarvo $p$ on $\textbf{ TRUE }$, niin palautetaan lauseke $x$ ja jos $p$ on $\textbf{ FALSE }$, niin palautetaan lauseke $y$.
+Totuusarvo $\textbf{TRUE}$ on siis funktio, joka ottaa kaksi argumenttia ja palauttaa näistä ensimmäisen ja totuusarvo $\textbf{FALSE}$ on funktio, joka ottaa kaksi argumenttia ja palauttaa jälkimmäisen argumenttinsa. On syytä huomata, että tässä käytetty totuusarvojen määritelmä on täysin mielivaltainen. Yllä annettujen määritelmien etuna on, että ehtolausekke $IF$ voidaan antaa hyvin kompaktissa muodossa:
+\[ \textbf{IF} \equiv \lambda p x y . p x y \]  
+Lauseke $\textbf{IF}$ on funktio, joka ottaa argumenteinaan totuusarvon $p$ ja kaksi mielivaltaista lambdalauseketta $x$ ja $y$ ja palauttaa totuusarvon $p$ johon on sovellettu lausekkeita $x$ ja $y$. Suoraan yllä olevista totuusarvojen määritelmistä seuraa, että jos totuusarvo $p$ on $\textbf{TRUE}$, niin palautetaan lauseke $x$ ja jos $p$ on $\textbf{FALSE}$, niin palautetaan lauseke $y$.
 \par 
-Määritellään vielä yksi ehtolausekkeisiin liittyvä funktio, nimittäin vertailuoperaattori$\textbf{ ISZERO }$, joka ottaa argumenttinaan Churchin numeraalin ja palauttaa lausekkeen $\textbf{ TRUE }$, jos lauseke on $\textbf{ 0 }$ ja lausekkeen $\textbf{ FALSE }$ muulloin. $\textbf{ ISZERO }$ voidaan määritellä seuraavasti
+Määritellään vielä yksi ehtolausekkeisiin liittyvä funktio, nimittäin vertailuoperaattori $\textbf{ISZERO}$, joka ottaa argumenttinaan Churchin numeraalin ja palauttaa lausekkeen $\textbf{TRUE}$, jos lauseke on $\textbf{ 0 }$ ja lausekkeen $\textbf{ FALSE }$ muulloin. $\textbf{ISZERO}$ voidaan määritellä seuraavasti
 \[\textbf{ ISZERO } \equiv \lambda n . n (\lambda m . \textbf{ FALSE }) \textbf{ TRUE }  \]
 sillä
 \begin{align*}
@@ -97,27 +83,30 @@ Ja jos $\textbf{N} > \textbf{0}$, niin
 \par
 Kuten yllä nähtiin, erinäisten ehtolausekkeiden määritteleminen lambdalausekkeiden avulla on varsin suoraviivaista. Huomattavasti haastavampaa on toistolausekkeiden toteuttaminen. Koska lambdalausekkeita voidaan käsitellä monella tapaa kuten funktiota, olisi toisto luontevaa toteuttaa rekursion avulla. Keskeiseksi ongelmaksi osoittautuu, että lambdakalkyylissa lausekkeita ei voida sitoa nimiin. Näinollen lambda-abstraktion rungossa ei voida viitata lambda-abstraktioon itseensä, mikä olisi tietysti toivottaa rekursion toteuttamisen kannalta. 
 \par 
-Rekursion ongelma on ratkaistavissa niin kutsuttujen kiintopistefunktioiden avulla. Tarkastellaan lauseketta 
+Rekursion ongelma on ratkaistavissa niin kutsuttujen kiintopistelausekkeiden (\textit{fixed-point combinator}) avulla. Tarkastellaan lauseketta 
 \[ \textbf{ Y } \equiv \lambda f . (\lambda x . f(xx)) (\lambda x . f(xx)) \]
-Tämä lauseke tunnetaan Curryn kiintopistelausekkeena löytäjänsä Haskell Curryn mukaan. Curryn kiintopistelausekkeella on seuraava mielenkiintoinen ominaisuus:
+Tämä lauseke tunnetaan Curryn kiintopistelausekkeena löytäjänsä Haskell Curryn mukaan. Curryn kiintopistelausekkeella on seuraava mielenkiintoinen ominaisuus
 \begin{align*}
 \textbf{ Y } e &\equiv \lambda f . (\lambda x . f(xx)) (\lambda x . f(xx)) e \\
 &\rightarrow_{\beta} (\lambda x . e(xx)) (\lambda x . e(xx)) \\
 &\rightarrow_{\beta} e((\lambda x . e(xx)(\lambda x . e(xx)) \\
 &\ =_{\beta} e(\textbf{Y }e) 
 \end{align*}
-Kiintopistelausekkeen avulla voidaan tästä syystä simuloida rekursioa.
+
+Kiintopistelausekkeen avulla voidaan tästä syystä simuloida rekursiota.
 
 Kertomafunktiolle voidaan antaa seuraava rekursiivinen määritelmä:
 
-\[factorial(0) = 1 \]
-\[factorial(n) = n * factorial(n-1) \text{ kun } n > 0\]
+\begin{align*}
+factorial(0) &= 1 \\ 
+factorial(n) &= n * factorial(n-1) \text{ kun } n > 0
+\end{align*}
 
 Yritetään muodostaa lambdalauseke, jolla voidaan laskea luonnollisen luvun $n$ kertoma edellisen määritelmän hengessä. Oletetaan tunnetuksi lambdalauseke \textbf{PRED}, joka ottaa argumenttinaan Churchin numeraalin \textbf{N} ja palauttaa Churchin numeraalin \textbf{N - 1} jos \textbf{N} on vähintään 1, muulloin lausekkeen \textbf{0}. Määritellään
 \[ \textbf{FACT} \equiv \lambda f n. \textbf{IF } (\textbf{ISZERO } n) \textbf{ 1 } (\textbf{MUL } n (f (\textbf{PRED } n))) \]
 Nyt luvun $n$ kertoma voidaan laskea soveltamalla yllä annettua lauseketta \textbf{FACT} Curryn kiintopistelausekkeeseen. Seuraavassa esimerkissä on hahmotelma luvun 2 kertoman laskemiseksi käyttäen Curryn kiintopistelauseketta ja yllä annettua lauseketta \textbf{FACT}. Kuten huomataan, on yksinkertaisenkin rekursiivisen lausekkeen saattaminen normaalimuotoon varsin työlästä.  
 
-\begin{esim}
+\begin{esim}[Kertomafunktion evaluointi]
 \begin{align*}
 \textbf{Y FACT 2} &\equiv \textbf{Y }\lambda f n. \textbf{IF } (\textbf{ISZERO } n) \textbf{ 1 } (\textbf{MUL } n  (f (\textbf{PRED } n))) \textbf{ 2} \\
 &\twoheadrightarrow_{\beta} \textbf{FACT }( \textbf{Y } (\lambda f n. \textbf{IF } (\textbf{ISZERO } n ) \textbf{ 1 } (\textbf{MUL } n (f (\textbf{PRED } n))) ) \textbf{ 2} \\
@@ -135,7 +124,7 @@ Nyt luvun $n$ kertoma voidaan laskea soveltamalla yllä annettua lauseketta \tex
 &\vdots \\
 & \twoheadrightarrow_{\beta} \textbf{MUL 2 } (\textbf{MUL 1 } ( \textbf{FACT} (\textbf{Y FACT}) \textbf{0} ) ) \\
 &\vdots \\
-& \twoheadrightarrow_{\beta} \textbf{MUL 2 } (\textbf{MUL 1 } \textbf{1} )
+& \twoheadrightarrow_{\beta} \textbf{MUL 2 } (\textbf{MUL 1 } \textbf{1} )\\
 &\vdots \\
 & \twoheadrightarrow_{\beta} \textbf{ 2 }
 \end{align*}

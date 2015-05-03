@@ -1,11 +1,11 @@
-\section{Reduktiosäännöt ja ekvivalenssi}
+\section{Reduktiosäännöt ja yhtäsuuruus}
 
 \subsection{Reduktiosäännöt}
 Lambdalausekkeiden kiinnostavimpia piirteitä lienee, että niille voidaan muotoilla varsin yksinkertaiset laskusäännöt, jotka kuitenkin riittävät tekemään lambdakalkyylista Turing-täydellisen~\cite[liite]{Turing36}.  
 \par
 Kuten jo edellä mainittiin, voidaan lambda-abstraktio samastaa anonyymin funktion kanssa. On luontevaa ajatella, että lambdalausekkeen $M$ sovellus lambda-abstraktiolle $\lambda x . N$ vastaa abstraktin funktion $\lambda x . N$ arvoa argumentilla $M$. Tällöin reduktiosäännöt voidaan ymmärtää näiden anonyymien funktioden sievennyssäännöiksi.
 \par
-Määritellään lambdalausekkeiden reduktiosäännöt~\cite[s.~9]{Hudak89}. Reduktiosäännöt kertovat miten lambdalausekkeita voidaan sieventää muuttamatta niiden arvoa. Beta-reduktio ilmaisee miten lambda-abstraktiosta ja mielivaltaisesta lambdalausekkeesta koostuvaa sovellusta voidaan sieventää. Eta-reduktiota puolestaan ilmaisee sen, että jos lambda-abstraktio ei tee muuta kuin soveltaa muuttujaansa lambdalausekkeeseen $e$, niin abstraktion arvo on sama kuin lausekkeen $e$.    
+Määritellään seuraavaksi lambdalausekkeiden reduktiosäännöt~\cite[s.~9]{Hudak89}. Reduktiosäännöt kertovat miten lambdalausekkeita voidaan sieventää muuttamatta niiden arvoa. Beta-reduktio ilmaisee miten lambda-abstraktiosta ja mielivaltaisesta lambdalausekkeesta koostuvaa sovellusta voidaan sieventää. Eta-reduktiota puolestaan ilmaisee sen, että jos lambda-abstraktio ei tee muuta kuin soveltaa muuttujaansa lambdalausekkeeseen $e$, niin abstraktion arvo on sama kuin lausekkeen $e$.    
 
 \begin{maar}[reduktiosäännöt]	
 	%\begin{enumerate}		

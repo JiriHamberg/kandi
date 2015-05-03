@@ -1,4 +1,4 @@
-\begin{thebibliography}{Hud89}
+\begin{thebibliography}{{Pey}87}
   \providebibliographyfont{name}{}%
   \providebibliographyfont{lastname}{}%
   \providebibliographyfont{title}{\emph}%
@@ -13,6 +13,14 @@
   \expandafter\btxselectlanguage\expandafter {\btxfallbacklanguage}
 
 \expandafter\btxselectlanguage\expandafter {\btxfallbacklanguage}
+\bibitem [{BB00}]{HBEB2000}
+\btxnamefont {\btxlastnamefont {Barendregt}, Henk} \btxandlong {}\ \btxnamefont
+  {\btxlastnamefont {Barendsen}, Erik}\btxauthorcolon\ \btxtitlefont
+  {\btxifchangecase {Introduction to lambda calculus}{Introduction to Lambda
+  Calculus}}, \btxprintmonthyear{.}{March}{2000}{long}.
+\newblock {\latintext
+  \btxurlfont{http://ftp.cs.ru.nl/CompMath.Found/lambda.pdf}}.
+
 \bibitem [{Hud89}]{Hudak89}
 \btxnamefont {\btxlastnamefont {Hudak}, Paul}\btxauthorcolon\ \btxjtitlefont
   {\btxifchangecase {Conception, evolution, and application of functional
@@ -20,20 +28,25 @@
   programming languages}}.
 \newblock \btxjournalfont {ACM Computer Surveys}, 1989.
 
-\bibitem [{Jon87}]{PJ1987}
-\btxnamefont {\btxlastnamefont {Jones}, Peyton}\btxauthorcolon\ \btxtitlefont
-  {The Implementation of Functional Programming Languages}.
+\bibitem [{{Pey}87}]{PJ1987}
+\btxnamefont {\btxlastnamefont {{Peyton Jones}}, Simon}\btxauthorcolon\
+  \btxtitlefont {The Implementation of Functional Programming Languages}.
 \newblock \btxpublisherfont {Prentice Hall International (UK) Ltd},
   \btxeditionnumlong {1.}{}, 1987.
 
-\bibitem [{Jon00}]{PJ2000}
-\btxnamefont {\btxlastnamefont {Jones}, Peyton}\btxauthorcolon\ \btxtitlefont
-  {\btxifchangecase {Tackling the awkward squad: Monadic input/output,
-  concurrency, exceptions, and foreign-language calls in haskell}{Tackling the
-  Awkward Squad: Monadic Input/Output, Concurrency, Exceptions, and
-  Foreign-Language Calls in Haskell}}.
-\newblock \Btxinlong {}\ \btxtitlefont {Engineering theories of software
-  construction, Marktoberdorf Summer School 2000}, \btxpageslong {}\ 47--96.
-  \btxpublisherfont {IOS Press}, 2000.
+\bibitem [{Sel13}]{Sel2013}
+\btxnamefont {\btxlastnamefont {Selinger}, Peter}\btxauthorcolon\ \btxtitlefont
+  {\btxifchangecase {Lecture notes on the lambda calculus}{Lecture Notes on the
+  Lambda Calculus}}, 2013.
+\newblock {\latintext
+  \btxurlfont{http://www.mathstat.dal.ca/~selinger/papers/lambdanotes.pdf}}.
+
+\bibitem [{Tur36}]{Turing36}
+\btxnamefont {\btxlastnamefont {Turing}, Alan}\btxauthorcolon\ \btxjtitlefont
+  {\btxifchangecase {On computable numbers, with an application to the
+  entscheidungsproblem}{On Computable Numbers, with an Application to the
+  Entscheidungsproblem}}.
+\newblock \btxjournalfont {Proceedings of the London Mathematical Society},
+  1936.
 
 \end{thebibliography}
